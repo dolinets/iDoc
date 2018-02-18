@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="PLATFORM-185-add-column-sKey_GroupAuthor" author="Ivan Denysenko">
+        <addColumn tableName="DocumentStepSubjectRight">
+            <column name="sKey_GroupAuthor" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="PLATFORM-409-create-index-for-DocumentSubjectRightPermition" author="Ivan Denysenko">
+        <createIndex tableName="DocumentSubjectRightPermition" indexName="nID_DocumentStepSubjectRight">
+            <column name="nID_DocumentStepSubjectRight"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-index-for-DocumentStepSubjectRight-ProcessLink" author="Ivan Denysenko">
+        
+        <createIndex tableName="ProcessLink" indexName="sStatus">
+            <column name="sStatus"/>
+        </createIndex>
+        
+        <createIndex tableName="ProcessLink" indexName="nID_ProcessLink_Type">
+            <column name="nID_ProcessLink_Type"/>
+        </createIndex>
+        
+        <createIndex tableName="ProcessLink" indexName="nID_ProcessLink_SubType">
+            <column name="nID_ProcessLink_SubType"/>
+        </createIndex>
+        
+        <createIndex tableName="ProcessLink" indexName="bUrgent">
+            <column name="bUrgent"/>
+        </createIndex>
+
+        <createIndex tableName="DocumentStepSubjectRight" indexName="bWrite">
+            <column name="bWrite"/>
+        </createIndex>
+        
+        <createIndex tableName="DocumentStepSubjectRight" indexName="sDate">
+            <column name="sDate"/>
+        </createIndex>
+
+        <createIndex tableName="DocumentStepSubjectRight" indexName="sDateECP">
+            <column name="sDateECP"/>
+        </createIndex>
+
+        <createIndex tableName="DocumentStepSubjectRight" indexName="bNeedECP">
+            <column name="bNeedECP"/>
+        </createIndex>
+
+        <createIndex tableName="DocumentStepSubjectRight" indexName="bUrgent_idx">
+            <column name="bUrgent"/>
+        </createIndex>
+        
+    </changeSet>
+    
+    <changeSet id="PLATFORM-409-create-index-for-SubjectGroup" author="Ivan Denysenko">
+
+        <createIndex tableName="SubjectGroup" indexName="sID_Group_Activiti">
+            <column name="sID_Group_Activiti"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectGroup" indexName="sChain">
+            <column name="sChain"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectGroup" indexName="nID_Subject">
+            <column name="nID_Subject"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectGroup" indexName="nID_SubjectHumanPositionCustom">
+            <column name="nID_SubjectHumanPositionCustom"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-index-for-SubjectHuman" author="Ivan Denysenko">
+
+        <createIndex tableName="SubjectHuman" indexName="nID_Subject_idx">
+            <column name="nID_Subject"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectHuman" indexName="nID_Server">
+            <column name="nID_Server"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectHuman" indexName="sTabel">
+            <column name="sTabel"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-index-for-SubjectOrgan" author="Ivan Denysenko">
+
+        <createIndex tableName="SubjectOrgan" indexName="nID_Subject_idx1">
+            <column name="nID_Subject"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectOrgan" indexName="sName">
+            <column name="sName"/>
+        </createIndex>
+
+        <createIndex tableName="SubjectOrgan" indexName="nID_SubjectOrganType">
+            <column name="nID_SubjectOrganType"/>
+        </createIndex>
+
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-index-for-HistoryEvent" author="Ivan Denysenko" failOnError="false">
+
+        <createIndex tableName="HistoryEvent" indexName="nID_Subject_HistoryEvent_idx">
+            <column name="nID_Subject"/>
+        </createIndex>
+
+        <createIndex tableName="HistoryEvent" indexName="nID_HistoryEventType">
+            <column name="nID_HistoryEventType"/>
+        </createIndex>
+
+        <createIndex tableName="HistoryEvent" indexName="nID_HistoryEvent_Service">
+            <column name="nID_HistoryEvent_Service"/>
+        </createIndex>
+
+        <createIndex tableName="HistoryEvent" indexName="sDate_HistoryEvent">
+            <column name="sDate"/>
+        </createIndex>
+
+    </changeSet>
+    
+    <changeSet id="PLATFORM-409-create-index-for-ProcessLink" author="Ivan Denysenko">
+        <createIndex tableName="ProcessLink" indexName="nID_DocumentStepType">
+            <column name="nID_DocumentStepType"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-index-for-DocumentStep" author="Ivan Denysenko">
+        <createIndex tableName="DocumentStep" indexName="nID_DocumentStepType_idx">
+            <column name="nID_DocumentStepType"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-composite-index-for-ProcessLink" author="Ivan Denysenko">
+        <createIndex tableName="ProcessLink" indexName="easy_task_search_ProcessLink">
+            <column name="sID_Group_Activiti"/>
+            <column name="nID_ProcessLink_Type"/>
+            <column name="nID_ProcessLink_SubType"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="PLATFORM-409-create-composite-index-for-DocumentStep" author="Ivan Denysenko">
+        <createIndex tableName="DocumentStep" indexName="idx_snID_Process_Activiti_sKey_Step">
+            <column name="snID_Process_Activiti"/>
+            <column name="sKey_Step"/>
+        </createIndex>
+    </changeSet>
+    
+    <changeSet id="PLATFORM-409-create-composite-index-for-DocumentStepSubjectRight" author="Ivan Denysenko">
+        <createIndex tableName="DocumentStepSubjectRight" indexName="idx_task_search">
+            <column name="sKey_GroupPostfix"/>
+            <column name="nID_DocumentStep"/>
+            <column name="sDate"/>
+            <column name="bWrite"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="PLATFORM-446-modify-Data-Type" author="Kovylin Yegor">
+        <modifyDataType tableName="DocumentSubjectRightPermition" columnName="sID_Group_Activiti" newDataType="varchar(1000)" />
+    </changeSet>   
+    
+    <changeSet id="PLATFORM-432-modify-Data-Type" author="Kovylin Yegor">
+        <sql splitStatements="true" dbms="postgresql">
+            alter TABLE "public"."act_hi_taskinst" ALTER "name_" TYPE varchar(500);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            alter TABLE "public"."act_ru_task" ALTER "name_" TYPE varchar(500);
+        </sql>
+    </changeSet>
+
+    <changeSet id="PLATFORM-638-ProcessLink-modify-data-type-for-sTaskName" author="Ivan Denysenko">
+        <modifyDataType tableName="ProcessLink" columnName="sTaskName" newDataType="varchar(600)"/>
+    </changeSet>
+    
+    <changeSet id="iDocLight_increase_size" author="bw">
+        <modifyDataType tableName="DocumentImageFileSign" columnName="sSign" newDataType="varchar(20000)" />
+    </changeSet>
+
+    <changeSet id="PLATFORM-187-unlimited-varchar-fields" author="Sergei Mordasov">
+        <modifyDataType tableName="DocumentImageFile" columnName="sHash" newDataType="varchar" />
+        <modifyDataType tableName="DocumentImageFileSign" columnName="sSign" newDataType="varchar" />
+        <modifyDataType tableName="DocumentImageFileSign" columnName="sSignData_JSON" newDataType="varchar" />
+    </changeSet>
+    
+    <changeSet id="PLATFORM-PLATFORM-673-dropForeignKey" author="Kovylin Yegor" failOnError="false">
+        <dropForeignKeyConstraint baseTableName="DocumentStepSubjectRightField" constraintName="FK_DocumentStepSubjectRightField_DocumentStepSubjectRight"/>
+    </changeSet>
+    
+    <changeSet id="issue-smida_91-add-columns-to-SubjectOrgan" author="Alex Komarenko" failOnError="false">
+        <addColumn tableName="SubjectOrgan">
+            <column name="bBank" type="boolean" defaultValue="false">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="SubjectOrgan">
+            <column name="nID_Place" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectOrgan_Place"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,46 @@
+<div ng-if="item.type == 'enum' && showField(item)" class="row">
+  <div class="col-sm-12">
+    <div class="col-sm-6 task-form-title">
+      <field-title></field-title>
+    </div>
+    <div class="col-sm-6" style="margin-bottom: 15px">
+      <div ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned">
+        <select id="{{item.id}}"
+                name="{{item.id}}"
+                style="width:100%;"
+                ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in item.enumValues"
+                ng-required="isRequired(item)"
+                ng-model="item.value"
+                ng-change="updateAssigneeName(item)"
+                ng-disabled="isFormPropertyDisabled(item)"
+                class="form-control"
+                ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
+        </select>
+      </div>
+
+      <div ng-if="(item.readable && !item.writable) || !isDocumentNotSigned">
+        <span class="task-form-written-right-sight"
+            style="white-space: pre-line">{{sEnumValue(item.enumValues,item.value)}}
+        </span>
+      </div>
+
+      <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+        <span ng-message="required">Необхідно заповнити.</span>
+        <span ng-message="CustomFormat">{{ form[item.id].lastErrorMessage }}</span>
+        <span ng-message="FieldNotEmptyAndNonZero">Будь ласка, оберiть iз запропонованого перелiку</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div ng-if="item.sType && item.sType == 'enum'" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.sName)}}</label>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-model="item.oValue">{{item.oValue}}
+    </span>
+  </div>
+</div>

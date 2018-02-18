@@ -1,0 +1,42 @@
+<div class="row issue-modal-content">
+  <div>
+    <div class="col-md-12" style="margin-top: 10px;" >
+      <label >Оберiть на кого делегувати</label>
+      <ui-select ng-model="delegateds.selected"
+                 theme="bootstrap"
+                 on-select="onSelectUser($item)"
+                 ng-disabled="modalSpinner">
+
+        <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+                    {{$select.selected.sName}}
+        </ui-select-match>
+
+        <ui-select-choices repeat="user in delegatesUsersLists | orderByLogin"
+                           refresh="refreshUserData($select.search)"
+                           refresh-delay="300"
+                           minimum-input-length="3">
+                  <span title="{{user.sName}}, <{{user.sLogin}}>">
+                    {{user.sName}}
+                  </span>
+                  <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                      <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                  </span>
+        </ui-select-choices>
+      </ui-select>
+
+    </div>
+  </div>
+</div>
+<div class="button-block-pull-right">
+  <hr>
+  <div class="col-md-12 issue-control-button">
+    <button class="btn btn-info btn-igov"
+            ng-disabled="isSending"
+            ng-click="safeDelegate()"
+            ng-disabled="modalSpinner">Підтвердити
+    </button>
+  </div>
+</div>
+<div ng-if="modalSpinner" ng-class="{'spinner-container-menu':isMenuOpened, 'spinner-container-full-size':!isMenuOpened}" style="text-align: center">
+  <span class="test-spinner"></span>
+</div>

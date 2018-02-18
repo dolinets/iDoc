@@ -1,0 +1,328 @@
+<style>
+  .date-error {
+    border-radius: 4px;
+    border: 1px solid #a94442;
+  }
+</style>
+<div class="idoc-search">
+  <div class="row">
+    <div class="col-md-12" style="padding-left: 0; padding-right: 0;">
+      <div class="input-group" id="adv-search">
+        <input type="text"
+               class="form-control searched-text"
+               style="border-right: none;"
+               ng-model="tasksSearch.value"
+               ng-keyup="searchInputKeyup($event)"
+               placeholder='Пошук у "{{::currentTab()}}"'/>
+        <div class="input-group-btn">
+          <div class="btn-group" role="group">
+            <div class="dropdown dropdown-lg">
+              <button type="button"
+                      class="btn btn-default dropdown-toggle search-box-dropdown"
+                      ng-click="setCurrentTab(sSelectedTask, tabMenu)">
+                <span class="caret"></span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right idoc-search-dropdown" role="menu">
+                <form name="form" ng-submit="searchByParams(form)">
+                  <div class="col-md-12 search-box">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="col-xs-offset-11 col-md-1">
+                          <span style="cursor: pointer;" class="glyphicon glyphicon-remove close-search-box"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Вкладка</label>
+                        <select class="form-control"
+                                ng-model="options.tabSelect">
+                          <option value="DocumentOpenedUnassignedUnprocessed"
+                                  ng-if="tabMenu === 'documents'" ng-selected="sSelectedTask === 'documents'">
+                            Нерозглянуті
+                          </option>
+                          <option value="OpenedCreatorDocument"
+                                  ng-if="tabMenu === 'documents'" ng-selected="sSelectedTask === 'myDocuments'">
+                            Мої документи
+                          </option>
+                          <option value="DocumentOpenedUnassignedWithoutECP"
+                                  ng-if="tabMenu === 'documents'" ng-selected="sSelectedTask === 'ecp'">
+                            Очiкують мого ЕЦП
+                          </option>
+                          <option value="DocumentOpenedUnassignedProcessed"
+                                  ng-if="tabMenu === 'documents'" ng-selected="sSelectedTask === 'viewed'">
+                            Переглянуті
+                          </option>
+                          <option value="DocumentClosed"
+                                  ng-if="tabMenu === 'documents'" ng-selected="sSelectedTask === 'docHistory'">
+                            Історія
+                          </option>
+                          <option value="DocumentAll"
+                                  ng-if="tabMenu === 'documents'">
+                            Усі вкладки документів
+                          </option>
+                          <option value="Control"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'control'">
+                            На контролі
+                          </option>
+                          <option value="Execution"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'execution'">
+                            На виконанні
+                          </option>
+                          <option value="Controled"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'controled'">
+                            Проконтрольовані
+                          </option>
+                          <option value="Executed"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'executed'">
+                            Виконані
+                          </option>
+                          <option value="OpenedUnassigned"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'unassigned'">
+                            Необроблені
+                          </option>
+                          <option value="OpenedAssigned"
+                                  ng-if="tabMenu === 'tasks'" ng-selected="sSelectedTask === 'selfAssigned'">
+                            В роботі
+                          </option>
+                          <option value="TaskAll"
+                                  ng-if="tabMenu === 'tasks'">
+                            Усі вкладки завдань
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Шаблон документу</label>
+                        <ui-select ng-model="options.docTemplate"
+                                   on-select="getBPFields($select.selected.sID)"
+                                   ng-click="onClick($select)">
+                          <ui-select-match>
+                            {{$select.selected.sName}}
+                          </ui-select-match>
+                          <ui-select-choices repeat="item in listOfBpsForLogin track by $index"
+                                             style="margin-top: 30px">
+                           <span title="{{item.sID}}">
+                             {{item.sName}}
+                           </span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Дата</label>
+                        <div class="col-md-5" style="padding-left: 0; padding-right: 0; margin-right: 10px;">
+                          <select class="form-control"
+                                  ng-model="options.dateOption"
+                                  data-ng-change="enableDate()"
+                                  ng-init="dateOption='startTime'">
+                            <option value="startTime">Період створення</option>
+                            <option value="executionTime" ng-if="tabMenu === 'tasks'">Період виконання</option>
+                            <option value="endTime" ng-if="tabMenu === 'documents'">Період підписання</option>
+                          </select>
+                        </div>
+                        <div class="col-md-3" style="padding-left: 0; padding-right: 0; margin-right: 5px;">
+                          <input datetimepicker
+                                 class="form-control date-picker"
+                                 ng-model="options.startDate"
+                                 type="text"
+                                 datetimepickerOptions="{format: 'YYYY-MM-DD'}"
+                                 placeholder="від"
+                                 ng-disabled="dateDisabled"
+                                 ng-class="{'date-error': dateError}"/>
+                        </div>
+                        <div class="col-md-3" style="padding-left: 0; padding-right: 0">
+                          <input datetimepicker
+                                 class="form-control date-picker"
+                                 ng-model="options.endDate"
+                                 type="text"
+                                 datetimepickerOptions="{format: 'YYYY-MM-DD'}"
+                                 placeholder="до"
+                                 ng-disabled="dateDisabled"
+                                 ng-class="{'date-error': dateError}"/>
+                        </div>
+                        <br>
+                      </div>
+                    </div>
+                    <div class="row" ng-if="dateError" >
+                      <span style="color: #a94442; margin-left: 15px">Дата початку пошуку не може бути більше за дату кінця</span>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Містить слова</label>
+                        <input type="text"
+                               ng-model="options.searchText"
+                               class="form-control">
+                      </div>
+                    </div>
+
+                    <div class="row" ng-if="tabMenu === 'documents'">
+                      <div class="col-md-9">
+                        <label>Автор</label>
+                        <ui-select ng-model="options.author"
+                                   ng-click="onClick($select)">
+                          <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+                            {{$select.selected.sName}}
+                          </ui-select-match>
+                          <ui-select-choices repeat="user in searchUsersList"
+                                             refresh="refreshAuthorList($select.search)"
+                                             refresh-delay="300"
+                                             minimum-input-length="3"
+                                             style="margin-top: 30px">
+                          <span title="{{user.sName}}, <{{user.sLogin}}>">
+                            {{user.sName}}
+                          </span>
+                            <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                            <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                          </span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                      <div class="col-md-3" style="text-align: right;margin-top: 23px;line-height: 1.3; cursor: pointer">
+                        <a class="author" ng-click="setCurrentUserAsAuthor()">Я автор<br>документу</a>
+                      </div>
+                    </div>
+
+                    <div class="row"
+                         ng-if="tabMenu === 'tasks'">
+                      <div class="col-md-9">
+                        <label>Контролюючий</label>
+                        <ui-select ng-model="options.controller"
+                                   theme="bootstrap"
+                                   ng-click="onClick($select)">
+
+                          <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+                            {{$select.selected.sName}}
+                          </ui-select-match>
+
+                          <ui-select-choices repeat="user in searchUsersList"
+                                             refresh="refreshAuthorList($select.search)"
+                                             refresh-delay="300"
+                                             minimum-input-length="3"
+                                             style="margin-top: 30px">
+                          <span title="{{user.sName}}, <{{user.sLogin}}>">
+                            {{user.sName}}
+                          </span>
+                            <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                            <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                          </span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                      <div class="col-md-3" style="text-align: right;margin-top: 23px;line-height: 1.3; cursor: pointer">
+                        <a class="author" ng-click="setCurrentUserAsController()">Я контролюючий</a>
+                      </div>
+                    </div>
+
+                    <div class="row"
+                         ng-if="tabMenu === 'tasks'">
+                      <div class="col-md-9">
+                        <label>Виконавець</label>
+                        <ui-select ng-model="options.executor"
+                                   theme="bootstrap"
+                                   ng-click="onClick($select)">
+
+                          <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+                            {{$select.selected.sName}}
+                          </ui-select-match>
+
+                          <ui-select-choices repeat="user in searchUsersList"
+                                             refresh="refreshAuthorList($select.search)"
+                                             refresh-delay="300"
+                                             minimum-input-length="3"
+                                             style="margin-top: 30px">
+                          <span title="{{user.sName}}, <{{user.sLogin}}>">
+                            {{user.sName}}
+                          </span>
+                            <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                            <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                          </span>
+                          </ui-select-choices>
+                        </ui-select>
+                      </div>
+                      <div class="col-md-3" style="text-align: right;margin-top: 23px;line-height: 1.3; cursor: pointer">
+                        <a class="author" ng-click="setCurrentUserAsExecutor()">Я виконавець</a>
+                      </div>
+                    </div>
+
+                    <div class="row" ng-hide="options.docTemplate.sID === 'all'">
+                      <div class="col-md-12" ng-show="showBPfields">
+                        <label>Додаткова ознака</label>
+                        <div ng-repeat="param in aoFilterField">
+                          <ui-select ng-model="aoFilterField[$index].sID_Field"
+                                     style="display: inline-block; width: 90%;"
+                                     ng-click="onClick($select)">
+                            <ui-select-match>
+                              {{$select.selected.sName}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in listOfFields track by $index">
+                              <span title="{{item.sID}}">
+                                {{item.sName}}
+                              </span>
+                            </ui-select-choices>
+                          </ui-select>
+                          <br>
+                          <div>
+                            <select class="form-control" style="width: 45%"
+                            ng-model="aoFilterField[$index].sCondition">
+                              <option value="equals">Дорівнює</option>
+                              <option value="contains">Містить</option>
+                              <option value="startWith">Починається з</option>
+                              <option value="endWith">Закінчується на</option>
+                              <option value="moreThan">Більше</option>
+                              <option value="lessThan">Менше</option>
+                            </select>
+                            <input type="text"
+                                   class="form-control"
+                                   style="width: 45%"
+                                   placeholder="Пошук"
+                                   ng-model="aoFilterField[$index].sValue">
+                          </div>
+
+                          <button class="btn btn-default remove-btn"
+                                  ng-click="removeParam($index)"
+                                  style="display: inline-block; margin-bottom: 25px">
+                            <i class="glyphicon glyphicon-remove"></i>
+                          </button>
+                        </div>
+                        <div class="col-md-12" style="padding-bottom: 10px;padding-top: 10px;">
+                          <a ng-click="addParam()">Додати ознаку</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="col-md-4 remove-padding" style="padding-left: 0">
+                          <input type="submit" class="btn btn-info add-margin-bottom" value="Шукати"
+                                 style="width: 100%">
+                        </div>
+                        <div class="col-md-4 remove-padding" style="padding-right: 0">
+                          <input type="button" class="btn btn-warning add-margin-bottom" value="Зберегти фільтр"
+                                 style="width: 100%"
+                                 ng-click="openModal()">
+                        </div>
+                        <div class="col-md-4 remove-padding" style="padding-right: 0">
+                          <input type="button" class="btn btn-danger add-margin-bottom" value="Очистити поля"
+                                 style="width: 100%"
+                                 ng-click="clearAllFilterFields()">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <button type="button"
+                    class="btn btn-default idoc-search-button"
+                    ng-click="runSearch()"
+                    style="margin-bottom: 1px"><i class="glyphicon glyphicon-search"></i></button>
+          </div>
+        </div>
+      </div>
+      <div ng-if="searchCounter" style="float: left; font-weight: bold;"><span>Знайдено документів: {{searchCounter}}</span></div>
+    </div>
+  </div>
+</div>

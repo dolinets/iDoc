@@ -1,0 +1,2 @@
+nID;nQuarter;nYear;nID_SubjectOrgan_Depositary;nID_SubjectOrgan_Emitente;sForeignINNEmitente;nID_Country;sForeignINNStockPapers;sCFICode;nDenomination;nID_Currency;nCommonDenomination;nQuantity;nPartCharterCapital;nQuantityBlocked;nPartBlockedCharterCapital;sTypeOwner;nID_SubjectOrgan_Owner;nID_Place_Owner;nID_SubjectContact_OwnerNonResident;sForeignINNOwner;nID_SubjectHuman_Owner;nID_SubjectHuman_OwnerISI;nID_SubjectStockPaperFON_OwnerFON;nID_SubjectHuman_OwnerAMC
+1;1;1;NULL;1;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;test;1;NULL;NULL;NULL;NULL;NULL;NULL;NULL

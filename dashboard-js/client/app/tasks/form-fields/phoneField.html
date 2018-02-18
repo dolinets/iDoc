@@ -1,0 +1,48 @@
+<div ng-if="['tel'].indexOf(item.type) > -1" class="row form-field">
+  <div class="col-sm-12" ng-if="showField(item)">
+    <span class="col-sm-6 task-form-title" style="text-align: right;">
+      <label>{{sFieldLabel(item.name)}} <span ng-if="isRequired(item) && item.writable" style="color: red">*</span></label>
+      <span class="idoc-hint" ng-bind-html="viewTrustedHTMLContent(sFieldHint(item.name))"></span>
+    </span>
+    <div class="col-sm-6">
+
+      <div ng-if="item.type === 'tel'">
+        <input type="text"
+               ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned"
+               name="{{item.id}}"
+               ng-model="item.value"
+               ng-tel-field="{defaultCountry:'ua', autoFormat:true, allowExtensions:false, preferredCountries:['ua'], autoPlaceholder:true}"
+               ng-required="isRequired(item)"
+               ng-class="{submitted: isRequired(item) && isTaskSubmitted() || form[item.id].$touched && form[item.id].$invalid}"
+               class="form-control"
+               maxlength="13"
+               value="">
+      </div>
+
+      <div ng-if="(item.readable && !item.writable) || !isDocumentNotSigned">
+        <span class="task-form-written-right-sight"
+              style="white-space: pre-line"
+              name="{{item.id}}"
+              ng-readonly="isFormPropertyDisabled(item)">{{item.value}}
+        </span>
+      </div>
+
+      <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+      <span ng-message="required">Необхідно заповнити.</span>
+      <span ng-message="tel">Помилка в номері телефону.</span>
+    </span>
+    </div>
+  </div>
+</div>
+
+<div ng-if="item.sType && item.sType == 'tel'" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.sName)}}</label>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-model="item.oValue">{{item.oValue}}
+    </span>
+  </div>
+</div>

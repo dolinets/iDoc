@@ -1,0 +1,451 @@
+.staff-form-staff-view{
+  overflow-x: hidden;
+}
+.staff{
+  padding: 0;
+  padding-top: 71px;
+}
+.filter-staff{
+  /*margin-top: 100px;*/
+  z-index: 1000;
+  margin-top: 0px;
+  left: 480px;
+  top: 100px;
+  position: relative;
+}
+.content-staff{
+  margin-top: 73px;
+}
+.tasks-form-staff-view {
+  margin-top: 10px !important;
+}
+
+.posit-name{
+  left: 20px;
+}
+.staff-view{
+  background: white;
+  overflow-y: auto;
+  padding-bottom: 40px;
+}
+.staff-but{
+  margin-top: 20px;
+  margin-left: 50pzx;
+}
+.staff-lab,
+.staff-check{
+  text-align: right;
+  margin-top: 10px;
+
+}
+.staff-lab label{
+  font-weight: normal;
+}
+.staff-lab-inf{
+  margin-top: 10px;
+}
+.staff-check{
+  margin-left: 5px;
+}
+.staff-but-marg{
+  /*margin-top: 20px;*/
+  margin-left: 90px;
+  margin-bottom: 20px;
+}
+.staff-table{
+  border: solid 1px grey;
+  width: 300px;
+}
+.hr-staff{
+  border: solid 1px grey;
+  width: 90%;
+}
+.staff-foto{
+  border: solid 1px grey;
+  float: right;
+  width: 200px;
+  height: 300px;
+}
+/*.staff-snap-drawers{*/
+  /*width: 300px;*/
+/*}*/
+
+#modal-size,
+#modal-size2,
+#modal-size3,
+#modalContact{
+  width: 55%;
+  border: solid 1px darkgrey;
+  background-color: grey;
+}
+/*start menu-tree*/
+
+.angular-ui-tree-handle {
+  /*background: #f8faff;*/
+  /*border: 1px solid #dae2ea;*/
+  color: black;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.angular-ui-tree-handle:hover {
+  color: #438eb9;
+
+}
+
+.angular-ui-tree-placeholder {
+  background: #f0f9ff;
+  border: 2px dashed #bed2db;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+tr.angular-ui-tree-empty {
+  height: 100px
+}
+
+.group-title {
+  background-color: #687074 !important;
+  color: #FFF !important;
+}
+
+
+/* --- Tree --- */
+
+.tree-node {
+  /*border: 1px solid #dae2ea;*/
+  /*background: #f8faff;*/
+  color: black;
+}
+
+.nodrop {
+  /*background-color: #f2dede;*/
+}
+
+.tree-node-content {
+  margin: 10px;
+}
+
+.tree-handle {
+  padding: 10px;
+  /*background: #428bca;*/
+  color: #FFF;
+  margin-right: 10px;
+}
+
+.angular-ui-tree-handle:hover {}
+
+/*stop menu-tree*/
+
+/*.staff-input-pers {
+    margin-bottom: 15px;
+}*/
+
+.staff-input-person {
+    margin-bottom: 5px;
+}
+
+.staff-lab-cont {
+    text-align: left;
+    padding-left: 27px;
+}
+
+.staff-label {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.staff-pass {
+    text-align: left;
+    padding-left: 27px;
+}
+
+#communication {
+    margin-left: 20px;
+}
+
+.staff-list {
+    width: 400px;
+    overflow-x: hidden;
+}
+
+.staff-content-place .snap-content{
+        transform: translate3d(466px, 0px, 0px);
+        width: 75%;
+}
+
+.staff-row-select .btn {
+    margin-left:10px;
+    width:48%
+}
+
+    .staff-input{
+        margin-top: 15px;
+        /*margin-bottom:10px;*/
+    }
+
+    .staff-form-field {
+      margin-bottom: 15px;
+    }
+
+
+.staff-spinner {
+    width: 100px;
+    height: 100px;
+    margin-top: 10%;
+    position: absolute;
+    z-index: 200000;
+}
+
+/*modal*/
+
+.ng-modal-overlay-staff {
+  /* полупорозрачный DIV, который охватывает весь экран */
+  position:fixed;
+  z-index:9999;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:#fff;
+  opacity: 0.9;
+}
+.ng-modal-dialog-staff {
+    /* Отцентрированный даилог с тенью */
+    z-index:100000;
+    position: fixed;
+    width: 60% !important;
+    height: auto !important;
+    opacity: 1;
+    /* Центрирование */
+    margin-top: 20% !important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ng-modal-dialog-content-staff {
+    padding:10px;
+    text-align: left;
+}
+
+.staff-check {
+  margin-bottom: 30px;
+}
+
+.staff-posit-name {
+  margin-bottom: 20px;
+}
+
+.staff-list-position {
+  color: #7d7e83;
+}
+
+.table-ref {
+  border: 1px solid #D6D2D2;
+  margin-left: 4%;
+  /*width: 70%;*/
+  width: 60%;
+  table-layout: fixed;
+}
+
+.table-ref-th {
+  text-align: center;
+}
+
+.staff-lab.staf-lab-ref {
+  margin-right: 15px;
+}
+
+.table-responsive-ref {
+  margin-top: 30px;
+}
+
+.staff-add {
+  text-align: center;
+  margin-left: 5%;
+}
+
+.row-save {
+  margin-top: 40px;
+}
+
+.btn-staff {
+  /*width: 30%;*/
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.modal-staff-pass {
+  opacity: .7;
+}
+
+.main-form-controls.staff-but-form-control::before {
+  height: 0;
+}
+
+.staff-del {
+  width: auto;
+}
+
+.modal-staff-contact {
+  width:50%!important;
+}
+
+.staff-add-position {
+  margin-bottom: 15px;
+}
+
+.staff-add-referents {
+  margin-bottom: 15px;
+}
+
+.staff-position {
+  width: 50%!important;
+}
+
+.staff-referents {
+  width: 50%!important;
+}
+
+.staff-password {
+  width: 40%!important;
+}
+
+.staff-my-group {
+  margin-right:28%!important;
+}
+
+.staff-todo {
+  padding-top: 25px;
+}
+
+.staff-block {
+  padding-left: 5px;
+}
+
+.staff-form-add {
+  width: 98%;
+}
+
+.staff-input-posit {
+  margin-left: 9px;
+}
+
+.staff-position-add {
+  width: 95%;
+}
+
+.staff-fon {
+  width: 49%;
+}
+
+.btn-staff-contact {
+  color: red;
+  border: 1px solid #b1adad;
+}
+
+.staff-text {
+  margin-bottom: 15px;
+}
+
+.staff-table-contact {
+  margin-bottom: 0px;
+}
+
+.staff-position-modal {
+  margin-left: 15px;
+}
+
+.staff-referents-modal {
+  margin-left: 15px;
+}
+
+.modal-staff-password {
+  margin-top: 70px;
+}
+
+.btn-staff-save {
+  margin-left: 10px;
+}
+
+.staff-todo-pass {
+  padding-top: 10px;
+}
+
+.staff-filter {
+  width: 50%;
+  left: 495px;
+  margin-top: -20px;
+}
+
+.staff-tasks-fofm {
+  top:15px;
+}
+
+.staff-button {
+  margin-left: 17px;
+}
+
+.staff-form-control {
+  margin-left: 25%;
+}
+
+.staff-row-filter {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: -15px;
+}
+
+.staff-check-position {
+  text-align: left;
+  width: 45%;
+}
+
+.staff-pass-off {
+  width: 45%;
+}
+
+.staff-modal {
+  margin-left: -12%;
+}
+
+.staff-todo-password {
+  padding-top: 15px !important;
+}
+
+.staff-btn-pass {
+  margin-right: 23%;
+}
+
+form.ng-submitted.ng-invalid input.ng-invalid, form.ng-submitted.ng-invalid input.ng-invalid:focus {
+  border:1px solid #a94442;
+}
+form.ng-submitted.ng-invalid input.ng-invalid:focus {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(169, 68, 66, .6);
+}
+
+.glyphicon-remove.button-remove-referent {
+  color: red;
+}
+
+a.btn-staff-add:hover {
+  color: #23527c;
+}
+
+.btn-staff-contact:active, .btn-staff-contact:focus {
+  outline: none !important;
+}
+.btn-staff-remove:active, .btn-staff-remove:focus {
+  outline: none !important;
+}
+
+.staff-table-ref {
+  width: 50%;
+  background: linear-gradient(180deg,rgba(252,252,252,1)0,rgba(239,239,239,1)100%);
+  /*background-color: #f9f7f7;*/
+  border-right: 1px solid #D6D2D2 !important;
+}

@@ -1,0 +1,110 @@
+<div ng-repeat="issue in taskData.aProcessSubjectTask" ng-init="currentIssue = $index" ng-class="{'issue-pb-20': $last}">
+
+  <div class="addition-hr">
+    <hr class="hr-divider side-left"><span>Задача № <b id="{{'task' + $index}}">{{$index + 1}}</b></span><hr class="hr-divider side-right">
+  </div>
+
+  <p><b id="{{'header' + $index}}">{{issue.sHead}}</b></p>
+  <p id="{{'text' + $index}}" ng-bind-html="html(issue.visibleBody)"></p>
+
+  <table class="issue-table">
+    <thead>
+    <tr>
+      <th style="width: 20%">
+        <span>Контроль</span>
+      </th>
+      <th style="width: 40%; border-left: 5px solid white; border-right: 5px solid white;">
+        <div>
+          <span>Виконання</span>
+          <span style="float: right;">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+              <span id="{{'data' + $index}}" ng-if="issue.aProcessSubject[0].sDatePlan">{{::convertDate(issue.aProcessSubject[0].sDatePlan)}}</span>
+              <span id="{{'days' + $index}}" ng-if="issue.aProcessSubject[0].nDayPlan">{{::convertDay(issue.aProcessSubject[0].nDayPlan)}}</span>
+          </span>
+        </div>
+      </th>
+      <th style="width: 40%;">
+        <div>
+          <span>Звiт</span>
+          <span style="float: right;">({{::getIssueType(issue.aProcessSubject[0].sTextType)}})</span>
+        </div>
+      </th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="user in usersArray[currentIssue]" ng-if="user.sLoginRole !== 'Controller'">
+        <td>
+          <span ng-if="$index === 1" class="issue-user-block-controller">
+            <span ng-repeat="u in usersArray[currentIssue][0].aUser" ng-if="usersArray[currentIssue][0].sLogin === u.sLogin">
+              {{u.sFirstName}} {{::getInitials(u.sLastName)}}
+            </span>
+          </span>
+        </td>
+
+        <td>
+          <span class="issue-user-block-executor">
+            <span ng-repeat="u in user.aUser" ng-if="user.sLogin === u.sLogin">
+              {{u.sFirstName}} {{::getInitials(u.sLastName)}}
+            </span>
+          </span>
+          <span class="issue-user-is-main" 
+            ng-if="isMinOrder(user.nOrder, currentIssue) && !user.isDelegated">(Головний виконавець)</span>
+          <span ng-if="user.aProcessSubjectChild && user.aProcessSubjectChild.length > 0">
+            <span ng-repeat="delegators in user.aProcessSubjectChild" style="display: block; font-size: 13px; padding: 5px 13px;">
+              <i class="fa fa-reply gly-rotate-180" aria-hidden="true"></i>
+              <span ng-repeat="u in delegators.aUser" ng-if="delegators.sLogin === u.sLogin">
+                {{u.sFirstName}} {{::getInitials(u.sLastName)}}
+              </span>
+            </span>
+          </span>
+        </td>
+
+        <td>
+          <div class="col-xs-12 issue-no-padding">
+            <div class="col-xs-4 issue-no-padding">
+              <span ng-if="user.oProcessSubjectStatus.sName && user.oProcessSubjectStatus.sID !== 'new'" style="padding-left: 3px;">
+                <i ng-if="user.isDelegated" class="fa fa-reply gly-rotate-180" aria-hidden="true"></i>
+                <b>{{user.oProcessSubjectStatus.sName}}</b>
+              </span>
+            </div>
+            <div class="col-xs-8 issue-no-padding">
+              <div ng-if="user.sText" style="display: inline-block;">
+                <div ng-if="user.sText.indexOf('sKey') > -1" class="issue-report">
+                  <a style="cursor:pointer;"
+                     ng-if="taskServer.another"
+                     href="/api/tasks/download/{{takeInformFromJSON(user.sText, 'key')}}/attachment/{{takeInformFromJSON(user.sText, 'storage')}}/{{takeInformFromJSON(user.sText, 'name')}}/server/{{taskServer.name}}"
+                     target="_blank">Завантажити звiт
+                  </a>
+                  <a style="cursor:pointer;"
+                     ng-if="!taskServer.another"
+                     href="/api/tasks/download/{{takeInformFromJSON(user.sText, 'key')}}/attachment/{{takeInformFromJSON(user.sText, 'storage')}}/{{takeInformFromJSON(user.sText, 'name')}}"
+                     target="_blank">Завантажити звiт
+                  </a>
+                </div>
+                <div style="font-size: 13px" ng-if="user.sText.indexOf('sKey') === -1" class="issue-report">
+                  <span ng-if="user.sDatePlanNew" style="font-size: 13px">(Новий термiн: {{::convertDate(user.sDatePlanNew)}})</span>
+                  {{user.sText}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="issue-controller-status" ng-if="usersArray[currentIssue][0].oProcessSubjectStatus.sName && usersArray[currentIssue][0].oProcessSubjectStatus.sID !== 'new'">
+    <span style="display: block;">
+      <span ng-repeat="u in usersArray[currentIssue][0].aUser" ng-if="usersArray[currentIssue][0].sLogin === u.sLogin">
+        <b>{{u.sFirstName}} {{::getInitials(u.sLastName)}} ({{usersArray[currentIssue][0].oProcessSubjectStatus.sName}})</b>
+      </span>
+    </span>
+    <span>
+      <span ng-if="usersArray[currentIssue][0].sDatePlanNew" style="font-size: 13px">(Новий термiн: {{::convertDate(usersArray[currentIssue][0].sDatePlanNew)}})</span>
+      {{usersArray[currentIssue][0].sText}}
+    </span>
+  </div>
+
+</div>
+

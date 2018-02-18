@@ -1,0 +1,20 @@
+{
+  "name": "config",
+  "version": "0.0.1",
+  "http_port": "8448",
+  "service": "gmail",
+  "list_recipients": "geryak.irina@gmail.com, anton.shvachka@gmail.com",
+  "path": "client/app/files/iDoc.pdf",
+  "path_dist": "public/app/files/iDoc.pdf",
+  "filename": "iDoc.pdf",
+  "contentType": "application/pdf",
+  "auth": {
+    "user": "start.idoc@gmail.com",
+    "pass": "iDoc2017"
+  },
+  "urlDB": "mongodb://localhost:27017/data_clients",
+  "dependencies": {
+  },
+  "keyPath": "/sybase/cert/server.key",
+  "certPath": "/sybase/cert/server.crt"
+}

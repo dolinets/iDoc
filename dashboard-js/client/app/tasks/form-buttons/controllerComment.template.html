@@ -1,0 +1,22 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12">
+    <label for="execText">Коментар:</label>
+    <textarea name="execText"
+              id="execText"
+              ng-required="true"
+              ng-model="data.text"
+              style="width:100%;"
+              maxlength="2000"
+              class="form-control">
+    </textarea>
+
+    <div class="button-block-pull-right">
+      <hr>
+      <div class="col-md-12 issue-control-button">
+        <button class="btn btn-info btn-igov"
+                ng-click="leaveComment()"
+                ng-disabled="!data.text">Пiдтвердити</button>
+      </div>
+    </div>
+  </div>
+</div>

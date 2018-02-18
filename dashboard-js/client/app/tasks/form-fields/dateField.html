@@ -1,0 +1,52 @@
+<div ng-if="['date'].indexOf(item.type) > -1 && showField(item)" class="col-sm-12 form-field">
+            <span class="col-sm-6 task-form-title">
+              <label>{{sFieldLabel(item.name)}} <span ng-if="isRequired(item) && item.writable" style="color: red">*</span></label>
+              <span class="idoc-hint" ng-bind-html="viewTrustedHTMLContent(sFieldHint(item.name))"></span>
+            </span>
+  <div class="col-sm-6">
+    <div class="input-group" ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned">
+      <div class='input-group date' id='datetimepicker1'>
+        <input id="{{item.id}}"
+               type="text" class="form-control input-sm"
+               format='DD/MM/YYYY'
+               separator='/'
+               datetimepicker
+               name="{{item.id}}"
+               ng-required="isRequired(item)"
+               ng-readonly="isFormPropertyDisabled(item)"
+               ng-model="item.value"
+               ng-class="{submitted:isRequired(item) && isTaskSubmitted()}"
+               ng-change="ChangeDatetimepicker(item.id)"
+               ng-blur="ChangeDatetimepicker(item.id)">
+      </div>
+    </div>
+    <div ng-if="(item.readable && !item.writable) || !isDocumentNotSigned">
+        <span class="task-form-written-right-sight"
+              name="{{item.id | date:'yyyy.MM.dd'}}">
+              {{item.value | checkDateReverse}}
+        </span>
+    </div>
+    <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+      <span ng-message="required">Необхідно заповнити.</span>
+      <span ng-message="dateformat">Дата може бути тільки формату DATE_FORMAT.</span>
+      <span ng-message="dateelapsed">З/до дати з/після сьогоднішньої, має бути більше/менше ніж х-днів, х-місяців, х-років.</span>
+      <span ng-message="endperiod">Кінцева дата повина бути пізніше початкової дати</span>
+      <span ng-message="dateofbirth">{{ form[item.id].lastErrorMessage }}</span>
+      <span ng-message="CustomFormat">{{ form[item.id].lastErrorMessage }}</span>
+      <span ng-message="documentdate">Дата може бути тільки формату ДД.ММ.PPPP.</span>
+      <span ng-if="item.sAsyncValidatorsMessages">{{item.sAsyncValidatorsMessages}}</span>
+    </span>
+  </div>
+</div>
+
+<div ng-if="item.sType && item.sType == 'date'" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.sName)}}</label>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-model="item.oValue">{{item.oValue | checkDateReverse}}
+    </span>
+  </div>
+</div>

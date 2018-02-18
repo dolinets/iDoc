@@ -1,0 +1,88 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_Trader_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_Trader",
+        "sShortName_SubjectOrgan_Trader",
+        "sFullName_SubjectOrgan_Trader",
+        "sDateRegistrationEDR_Trader",
+        "nSizeCharterCapitalTrader",
+        "sLegalFormTrader",
+        "sLocation_SubjectOrgan_Trader",
+        "phone_Trader",
+        "email_Trader",
+        "sSite_Trader",
+        "nSizeCharterCapitalSinceTrader",
+        "nSizeCharterCapitalForeignTrader",
+        "sCountry_Trader",
+        "sFullName_SubjectOrgan_Auditor_Trader",
+        "sID_SubjectOrgan_OKPO_Auditor_Trader",
+        "sDateConclusion_Auditor",
+        "bBrokerageLicense",
+        "bDealershipLicense",
+        "bUnderwritingLicense",
+        "bManagmentLicense",
+        "sNameRegion_Trader",
+        "bNonBankingFlag_Trader",
+        "bTOVFlag_Trader",
+        "bBankruptFlag_Trader",
+        "sCurator_Trader",
+        "nAmountRent_Trader",
+        "sDateRentTill_Trader",
+        "sRent27_Trader",
+        "sBranches_Trader",
+        "sFolder_Trader",
+        "sSubjectHuman_TraderHead",
+        "sSubjectHuman_TraderAccountant"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='Trader'"
+    },
+    "ShowFieldsOnCondition_Trader_02": {
+      "aField_ID": [
+        "sSeries_BrokerageLicense",
+        "sNumber_BrokerageLicense",
+        "sNumberDecisionIssue_BrokerageLicense",
+        "sDateDecisionIssue_BrokerageLicense",
+        "sDateIssue_BrokerageLicense",
+        "sDateFrom_BrokerageLicense",
+        "sDateTill_BrokerageLicense",
+        "sNumberDecisionReissue_BrokerageLicense",
+        "sDateDecisionReissue_BrokerageLicense",
+        "sReasonReissue_BrokerageLicense",
+        "sNumberDecisionCancellation_BrokerageLicense",
+        "sDateDecisionCancellation_BrokerageLicense",
+        "sReasonCancellation_BrokerageLicense",
+        "sDateCancellation_BrokerageLicense"
+      ],
+      "asID_Field": {
+        "sReason1": "bBrokerageLicense"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    },
+    "ShowFieldsOnCondition_Trader_03": {
+      "aField_ID": [
+        "sSeries_LicenceDealership",
+        "sNumber_LicenceDealership",
+        "sNumberDecisionIssue_LicenceDealership",
+        "sDateDecisionIssue_LicenceDealership",
+        "sDateIssue_LicenceDealership",
+        "sDateFrom_LicenceDealership",
+        "sDateTill_LicenceDealership",
+        "sNumberDecisionReissue_LicenceDealership",
+        "sDateDecisionReissue_LicenceDealership",
+        "sReasonReissuance_LicenceDealership",
+        "sNumberDecisionCancellation_LicenceDealership",
+        "sDateDecisionCancellation_LicenceDealership",
+        "sReasonCancellation_LicenceDealership",
+        "sDateCancellation_LicenceDealership"
+      ],
+      "asID_Field": {
+        "sReason1": "bDealershipLicense"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    }
+  }
+}

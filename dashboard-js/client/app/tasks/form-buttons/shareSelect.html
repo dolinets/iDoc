@@ -1,0 +1,111 @@
+<div class="row" style="margin-left: 10px;">
+  <div class="col-md-12" style="margin-bottom: 15px;">
+    <label style="font-size: 18px;">Налаштування доступу</label>
+  </div>
+  <div class="col" style="margin-bottom: 15px;">
+    <label class="col-md-8" style="font-size: 14px; font-weight: normal;">
+      <input type="checkbox" ng-model="shareParams.bIsCheckedValue1">
+      Доступно за <a href="{{currentUrl}}" target="_blank">посиланням</a>
+    </label>
+    <label ng-show="shareParams.bIsCheckedValue1" class="col-md-4">
+      <a ng-click="copyLink()">
+        <i class="glyphicon glyphicon-link"></i>
+      </a>
+      Копіювати
+    </label>
+  </div>
+  <!--<div class="col">-->
+    <!--<label class="col-md-12" style="font-size: 14px; font-weight: normal;">-->
+      <!--<input type="checkbox" ng-model="shareParams.bIsCheckedValue2">-->
+      <!--Обмежити список підписантів-->
+    <!--</label>-->
+  <!--</div>-->
+
+  <!--<div ng-show="shareParams.bIsCheckedValue2" class="col-md-12">-->
+    <!--<span ng-show="isActive()"><img src="/wf/VAADIN/themes/activiti/img/light/pen_icon.png" alt="pero"></span><br/>-->
+    <!--<hr style="margin: 10px 0 2px;"/>-->
+    <!--<div class="col">-->
+      <!--<label ng-repeat="person in signsPersons" style="float:left; font-size: 14px; font-weight: bold;">-->
+        <!--<span ng-show="person.isChecked"><img src="/wf/VAADIN/themes/activiti/img/light/pen_icon.png" alt="pero"></span>-->
+        <!--<div id="people">-->
+          <!--<input type="checkbox"-->
+               <!--ng-model="person.isChecked">-->
+        <!--{{person.name}}<span style="position: absolute; right: 0; margin-top: 10px; margin-right: 20px;"><img src="/wf/VAADIN/themes/activiti/img/light/delete_icon.png" ng-click="removeSignString(attr, $index)" alt="x"/></span><br/>-->
+        <!--<small style="float: left; margin-left: 15px; font-weight: lighter;">{{person.email}}</small>-->
+        <!--</div>-->
+      <!--</label>-->
+    <!--</div>-->
+    <!--<div ng-hide="bTel" id="select-area" class="col-md-12">-->
+      <!--<ui-select ng-model="signsPersons.selected" style="margin-top: 10px;"-->
+                 <!--&gt;-->
+        <!--<ui-select-match placeholder="Введіть ПІБ, ІНН, E-mail або номер телефона">{{$select.selected.name}}</ui-select-match>-->
+        <!--<ui-select-choices repeat="item in signsPersons | filter: $select.search">-->
+          <!--<div ng-bind-html="item.name"></div>-->
+          <!--<small ng-bind-html="item.email"></small>-->
+        <!--</ui-select-choices>-->
+      <!--</ui-select>-->
+      <!--<input ng-hide="!bName" type="text" ng-model="intermediateData.name" ng-keypress="proceedData($event)" class="select-people" placeholder="Введіть ПІБ"/>-->
+      <!--<input ng-hide="!bNameAndEmail()" type="text" ng-model="intermediateData.email" ng-keypress="proceedData($event)" class="select-people" placeholder="Введіть E-mail"/>-->
+      <!--<input ng-hide="!bEmail" type="text" ng-model="intermediateData.tel" ng-keypress="proceedData($event)" class="select-people" placeholder="Введіть номер телефона"/>-->
+      <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+      <!--<span ng-if="intermediateData.name" style="margin-left: 20px; color: black; font-size: 13px">{{intermediateData.name}}</span>-->
+      <!--<span ng-if="intermediateData.email" style="margin-left: 5px; color: black; font-size: 13px">{{intermediateData.email}}</span>-->
+      <!--<span ng-if="intermediateData.tel" style="margin-left: 5px; color: black; font-size: 13px">{{intermediateData.tel}}</span>-->
+    <!--</div>-->
+
+    <!--<div ng-show="bTel" id="select-ecp" class="col-md-12" style="margin-top: 10px;">-->
+      <!--<label style="font-size: 18px;">Оберіть джерело ключів ЕЦП</label>-->
+      <!--<br/>-->
+      <!--<button ng-click="openFileDialog()" class="btn btn-info btn-igov">-->
+        <!--Файл на комп'ютері-->
+      <!--</button>-->
+      <!--<button class="btn btn-info btn-igov">-->
+        <!--Токен-->
+      <!--</button>-->
+      <!--<input id="upload-button" type="file" style="display: none" />-->
+    <!--</div>-->
+  <!--</div>-->
+
+<!--</div>-->
+
+<!--tagging="tagTransform" tagging-label="false"-->
+<!--<ui-select-->
+           <!--id="select-people"-->
+           <!--ng-show="shareParams.bIsCheckedValue2"-->
+           <!--dropdown-autocomplete-->
+           <!--ng-model="signsPersons.name"-->
+           <!--name="signsPersons.name"-->
+           <!--class="col-md-12"-->
+           <!--ng-disabled="!isDocumentNotSigned()"-->
+           <!--ng-required="item.required"-->
+           <!--autocomplete-data="item.autocompleteData"-->
+           <!--autocomplete-name="item.autocompleteName"-->
+           <!--reach-infinity="requestMoreItems($select.items)"-->
+           <!--on-select="onSelectDataList($item, null, null, item)">-->
+  <!--<ui-select-match id="item">-->
+    <!--{{$select.selected[item.autocompleteData.titleProperty] || $select.selected[item.autocompleteData.valueProperty] || item.value}}-->
+  <!--</ui-select-match>-->
+  <!--<ui-select-choices id="itemId" refresh="refreshList(item.autocompleteData.titleProperty, $select.search, item.name)"-->
+                     <!--refresh-delay="300"-->
+                     <!--repeat="field[item.autocompleteData.titleProperty] as field in items track by field[item.autocompleteData.orderBy]">-->
+                           <!--<span title="{{field[item.autocompleteData.titleProperty]}}">-->
+                             <!--{{field[item.autocompleteData.titleProperty]}}-->
+                           <!--</span>-->
+    <!--<span title="{{field.sCompany + ' - ' +field.sPosition}}" style="display: block"> <small><strong>{{field.sCompany}}</strong> <i>{{field.sPosition}}</i> </small> </span>-->
+  <!--</ui-select-choices>-->
+<!--</ui-select>-->
+
+
+
+
+<!--<div class="col-md-12 issue-control-button" style="margin-top: 20px;">-->
+  <!--<button class="btn btn-info btn-igov"-->
+          <!--ng-click="addPersonSign()"-->
+          <!--ng-disabled="modalSpinner">-->
+    <!--Надати доступ-->
+  <!--</button>-->
+<!--</div>-->
+<div ng-if="modalSpinner" ng-class="{'spinner-container-menu':isMenuOpened, 'spinner-container-full-size':!isMenuOpened}" style="text-align: center">
+  <span class="test-spinner"></span>
+</div>
+</div>

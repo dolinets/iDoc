@@ -1,0 +1,123 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_IC_01": {
+      "aField_ID": [
+        "sSeriesInvestmentCertificate",
+        "sDateRegistrationCertificates",
+        "sOrganRegistrationCertificates",
+        "sNumberIssueInvestCertificates",
+        "sDateIssueInvestCertificates",
+        "sDateIssueDuplicateInvestCertificates",
+        "asTypeIssuanceInvestmentCertificate",
+        "asFormExistenceInvestmentCertificate",
+        "nQuantityInvestmentCertificate",
+        "sDateEndIPOInvestmentCertificate",
+        "nPaidStateFeeInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Issue'"
+    },
+    "ShowFieldsOnCondition_IC_02": {
+      "aField_ID": [
+        "sSeriesInvestmentCertificate",
+        "sDateRegistrationCertificates",
+        "sDateRegistrationChangeCertificates",
+        "sOrganRegistrationCertificates",
+        "sNumberIssueInvestCertificates",
+        "sDateIssueInvestCertificates",
+        "sDateIssueDuplicateInvestCertificates",
+        "asTypeIssuanceInvestmentCertificate",
+        "asFormExistenceInvestmentCertificate",
+        "nQuantityInvestmentCertificate",
+        "sDateEndIPOInvestmentCertificate",
+        "nPaidStateFeeInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Change'"
+    },
+    "ShowFieldsOnCondition_IC_03": {
+      "aField_ID": [
+        "sSeriesInvestmentCertificate",
+        "sDateRegistrationCertificates",
+        "sOrganRegistrationCertificates",
+        "sNumberIssueInvestCertificates",
+        "sDateIssueInvestCertificates",
+        "sDateIssueDuplicateInvestCertificates",
+        "asTypeIssuanceInvestmentCertificate",
+        "asFormExistenceInvestmentCertificate",
+        "nQuantityInvestmentCertificate",
+        "sDateEndIPOInvestmentCertificate",
+        "nPaidStateFeeInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Report'"
+    },
+    "ShowFieldsOnCondition_IC_04": {
+      "aField_ID": [
+        "sDateOrderInvestmentCertificate_Pause",
+        "nDocumentOrderInvestmentCertificate_Pause",
+        "sOrganOrderInvestmentCertificate_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Pause'"
+    },
+    "ShowFieldsOnCondition_IC_05": {
+      "aField_ID": [
+        "sSeriesInvestmentCertificate",
+        "sDateRegistrationCertificates",
+        "sOrganRegistrationCertificates",
+        "sNumberIssueInvestCertificates",
+        "sDateIssueInvestCertificates",
+        "sDateIssueDuplicateInvestCertificates",
+        "asTypeIssuanceInvestmentCertificate",
+        "asFormExistenceInvestmentCertificate",
+        "nQuantityInvestmentCertificate",
+        "sDateEndIPOInvestmentCertificate",
+        "nPaidStateFeeInvestmentCertificate",
+        "nDocumentFictitiousInvestmentCertificate",
+        "sDateFictitiousInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_IC_06": {
+      "aField_ID": [
+        "sDateOrderInvestmentCertificate_Continue",
+        "nDocumentOrderInvestmentCertificate_Continue",
+        "sOrganOrderInvestmentCertificate_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_IC_07": {
+      "aField_ID": [
+        "sDateOrderInvestmentCertificate_Cancellation",
+        "nDocumentOrderInvestmentCertificate_Cancellation",
+        "sOrganOrderInvestmentCertificate_Cancellation"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='InvestmentCertificates' && [sReason2]=='Cancellation'"
+    }
+  }
+}

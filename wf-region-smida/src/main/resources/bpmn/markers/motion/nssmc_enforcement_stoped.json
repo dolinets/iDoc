@@ -1,0 +1,18 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_1": {
+      "aField_ID": [
+        "sTypeDoc_1",
+        "sNumberStoped",
+        "sDateDecree_1",
+        "saTypeDispatch_1",
+        "sName_Agent_1",
+        "sReasonStoped"
+      ],
+      "asID_Field": {
+        "sClient": "saStoped"                          
+      },
+      "sCondition": "[sClient] == 'yes'" 
+    }
+  }
+}

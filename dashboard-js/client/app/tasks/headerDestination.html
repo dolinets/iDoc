@@ -1,0 +1,39 @@
+    <div ng-if="documentLogins" ng-repeat="users in documentLogins">
+        <div ng-if="users.aUser.length !== 0  && 'Direct' === users.oDocumentStepType.sName">
+            <div ng-if="users.bWrite" ng-show="users.bWrite!==null" class="col-xs-12 user-in-users-list">
+                <div class="col-xs-12" ng-repeat="user in users.aUser" ng-if="user.sLogin === user.sID_Group">
+                    <div class="row">
+                        <div class="col-sm-offset-6 col-md-offset-6 col-lg-offset-6 col-sm-3 col-md-3 col-lg-3">
+                            <div class="header-destination">
+                                <div ng-if="user.sCompany">
+                                    <strong>
+                                                    {{user.sCompany}}
+                                                </strong> </div>
+                                <div ng-if="user.sFIO">
+                                    {{user.sFIO | getShortName}}
+                                </div>
+                                <div ng-if="user.sSubjectHumanPosition" class="AdressatPosition">
+                                    <small>
+                                                {{user.sSubjectHumanPosition}}
+                                                </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3 col-md-3 col-lg-3" ng-if="user.sLogin === user.sID_Group">
+                            <div ng-if="!users.bNeedECP" class="AdressatSign">
+                                <span class="documentDate" style="float: left;">
+                                                    <b ng-if="users.sDate && (users.oDocumentStepSubjectSignType.sID  === 'sign' || !users.oDocumentStepSubjectSignType)" ng-bind="users.oDocumentStepType.sSing"></b>
+                                                    <b ng-if="users.sDate && users.oDocumentStepSubjectSignType.sID !== 'sign'" class="text-danger" ng-bind="users.oDocumentStepSubjectSignType.sName"></b>
+                                                    {{users.sDate ? '(' + users.sDate + ')' : 'Немає підпису'}}
+                                                    </span>
+                            </div>
+                            <div ng-if="user.sFIO !== users.sFIO_Referent && users.sFIO_Referent.length !== 0">
+                                <small>референт:</small><br> {{users.sFIO_Referent | getShortName}}
+                            </div>
+                        </div>
+                    </div><br>
+                </div>
+            </div>
+        </div>
+    </div>

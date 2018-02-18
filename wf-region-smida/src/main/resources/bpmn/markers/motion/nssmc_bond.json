@@ -1,0 +1,123 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_bond_01": {
+      "aField_ID": [
+        "sTableBond",
+        "nDenominationBond",
+        "asTypeBond",
+        "asFormIssuanceBond",
+        "asTypeSecuredBond",
+        "asFormExistenceBond",
+        "asTypePlacementBond",
+        "nPaidStateFeeBond",
+        "nInterestRateBond",
+        "sDateBeginIPO_Bond",
+        "sDateEndIPO_Bond",
+        "sDateBeginRepaymentBond",
+        "sDateEndRepaymentBond",
+        "sDateIssueBond",
+        "sOrganAuthorBond",
+        "sReasonIssueBond",
+        "sNumberCertificateBond",
+        "sDateCertificateBond",
+        "asNameCertificateBond",
+        "asStateCertificateBond",
+        "sDateDuplicateDocumentsStatutoryBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Issue'"
+    },
+    "ShowFieldsOnCondition_bond_02": {
+      "aField_ID": [
+        "sOrganChangeBond",
+        "sDateChangeBond",
+        "sReasonChangeBond",
+        "sCharacterChangesBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Change'"
+    },
+    "ShowFieldsOnCondition_bond_03": {
+      "aField_ID": [
+        "nCommonDenominationIPO_Bond",
+        "nQuantityIPO_Bond",
+        "sDateCertificateReportBond",
+        "sOrganReportBond",
+        "sReasonReportBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Report'"
+    },
+    "ShowFieldsOnCondition_bond_04": {
+      "aField_ID": [
+        "sDateOrderBond_Pause",
+        "nDocumentOrderBond_Pause",
+        "sOrganOrderBond_Pause",
+        "sReasonOrderBond_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Pause'"
+    },
+    "ShowFieldsOnCondition_bond_05": {
+      "aField_ID": [
+        "asGuarantorBond",
+        "sID_SubjectOrgan_OKPO_Guarantor",
+        "sFullName_SubjectOrgan_Guarantor",
+        "sLocation_SubjectOrgan_Guarantor"
+      ],
+      "asID_Field": {
+        "sReason": "asTypeSecuredBond"
+      },
+      "sCondition": "[sReason]=='bearer'"
+    },
+     "ShowFieldsOnCondition_bond_06": {
+      "aField_ID": [
+        "nDocumentFictitiousBond",
+        "sDateFictitiousBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_bond_07": {
+      "aField_ID": [
+        "sDateOrderBond_Continue",
+        "nDocumentOrderBond_Continue",
+        "sOrganOrderBond_Continue",
+        "sReasonOrderBond_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_bond_08": {
+      "aField_ID": [
+        "sDateOrderBond_Cancellation",
+        "nDocumentOrderBond_Cancellation",
+        "sOrganOrderBond_Cancellation",
+        "sReasonOrderBond_Cancellation"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='Bonds' && [sReason2]=='Cancellation'"
+    }
+  }
+}

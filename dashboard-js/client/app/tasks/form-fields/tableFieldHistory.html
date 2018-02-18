@@ -1,0 +1,165 @@
+<div ng-if="item.sType === 'table' && sSelectedTask === 'docHistory'" class="row field-table">
+  <style>
+    .ui-select-choices-content {
+      top: 100%;
+    }
+  </style>
+  <div class="col-sm-12" style="margin-top: 3%; margin-bottom: 3%" ng-if="item.sId.indexOf('oProcessSubject_Executor') === -1">
+    <div class="col-sm-6 task-form-title" style="margin-left: 45px">
+      {{sFieldLabel(item.name)}}
+    </div>
+
+
+    <table ng-init="tableName = item.sId">
+
+      <thead>
+
+      <tr class="table-thead">
+        <th ng-repeat="field in item.aRow[0].aField" ng-style="{'width' : field.nWidth}" ng-hide="!isVisible(field)">
+          <span>{{field.sFieldLabel || field.name}}</span>
+          <span style="display: block; text-align: center" class="s-field-notes" ng-if="field.sFieldNotes!=null">
+            {{field.sFieldNotes}}
+          </span>
+        </th>
+        <th style="width:30px;border:none; background-color: transparent"></th>
+      </tr>
+
+      </thead>
+
+      <tfoot>
+      <tr class="table-thead">
+        <th ng-repeat="field in item.aRow[0].aField" ng-style="{'width' : field.nWidth}" ng-show="bIsResultCalcNameExists">
+                <span ng-if="field.sFooterCalcName">{{field.sFooterCalcName}}:
+                  <br/>
+                  {{item.sFooterCalcResult}}</span>
+        <th style="width:30px;border:none; background-color: transparent"></th>
+
+        </th>
+      </tr>
+      </tfoot>
+
+      <tbody ng-form='{{tableName}}'>
+      <tr ng-repeat="row in item.aRow track by $index" ng-init="rowIndex=$index">
+
+        <td ng-repeat="field in row.aField track by $index" style="border: 1px solid lightgrey" ng-hide="!isVisible(field)" ng-init=" $last ? onLoad(item) : angular.noop() " ng-class="getFullCellId(item, $index, rowIndex)">
+
+          <div ng-if="['string', 'double'].indexOf(field.type) > -1">
+            <input id="{{field.id + rowIndex}}" class="inputs-in-table" ng-init="field.value = ((field.value || field.default) || '')" ng-if='field.hasOwnProperty("default") && !field.hasOwnProperty("value") || !field.hasOwnProperty("default") && !field.hasOwnProperty("value")' name="{{field.id + rowIndex}}"
+                   ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}" ng-required="field.required"
+                   ng-model="field.value" ng-disabled="!isFieldWritable(field.writable)" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   type="text">
+            <input id="{{field.id + rowIndex}}" class="inputs-in-table" ng-if='field.hasOwnProperty("value")' name="{{field.id + rowIndex}}" ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                   ng-required="field.required" ng-model="field.value" ng-disabled="!item.writable || !isFieldWritable(field.writable)" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   type="text">
+          </div>
+
+          <div ng-if="['enum'].indexOf(field.type) > -1">
+            <select name="{{field.id + rowIndex}}" ng-init="field.value = ((field.value || field.default) || '')" ng-required="field.required" ng-model="field.value" ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                    ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in field.a" ng-disabled="!isFieldWritable(field.writable)" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                    class="inputs-in-table">
+            </select>
+          </div>
+
+          <div ng-if="['long'].indexOf(field.type) > -1">
+            <input name="{{field.id + rowIndex}}" ng-init="field.value = ((field.value || field.default) || '')" ng-if="field.hasOwnProperty('default') || !field.hasOwnProperty('default') && !field.hasOwnProperty('value')" ng-required="field.required" ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                   ng-model="field.value" class="inputs-in-table" ng-disabled="!isFieldWritable(field.writable)" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   type="number">
+            <input name="{{field.id + rowIndex}}" ng-if="field.hasOwnProperty('value') && !field.hasOwnProperty('default')" ng-required="field.required" ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                   ng-model="field.value" class="inputs-in-table" ng-disabled="!item.writable || !isFieldWritable(field.writable)" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   type="number">
+          </div>
+
+          <div ng-if="['date'].indexOf(field.type) > -1">
+            <input datetimepicker class="form-control date-picker" ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                   name="{{field.id + rowIndex}}" ng-disabled="!isFieldWritable(field.writable)" ng-required="field.required" ng-model="field.props.value" ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   format="DD/MM/YYYY" />
+          </div>
+
+          <div ng-if="['select'].indexOf(field.type) > -1">
+            <ui-select id="{{field.id + rowIndex}}" dropdown-autocomplete
+                       ng-if="field.selectType=='autocomplete' && (field.autocompleteName && field.autocompleteName !== 'SubjectRole')"
+                       ng-model="field.value"
+                       name="{{field.id + rowIndex}}"
+                       ng-class="{'table-field-invalid': form.$submitted && form[tableName][item.id + rowIndex].$invalid || tableIsInvalid && form[tableName][item.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                       ng-required="field.required"
+                       autocomplete-data="field.autocompleteData"
+                       autocomplete-name="field.autocompleteName"
+                       ng-disabled="true"
+                       on-select="onSelectDataList($item, tableName, rowIndex, field)">
+
+              <ui-select-match title="{{$select.selected}}">
+                {{selectedValue(field, $select.selected[autocompleteData.titleProperty]) || field.value}}
+              </ui-select-match>
+              <ui-select-choices refresh="refreshList(field.autocompleteData.titleProperty, $select.search, field.name)"
+                                 refresh-delay="300"
+                                 repeat="item[field.autocompleteData.valueProperty] as item in items track by item[field.autocompleteData.orderBy]">
+                                  <span title="{{item[field.autocompleteData.titleProperty]}}">
+                                   {{item[field.autocompleteData.titleProperty]}}
+                                  </span>
+                <span title="{{item.sCompany + ' - ' +item.sPosition}}" style="display: block"> <small><strong>{{item.sCompany}}</strong> <i>{{item.sPosition}}</i> </small> </span>
+              </ui-select-choices>
+            </ui-select>
+
+            <ui-select dropdown-autocomplete
+                       ng-if="field.selectType=='autocomplete' && (field.autocompleteName && field.autocompleteName === 'SubjectRole')"
+                       ng-model="field.value"
+                       name="{{field.id + rowIndex}}"
+                       ng-class="{'table-field-invalid': form.$submitted && form[tableName][item.id + rowIndex].$invalid || tableIsInvalid && form[tableName][item.id + rowIndex].$invalid && invalidTableNum === tableName}"
+                       ng-required="field.required"
+                       autocomplete-data="field.autocompleteData"
+                       autocomplete-name="field.autocompleteName"
+                       ng-disabled="true"
+                       on-select="onSelectDataList($item, tableName, rowIndex, field)">
+
+              <ui-select-match title="{{$select.selected}}" placeholder="Введіть від 3-х символів">
+                {{selectedValue(field, $select.selected[autocompleteData.titleProperty]) || field.value}}
+              </ui-select-match>
+              <ui-select-choices refresh="refreshList(field.autocompleteData.titleProperty, $select.search, field.name)"
+                                 refresh-delay="300"
+                                 minimum-input-length="3"
+                                 repeat="item[field.autocompleteData.valueProperty] as item in items">
+                                    <span title="{{item[field.autocompleteData.titleProperty]}}">
+                                     {{item[field.autocompleteData.titleProperty]}}
+                                    </span>
+                <span title="{{item.sCompany + ' - ' +item.sPosition}}" style="display: block"> <small><strong>{{item.sCompany}}</strong> <i>{{item.sPosition}}</i> </small> </span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+
+          <div ng-if="['file'].indexOf(field.type) > -1">
+            <div class="dropup" style="display: inline-block; position:relative;">
+              <div class="file-modal table-file-modal dropdown-menu drop-up" role="menu">
+                <file-field name="{{field.id}}" ng-if="field.fileName" ng-disabled="isFormPropertyDisabled(field)" ng-model="field.value" ng-required="isRequired(field)">
+                </file-field>
+              </div>
+              <button style="position:relative;" ng-if="field.fileName" type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">{{field.fileName | cut : true : 25 | tableButtonFilter}}
+              </button>
+              <file-field name="{{field.id}}" ng-if="!field.fileName" ng-disabled="isFormPropertyDisabled(field)" ng-model="field.value" ng-required="isRequired(field)">
+              </file-field>
+            </div>
+          </div>
+        </td>
+
+        <td style="padding: 0;">
+          <a class="btn btn-default remove-btn"
+             ng-if="item.aRow.length > 1 && item.writable"
+             ng-click="removeRow($index, form[tableName], item.id)"
+             ng-disabled="!item.writable"
+             style="cursor:pointer;">
+            <i style="color: #FF1F1F;" class="glyphicon glyphicon-remove"></i>
+          </a>
+          <a class="btn btn-default remove-btn"
+             ng-if="item.aRow.length === 1 && $index === 0 && item.writable"
+             ng-click="clearRow($index, item.id)"
+             ng-disabled="!item.writable"
+             style="cursor:pointer;">
+            <i style="color: #FF1F1F;" class="glyphicon glyphicon-remove"></i>
+          </a>
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

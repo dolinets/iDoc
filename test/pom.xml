@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany</groupId>
+    <artifactId>test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        
+        <sP1>0</sP1>
+        <sP2>0</sP2>
+        <sP3>0</sP3>
+        <sP4>0</sP4>
+        <sP5>0</sP5>
+        <s3-custom>${env.COMPUTERNAME}_${env.USERNAME}</s3-custom>
+        <s>0</s>
+        <s-all>0</s-all>
+        <maven.build.timestamp.format>yyMMdd_HHmm</maven.build.timestamp.format>
+        <buildNumber>${maven.build.timestamp}</buildNumber>
+    </properties>
+            
+    <profiles>
+
+        <profile>
+            <id>prof1</id>
+            <activation>
+              <property>
+                <name>s1-custom</name>
+              </property>
+            </activation>        
+            <properties>
+                <sP1>1</sP1>
+                <s>${s1-custom}</s>
+            </properties>
+        </profile>
+      
+        <profile>
+            <id>prof2</id>
+            <activation>
+              <property>
+                <name>s2-custom</name>
+              </property>
+            </activation>        
+            <properties>
+                <sP2>1</sP2>
+                <s>${s2-custom}</s>
+                <s-all>${sP1}${sP2}${sP3}${sP4}${sP5}</s-all>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prof3</id>
+            <activation>
+              <property>
+                <name>s3-custom</name>
+              </property>
+            </activation>        
+            <properties>
+                <sP3>1</sP3>
+                <s>${s3-custom}</s>
+                <s-all>${sP1}${sP2}${sP3}${sP4}${sP5}</s-all>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prof4</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>        
+            <properties>
+                <sP4>1</sP4>
+                <s-all>${sP1}${sP2}${sP3}${sP4}${sP5}</s-all>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prof5</id>
+            <activation>
+              <property>
+                <name>s2-custom</name>
+              </property>
+            </activation>        
+            <properties>
+                <sP5>1</sP5>
+                <s-all>${sP1}${sP2}${sP3}${sP4}${sP5}</s-all>
+            </properties>
+        </profile>
+
+    </profiles>
+
+
+   <repositories>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>Maven central2</id>
+            <url>http://central.maven.org/maven2</url>
+        </repository>     
+    </repositories>    
+
+   <pluginRepositories>
+        <pluginRepository>
+            <id>repo1</id>
+            <name>repo1</name>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>repo2</id>
+            <name>repo2</name>
+            <url>http://central.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>     
+ 
+    <dependencyManagement>
+        <dependencies>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+
+        <resources>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+            </plugins>
+        </pluginManagement>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <echo>Info:</echo>
+                                        
+                                        
+                                        <echo>[sP1]=${sP1}</echo>
+                                        <echo>[sP2]=${sP2}</echo>
+                                        <echo>[sP3]=${sP3}</echo>
+                                        <echo>[sP4]=${sP4}</echo>
+                                        <echo>[sP5]=${sP5}</echo>
+                                        <echo>[s1-custom]=${s1-custom}</echo>
+                                        <echo>[s2-custom]=${s2-custom}</echo>
+                                        <echo>[s3-custom]=${s3-custom}</echo>
+                                        <echo>[s]=${s}</echo>
+                                        <echo>[s-all]=${s-all}</echo>
+                                        <echo>[buildNumber]=${buildNumber}</echo>
+                                        
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+
+
+    </build>
+
+    <reporting>
+        <plugins>
+        </plugins>
+    </reporting>
+    
+</project>

@@ -1,0 +1,27 @@
+<style>
+  @media (min-width: 992px) {
+    .col-sm-4:nth-child(3n+1) {
+      clear: left;
+    }
+  }
+  @media (min-width: 992px) {
+    .col-md-4:nth-child(3n+1) {
+      clear: left;
+    }
+  }
+  .old-igov-container .list-unstyled a {
+    font-size: 14px;
+    color: #3081C7;
+  }
+  .old-igov-container .list-unstyled li {
+    margin-top: 5px;
+  }
+</style>
+
+<div class="container-fluid full-content-with-catalog" ng-class="{'sfs-container':isSfs()}" >
+  <div class="row" ng-show="mainSpinner">
+    <div class="text-center">
+      <img class="text-center section-preloader" src="/assets/images/loading.gif" alt="Loading"/>
+    </div>
+  </div>
+</div>

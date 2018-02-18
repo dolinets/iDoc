@@ -1,0 +1,102 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_OC_01": {
+      "aField_ID": [
+        "sSeriesOptionCertificate",
+        "nCommonDenominationOptionCertificate",
+        "nQuantityOptionCertificate",
+        "nDenominationOptionCertificate",
+        "asTypeOptionCertificate",
+        "asVarietyOptionCertificate",
+        "sDateBeginIPO_OptionCertificate",
+        "sDateEndIPO_OptionCertificate",
+        "asTermTypeOptionCertificate",
+        "nTermCountOptionCertificate",
+        "sDateIssueOptionCertificate",
+        "sOrganAuthorOptionCertificate",
+        "sReasonIssueOptionCertificate",
+        "sNumberCertificateOptionCertificate",
+        "sDateIssueOptionCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Issue'"
+    },
+    "ShowFieldsOnCondition_OC_02": {
+      "aField_ID": [
+        "sDateChangeOptionCertificate",
+        "sOrganChangeOptionCertificate",
+        "sReasonChangeOptionCertificate",
+        "sCharacterChangesOptionCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Change'"
+    },
+    "ShowFieldsOnCondition_OC_03": {
+      "aField_ID": [
+        "sDateCertificateReportOptionCertificate",
+        "sOrganReportOptionCertificate",
+        "sReasonReportOptionCertificate",
+        "nCommonDenominationIPO_OptionCertificate",
+        "nQuantityIPO_OptionCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Report'"
+    },
+    "ShowFieldsOnCondition_OC_04": {
+      "aField_ID": [
+        "sDateOrderOptionCertificate_Pause",
+        "nDocumentOrderOptionCertificate_Pause",
+        "sOrganOrderOptionCertificate_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Pause'"
+    },
+     "ShowFieldsOnCondition_OC_05": {
+      "aField_ID": [
+        "nDocumentFictitiousOptionCertificate",
+        "sDateFictitiousOptionCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_OC_06": {
+      "aField_ID": [
+        "sDateOrderOptionCertificate_Continue",
+        "nDocumentOrderOptionCertificate_Continue",
+        "sOrganOrderOptionCertificate_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_OC_07": {
+      "aField_ID": [
+        "sDateOrderOptionCertificate_Cancellation",
+        "nDocumentOrderOptionCertificate_Cancellation",
+        "sOrganOrderOptionCertificate_Cancellation"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='OptionalCertificates' && [sReason2]=='Cancellation'"
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<form>
+  <div ng-hide="sSelectedTask === 'docHistory'">
+    <span ng-show="['sTableFile'].indexOf(item.id) > -1 && (item.readable && !item.writable && field.fileName)">
+           <new-tab-attach ng-if="field.fileName.length !== 0 && ((field.fileName | fileType) === 'img' || (field.fileName | fileType) === 'text')" fileExt="{{field.fileName | fileType}}"></new-tab-attach>
+           <a ng-if="field.fileName.length !== 0 && (field.fileName | fileType) === 'pdf'" href="/api/tasks/open/{{taskData.oProcess.nID}}/attachment/{{field.id}}" target="_blank" rel="noopener" class="btn btn-igov" title="{{field.fileName}}">Переглянути</a>
+           <button ng-if="field.fileName.length !== 0 && ((field.fileName | fileType) !== 'img' && (field.fileName | fileType) !== 'text' && (field.fileName | fileType) !== 'pdf')" class="btn btn-igov" ng-click="openAttachFile()">Переглянути</button>
+      <a href="/api/tasks/download/{{field.sKey}}/attachment/{{field.storageType}}/{{field.fileName}}"
+         target="_blank"
+         ng-if="!taskServer.another && field.isFromHTML"
+         rel="noopener"
+         class="btn btn-igov"
+         title="{{field.fileName}}">Завантажити</a>
+        <a href="/api/tasks/download/{{takeInformFromJSON(field, 'key')}}/attachment/{{takeInformFromJSON(field, 'storage')}}/{{takeInformFromJSON(field, 'name')}}"
+           target="_blank"
+           ng-if="!taskServer.another && !field.isFromHTML"
+           rel="noopener"
+           class="btn btn-igov"
+           title="{{field.fileName}}">Завантажити</a>
+        <a href="/api/tasks/download/{{takeInformFromJSON(field, 'key')}}/attachment/{{takeInformFromJSON(field, 'storage')}}/{{takeInformFromJSON(field, 'name')}}/server/{{taskServer.name}}"
+           target="_blank"
+           ng-if="taskServer.another && field.isFromHTML"
+           rel="noopener"
+           class="btn btn-igov"
+           title="{{field.fileName}}">Завантажити</a>
+        <a href="/api/tasks/download/{{taskData.oProcess.nID}}/attachment/{{field.id}}/server/{{taskServer.name}}"
+           target="_blank"
+           ng-if="taskServer.another && !field.isFromHTML"
+           rel="noopener"
+           class="btn btn-igov"
+           title="{{field.fileName}}">Завантажити</a>
+        <button class="btn btn-info"
+                ng-disabled="checkSignState.inProcess"
+                ng-click="checkAttachmentSign(taskId, item.id, item.description)"
+                ng-if="!isTableAttachment(item.description)">Перевірити ЕЦП
+        </button>
+    </span>
+    <span ng-hide="['sTableFile'].indexOf(item.id) > -1 && (item.readable && !item.writable && field.fileName)">
+    <button id="scan-button" ng-if="navigator.userAgent.indexOf('Windows') != -1 && !isModalByButtonIsOpened" ng-click="openScanModal(item)" ng-disabled="isFileProcessUploading.bState || !isFieldWritable(field.writable) || isFormPropertyDisabled(item)"
+            class="btn btn-info">Сканувати</button>
+    <button id="upload-button" type="button" ng-disabled="isFileProcessUploading.bState || !isFieldWritable(field.writable)" ng-class="{'btn-igov':field && field.value, 'btn-link attach-btn':!field, 'btn-default':field && !field.value}"
+            class="btn">
+        <span ng-disabled="isFormPropertyDisabled(item)">{{field && field.value ? "Завантажити iнший файл" : "Завантажити файл"}}</span>
+    <input type="file" style="display:none" ng-disabled="isFormPropertyDisabled(item)">
+    </button>
+      <button ng-click="copyLinkToBuffer(field)" ng-if="item.fileName || field.fileName" ng-disabled="isFormPropertyDisabled(item)" class="btn btn-info">Скопіювати посилання в буфер обміну</button>
+    </span>
+    <span ng-if="item.fileName || field.fileName">Файл: <label>{{item.fileName || field.fileName}}</label></span>
+    <br>
+    <span ng-if="field.signInfo">Пiдпис: <label>{{field.signInfo.customer.signatureData.name || field.signInfo.name}}</label></span>
+  </div>
+
+  <div ng-show="sSelectedTask === 'docHistory' && field.fileName">
+    <new-tab-attach ng-if="field.fileName.length !== 0 && ((field.fileName | fileType) === 'img' || (field.fileName | fileType) === 'text')" fileExt="{{field.fileName | fileType}}"></new-tab-attach>
+    <a ng-if="field.fileName.length !== 0 && (field.fileName | fileType) === 'pdf'" href="/api/tasks/open/{{field.sKey}}/attachment/{{field.storageType}}/name/{{field.fileName}}" target="_blank" rel="noopener" class="btn btn-igov" title="{{field.fileName}}">Переглянути</a>
+    <button ng-if="field.fileName.length !== 0 && ((field.fileName | fileType) !== 'img' && (field.fileName | fileType) !== 'text' && (field.fileName | fileType) !== 'pdf')" class="btn btn-igov" ng-click="openAttachFile()">Переглянути</button>
+    <a href="/api/tasks/download/{{field.sKey}}/attachment/{{field.storageType}}/{{field.fileName}}"
+       target="_blank"
+       ng-if="!taskServer.another"
+       rel="noopener"
+       class="btn btn-igov"
+       title="{{field.fileName}}">Завантажити</a>
+    <a href="/api/tasks/download/{{field.sKey}}/attachment/{{field.storageType}}/{{field.fileName}}/server/{{taskServer.name}}"
+       target="_blank"
+       ng-if="taskServer.another"
+       rel="noopener"
+       class="btn btn-igov"
+       title="{{field.fileName}}">Завантажити</a>
+    <button class="btn btn-info"
+            ng-disabled="checkSignState.inProcess"
+            ng-click="checkAttachmentSign(taskId, item.id, item.description)"
+            ng-if="!isTableAttachment(item.description)">Перевірити ЕЦП
+    </button>
+    <span ng-if="item.fileName || field.fileName">Файл: <label>{{item.fileName || field.fileName}}</label></span>
+  </div>
+  <div ng-show="sSelectedTask === 'docHistory' && !field.fileName">
+    <span>Немає файлу...</span>
+  </div>
+</form>

@@ -1,0 +1,15 @@
+nID;sName;sNote
+1;Head of Commission;Голова Комісії
+2;Commissioner;Член Комісії
+3;Communications Advisor;Радник з питань комунікацій
+4;Advisor of secret work;Радник з питань режимно-секретної роботи
+5;Head of staff;Керівник апарату
+6;Main specialist;Головний спеціаліст
+7;Head of department;Директор департаменту
+8;Head of sector;Завідувач сектором 
+9;Deputy head of department;Заступник директора департаменту
+10;Deputy head of department-head of sector;Заступник директора департаменту – начальник відділу
+11;Head of section;Начальник відділу
+12;Deputy head of section;Заступник начальника відділу
+13;Head of sector;Начальник управління
+14;testPost;тестова посада

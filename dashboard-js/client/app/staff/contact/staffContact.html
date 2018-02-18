@@ -1,0 +1,81 @@
+
+<div class='ng-modal' ng-show='show'>
+
+    <div class='ng-modal-dialog-staff modal-staff-contact staff-modal'>
+        <div class='ng-modal-dialog-content-staff' >
+
+            <div class="text-left staff-text">
+                    <!--<h4 ng-bind="currHuman.lastname + currHuman.firstname + currHuman.secondname"></h4>-->
+                    <table  class="table staff-table-contact">
+
+                        <thead>
+                        <tr id="text-th">
+                            <th rowspan="1" >Тип контакта</th>
+                            <th rowspan="1" >Контакт</th>
+                            <th rowspan="1" class="last-td-refer"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center active" ng-repeat="row in contantTableRow"  >
+                            <td >
+                                <select
+                                  name="currContact"
+                                  class="form-control"
+                                  ng-model="row.sType"
+                                  ng-disabled="!staffRoleContact">
+
+                                  <!--<option selected value="init" ng-value="type.value" ng-bind="contactType[$index].sName_UA" ng-if="contactType"></option>-->
+                                  <option ng-selected="row.sType === type.sName_UA" value="{{type.sName_UA}}" ng-bind="type.sName_UA"
+                                    ng-repeat="type in contactTypeList">
+                                  </option>
+
+                                  <option value="" style="display:none;">Виберіть тип контакту</option>
+                                </select>
+                            </td>
+                            <td ><input
+                              ng-if="row.sType === 'Телефон'"
+                              ui-mask="+380 (99) 999-99-99"
+                              name="currContact"
+                              type='text'
+                              class="form-control"
+                              value="row.sValue"
+                              ng-model="row.sValue"
+                              ng-disabled="!staffRoleContact"/>
+
+                               <input
+                                ng-if="row.sType !== 'Телефон'"
+                                name="currContact"
+                                type='text'
+                                class="form-control"
+                                value="row.sValue"
+                                ng-model="row.sValue" ng-valid
+                                ng-disabled="staffRoleContact === false"/>
+
+                            </td>
+                            <td class="last-td-refer" >
+                              <button ng-if="staffRoleContact === true"  class="btn btn-xs btn-staff-contact btn-default remove-btn"
+                                ng-click="removeContactString($index)">
+                                <span class="glyphicon glyphicon-remove button-remove-referent"></span>
+                              </button>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+              <!--<span ng-if="staffRole === true">-->
+                    <a ng-if="staffRoleContact"  class="btn btn-xs btn-staff-add" ng-click="addContactString()">+ Добавить</a>
+              <!--</span>-->
+                </div>
+            <button ng-disabled="!staffRoleContact" class="btn btn-success btn-staff-save"  data-ng-click="saveStaffContact()">Зберегти</button>
+            <button class="btn btn-default"  data-ng-click="cancelStaffContact()">Скасувати</button>
+            <span ng-if="contactLoading" style="float: right;">
+              <img src="../../assets/images/idoc-spinner.gif" width="30px">
+              {{contactLoading}}
+            </span>
+            </div>
+          </div>
+
+  <div class='ng-modal-overlay-staff modal-staff-pass modal-staff-password' ng-click="cancelStaffContact()">
+  </div>
+
+  </div>

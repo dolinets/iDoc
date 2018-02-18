@@ -1,0 +1,20 @@
+nID;sIDRegistry;sName
+1;ObjectStockPaperShare;Акції
+2;ObjectStockPaperBond;Облігації
+3;ObjectStockPaperInvestmentCertificate;Інвестиційні сертифікати
+4;ObjectStockPaperMortgageCertificate;Іпотечні сертифікати
+5;ObjectStockPaperMortgageBond;Іпотечні облігації
+6;ObjectStockPaperFON;Сертифікати ФОН
+7;ObjectStockPaperOptionCertificate;Опціонні сертифікати
+8;SubjectStockPaperTrader;Торговці
+9;SubjectStockPaperDepository;Депозитарні установи
+10;SubjectStockPaperAMC;Компанії з управління активами
+11;SubjectStockPaperFundExchange;Фондові біржі
+12;SubjectStockPaperRateAgency;Рейтингові агентства
+13;SubjectStockPaperFinancialInstitution;Фінансові установи
+14;SubjectStockPaperCertifiedProfessionals; Сертифіковані спеціалісти
+15;SubjectStockPaperOwner;Власники іменних цінних паперів
+16;SubjectStockPaperAuditor;Аудиторські фірми
+17;SubjectOrganOperatorStudy;Учбові заклади
+18;ActionEventEnforcementDecree;Правозастосування
+19;SubjectStockPaperEmitente;Емітенти

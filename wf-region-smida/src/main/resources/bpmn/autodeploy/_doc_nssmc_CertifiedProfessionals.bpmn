@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="_doc_nssmc_CertifiedProfessionals" name="Сертифіковані фахівці" isExecutable="true">
+    <startEvent id="startevent1" name="Start">
+      <extensionElements>
+        <activiti:formProperty id="sID_Custom_GovPublic" name="Номер звернення ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="processInstanceId" name="ид процесса ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="processDefinitionId" name="processDefinitionId ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sKey_Step_Document" name="sKey_Step_Document ; ;bVisible=false" type="string"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <scriptTask id="scripttask1" name="ID process" scriptFormat="javascript" activiti:autoStoreVariables="false">
+      <script>// получение ИД текущего процесса
+var processInstanceId = execution.getProcessInstanceId();
+execution.setVariable('processInstanceId', processInstanceId)
+
+// получение ИД БП
+var executeProcessDefinitionId = execution.getProcessDefinitionId();
+var splittedProcessDefinitionId = executeProcessDefinitionId.split(':')[0];
+execution.setVariable('processDefinitionId', splittedProcessDefinitionId)</script>
+    </scriptTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="scripttask1"></sequenceFlow>
+    <scriptTask id="scripttask2" name="Create a date" scriptFormat="groovy" activiti:autoStoreVariables="false">
+      <script>// Сегодняшняя дата по умолчанию
+execution.setVariable('sDateDecision', new Date().format("dd.MM.yyyy").toString())</script>
+    </scriptTask>
+    <sequenceFlow id="flow2" sourceRef="scripttask1" targetRef="scripttask2"></sequenceFlow>
+    <userTask id="usertask1" name="Формування даних">
+      <extensionElements>
+      	<activiti:formProperty id="asActionEventTypeProfessionalMember" name="Дія" type="enum">
+          <activiti:value id="Add" name="Внесення до реєстру"></activiti:value>
+          <activiti:value id="Remove" name="Вилучення з реєстру"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="sNumberFolder_CertifiedProfessionals" name="Номер справи;;sPath=SubjectStockPaperCertifiedProfessionals.sNumberFolder" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateFolder_CertifiedProfessionals" name="Номер справи від;;sPath=SubjectStockPaperCertifiedProfessionals.sDateFolder" type="date"></activiti:formProperty>
+        <activiti:formProperty id="sDateTillFolder_CertifiedProfessionals" name="Номер справи до;;sPath=SubjectStockPaperCertifiedProfessionals.sDateTillFolder" type="date"></activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_1" name="лінія Данні про сертифікат" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_1&quot;:{&quot;aElement_ID&quot;:[&quot;sNumber_CertifiedProfessionals&quot;],&quot;sValue&quot;:&quot;Данні про сертифікат&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sNumber_CertifiedProfessionals" name="Номер сертифікату;;sPath=Document.sCustomNumber;;sPath=DocumentStatutory.sDateTill" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateTill_CertifiedProfessionals" name="дата закінчення сертифікату;;sPath=DocumentStatutory.sDateTill" type="date"></activiti:formProperty>
+        <activiti:formProperty id="bDuplicate_CertifiedProfessionals" name="Видано дублікат (так/ні); ;sID_CheckboxTrue=yes,sPath=SubjectStockPaperCertifiedProfessionals.bDuplicate" type="enum">
+          <activiti:value id="yes" name="так"></activiti:value>
+          <activiti:value id="no" name="ні"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="bCancellation_CertifiedProfessionals" name="Анульовано (так/ні); ;sID_CheckboxTrue=yes,sPath=SubjectStockPaperCertifiedProfessionals.bCancellation" type="enum">
+          <activiti:value id="yes" name="так"></activiti:value>
+          <activiti:value id="no" name="ні"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_2" name="лінія Область, в якій здійснювалась оплата" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_2&quot;:{&quot;aElement_ID&quot;:[&quot;sPlacePayment_CertifiedProfessionals&quot;],&quot;sValue&quot;:&quot;Область, в якій здійснювалась оплата&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sPlacePayment_CertifiedProfessionals" name="Область, в якій здійснювалась оплата;;sPath=Place.sName(nID_PlaceType=1)" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDatePayment_CertifiedProfessionals" name="Дата оплати;;sPath=SubjectStockPaperCertifiedProfessionals.sDatePayment" type="date"></activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_3" name="лінія дані про спеціаліста" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_3&quot;:{&quot;aElement_ID&quot;:[&quot;sINN_CertifiedProfessionals&quot;],&quot;sValue&quot;:&quot;дані про спеціаліста&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sINN_CertifiedProfessionals" name="Ідентифікаційний номер;;sPath=SubjectHuman.sINN" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sSurname_CertifiedProfessionals" name="Прізвище;;sPath=SubjectHuman.sSurname" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sName_CertifiedProfessionals" name="Ім'я По Батькові;;sPath=SubjectHuman.sName" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sAddress_CertifiedProfessionals" name="Адреса;;sPath=SubjectContact.sValue(nID_SubjectContactType=5)" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sPassportSeria_CertifiedProfessionals" name="Серія паспорту;;sPath=SubjectHuman.sPassportSeria" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sPassportNumber_CertifiedProfessionals" name="Номер паспорту;;sPath=SubjectHuman.sPassportNumber" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateBirth_CertifiedProfessionals" name="Дата народження;;sPath=SubjectHuman.sDateBirth" type="date"></activiti:formProperty>
+        <activiti:formProperty id="sPosition_CertifiedProfessionals" name="Посада;;sPath=SubjectStockPaperCertifiedProfessionals.sPosition" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateTransfer" name="Дата преведення/переміщення на посаду;;sPath=ActionEvent.sDate" type="date"></activiti:formProperty>
+        <activiti:formProperty id="sDateAcceptance" name="Дата прийняття в юридичну особу;;sPath=ActionEvent.sDate" type="date"></activiti:formProperty>
+        <activiti:formProperty id="sDateDismissal" name="Дата звільнення;;sPath=ActionEvent.sDate" type="date"></activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_4" name="лінія дані про юридичну особу" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_4&quot;:{&quot;aElement_ID&quot;:[&quot;sID_SubjectOrgan_OKPO_CertifiedProfessionals&quot;],&quot;sValue&quot;:&quot;дані про юридичну особу&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sID_SubjectOrgan_OKPO_CertifiedProfessionals" name="ЄРДПОУ;;sPath=SubjectOrgan.sOKPO" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sFullName_SubjectOrgan_CertifiedProfessionals" name="Найменування;;sPath=SubjectOrgan.sName" type="string"></activiti:formProperty>
+        <activiti:formProperty id="asTypeActivity_CertifiedProfessionals" name="Вид діяльності;;sPath=SubjectStockPaperCertifiedProfessionals.nID_Dictionary_TypeActivity" type="enum">
+          <activiti:value id="Trading" name="Торгівля цінними паперами"></activiti:value>
+          <activiti:value id="Activities" name="Діяльність з ведення реєстру власників іменних цінних паперів"></activiti:value>
+          <activiti:value id="Depositary" name="Депозитарна діяльність"></activiti:value>
+          <activiti:value id="Clearing" name="Клірингова діяльність"></activiti:value>
+          <activiti:value id="Trade" name="Організація торгівлі на фондовому ринку"></activiti:value>
+          <activiti:value id="Investor" name="Управління активами інституційних інвестор"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="asState_CertifiedProfessionals" name="Сатус;;sPath=SubjectStockPaperCertifiedProfessionals.nID_Dictionary_State" type="enum">
+          <activiti:value id="New" name="Новий"></activiti:value>
+          <activiti:value id="Worked" name="Опрацьовується"></activiti:value>
+          <activiti:value id="Protocol" name="У протоколі"></activiti:value>
+          <activiti:value id="Active" name="Активний"></activiti:value>
+          <activiti:value id="TheEnd" name="Закінчився"></activiti:value>
+          <activiti:value id="NoReview" name="Без розгляду"></activiti:value>
+          <activiti:value id="Hidden" name="Приховано"></activiti:value>
+          <activiti:value id="Confirmed" name="Підтверджений (для відхилення)"></activiti:value>
+          <activiti:value id="Refused" name="Відмовлено"></activiti:value>
+        </activiti:formProperty>
+        <activiti:formProperty id="sLocation_SubjectOrgan_CertifiedProfessionals" name="Місцезнаходження установи;;sPath=SubjectContact.sValue" type="string"></activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_5" name="лінія Накази (Протоколи)" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_5&quot;:{&quot;aElement_ID&quot;:[&quot;sNumberCustom_CertifiedProfessionals&quot;],&quot;sValue&quot;:&quot;Накази (Протоколи)&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sNumberCustom_CertifiedProfessionals" name="Номер наказу (протоколу);;sPath=Document.sNumberCustom" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateCustom_CertifiedProfessionals" name="Дата наказу (протоколу);;sPath=Document.sDate" type="date"></activiti:formProperty>
+        <activiti:formProperty id="markersLineCertifiedProfessionals_6" name="лінія Інформація про інститут" type="markers" default="{&quot;attributes&quot;:{&quot;Line_CP_6&quot;:{&quot;aElement_ID&quot;:[&quot;sTypeActivities_OperatorStudy&quot;],&quot;sValue&quot;:&quot;Інформація про інститут&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="sTypeActivities_OperatorStudy" name="Вид діяльності інституту;;sPath=SubjectOrganOperatorStudy.sTypeActivities" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sNumberContract_OperatorStudy" name="Номер договору з інститутом;;sPath=SubjectOrganOperatorStudy.sNumberContract" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sTermContraсt_OperatorStudy" name="Дата закінчення договору з інститутом;;sPath=SubjectOrganOperatorStudy.sTermContraсt" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sID_SubjectOrgan_OKPO_OperatorStudy" name="ЄРДПОУ інституту;;sPath=SubjectOrganOperatorStudy.nID_SubjectOrgan" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sFullName_SubjectOrgan_OperatorStudy" name="Назва інституту;;sPath=SubjectOrganOperatorStudy.sName" type="string"></activiti:formProperty>
+        <activiti:formProperty id="markersCertifiedProfessionals_1" name="markers" type="markers" default="${markerService.loadFromFile('nssmc_CertifiedProfessionals_1.json')}"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${DocumentInit_iDoc}">
+          <activiti:field name="sKey_GroupPostfix_New">
+            <activiti:expression><![CDATA[${sLoginAuthor}]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="sKey_GroupPostfix">
+            <activiti:string><![CDATA[_default_nssmc]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow3" sourceRef="scripttask2" targetRef="usertask1"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow4" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram__doc_nssmc_CertifiedProfessionals">
+    <bpmndi:BPMNPlane bpmnElement="_doc_nssmc_CertifiedProfessionals" id="BPMNPlane__doc_nssmc_CertifiedProfessionals">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="100.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="scripttask1" id="BPMNShape_scripttask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="170.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="scripttask2" id="BPMNShape_scripttask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="310.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="160.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="600.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="135.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="170.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="275.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="310.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="415.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="460.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="565.0" y="187.0"></omgdi:waypoint>
+        <omgdi:waypoint x="600.0" y="187.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!--
+        Данные, которые считаются статическими, могут безопасно перезаливаться целиком, чтобы быть всегда
+        синхронизированными с csv файлами.
+        Если все данные в таблице статические, то полностью очищаем таблицу, а потом заливаем заново с помощью loadData.
+        Если часть данных являются статическими (как в Subject), то очищаем по условию, чтобы ненароком не удалить
+        на продакшене динамическую часть, и заливаем с помощью loadData.
+        Если данные перезаливаются с помощью loadUpdateData, то надо иметь в виду, что оно не поддерживает
+        удаление данных. Т.е. если вы удалите строки из csv, то они не удалятся после исполнения loadUpdateData.
+        Именно по этому loadUpdateData постепенно заменяется связкой: очистить таблицу, и вызвать loadData.
+
+        Чтобы в процессе обновления данных не падали констрейнты, выполняется команда
+        SET CONSTRAINTS ALL DEFERRED;
+        Она означает, что все констрейнты надо проверять толкько при коммите транзакции, а коммит транзакции наступает
+        после выполнения всех команд внутри changeSet. Таким образом, можно временно нарушать целостность данных, но
+        в самом конце перед коммитом целостность должна быть восстановлена.
+
+        Важно! Перезагрузку данных нужно выполнять в одном changeSet-е, только это дает максимальный контроль над
+        целостностью данных. Именно поэтому был убран файл load-data-base.xml и его ченжсет "Update data" и перенесен в этот файл.
+        Тем не менее в base остался load-data-local.xml нужный для тестов в base, но он перезаписывается этим файлом при сборке
+        проекта central.
+    -->
+    
+    <changeSet id="Update data" author="alex komarenko" runOnChange="true">
+        
+        <sql splitStatements="true" dbms="postgresql"><![CDATA[
+            SET CONSTRAINTS ALL DEFERRED;
+
+            DELETE FROM "DocumentTree";
+            DELETE FROM "SubjectRightBP";  
+            DELETE FROM "SubjectGroup";      
+            DELETE FROM "SubjectGroupTree";
+            DELETE FROM "SubjectAccount" where "nID" < 20000;
+            DELETE FROM "TableFieldPublic";
+            DELETE FROM "RegistryNSSMC";
+            
+        ]]></sql>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Country.csv" tableName="Country" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_UA" type="NUMERIC"/>
+            <column name="sID_Two" type="STRING"/>
+            <column name="sID_Three" type="STRING"/>
+            <column name="sNameShort_UA" type="STRING"/>
+            <column name="sNameShort_EN" type="STRING"/>
+            <column name="sReference_LocalISO" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Currency.csv" tableName="Currency" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sID_UA" type="STRING"/>
+            <column name="sName_UA" type="STRING"/>
+            <column name="sName_EN" type="STRING"/>
+            <column name="sID_Currency" type="STRING"/>
+        </loadUpdateData>  
+                      
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStatus.csv" tableName="SubjectStatus" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>   
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Subject.csv" tableName="Subject" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sID" type="STRING"/>
+            <column name="sLabel" type="STRING"/>
+            <column name="sLabelShort" type="STRING"/>
+        </loadUpdateData> 
+             
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectOrgan.csv" tableName="SubjectOrgan" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="sOKPO" type="STRING"/>
+            <column name="sFormPrivacy" type="STRING"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNameFull" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectContactType.csv" tableName="SubjectContactType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName_EN" type="STRING"/>
+            <column name="sName_RU" type="STRING"/>
+            <column name="sName_UA" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectContact.csv" tableName="SubjectContact" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="nID_SubjectContactType" type="NUMERIC"/>
+            <column name="sValue" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectHuman.csv" tableName="SubjectHuman" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="nID_SubjectHumanIdType" type="NUMERIC"/>
+            <column name="sSB" type="STRING"/>
+            <column name="sINN" type="STRING"/>
+            <column name="sPassportSeria" type="STRING"/>
+            <column name="sPassportNumber" type="STRING"/>
+            <column name="sFamily" type="STRING"/>
+            <column name="sName" type="STRING"/>
+            <column name="sSurname" type="STRING"/>
+            <column name="nID_SubjectContact_DefaultEmail" type="NUMERIC"/>
+            <column name="nID_SubjectContact_DefaultPhone" type="NUMERIC"/>
+            <column name="nID_Sex" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentContentType.csv" tableName="DocumentContentType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentType.csv" tableName="DocumentType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="bHidden" type="BOOLEAN"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Document.csv" tableName="Document" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="nID_DocumentType" type="NUMERIC"/>
+            <column name="sID_Content" type="STRING"/>
+            <column name="nID_ContentType" type="NUMERIC"/>
+            <column name="sFile" type="STRING"/>
+            <column name="sID_Subject_Upload" type="STRING"/>
+            <column name="sSubjectName_Upload" type="STRING"/>
+            <column name="sDate_Upload" type="STRING"/>
+            <column name="sContentType" type="STRING"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="nID_Subject_Upload" type="NUMERIC"/>
+            <column name="oSignData" type="STRING"/>
+            <column name="sCustomNumber" type="STRING"/>
+            <column name="sCustomSeries" type="STRING"/>
+            <column name="nID_Subject_Author" type="NUMERIC"/>
+            <column name="sID_File" type="STRING"/>
+            <column name="sDateDocument" type="STRING"/>
+            <column name="sDateEdit" type="STRING"/>
+            <column name="sID_Process_Activiti" type="STRING"/>
+        </loadUpdateData>
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/TermType.csv" tableName="TermType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectTreeType.csv" tableName="SubjectTreeType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectTree.csv" tableName="SubjectTree" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Subject_Parent" type="NUMERIC"/>
+            <column name="nID_Subject_Child" type="NUMERIC"/>
+            <column name="nID_SubjectTreeType" type="NUMERIC"/>
+            <column name="nID_Document" type="NUMERIC"/>
+        </loadUpdateData>
+                        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentStatutoryState.csv" tableName="DocumentStatutoryState" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+        </loadUpdateData>
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentStatutory.csv" tableName="DocumentStatutory" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Document" type="NUMERIC"/>
+            <column name="nID_TermType" type="NUMERIC"/>
+            <column name="nTermCount" type="NUMERIC"/>
+            <column name="sDateFrom" type="DATETIME"/>
+            <column name="sDateTill" type="DATETIME"/>
+            <column name="nID_SubjectTree_Publisher" type="NUMERIC"/>
+            <column name="sKey_Document_Adjustment" type="STRING"/>
+            <column name="sDate_Document_Adjustment" type="DATETIME"/>
+            <column name="nID_DocumentStatutoryState" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadData encoding="UTF-8" file="data/DocumentTree.csv" tableName="DocumentTree" separator=";">
+            <column name="nID_Document_Parent" type="NUMERIC"/>
+            <column name="nID_Document_Child" type="NUMERIC"/>
+        </loadData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentStatutoryState_Type.csv" tableName="DocumentStatutoryState_Type" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_DocumentType" type="NUMERIC"/>
+            <column name="nID_DocumentStatutoryState" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventTypeGroup.csv" tableName="ActionEventTypeGroup" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventType.csv" tableName="ActionEventType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sID" type="STRING"/>
+            <column name="nID_ActionEventTypeGroup" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEvent.csv" tableName="ActionEvent" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEventType" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Author" type="NUMERIC"/>
+            <column name="sDate" type="DATETIME"/>
+            <column name="sReason" type="STRING"/>
+            <column name="nID_Document" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventAudit.csv" tableName="ActionEventAudit" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="sDateConclusion" type="DATETIME"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventReportStockPaper.csv" tableName="ActionEventReportStockPaper" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nSizeCharterCapitalIPO" type="NUMERIC"/>
+            <column name="nCommonDenominationIPO" type="NUMERIC"/>
+            <column name="nQuantityIPO" type="NUMERIC"/>
+            <column name="sDateReportSubmissionIPO" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventEnforcementDecree.csv" tableName="ActionEventEnforcementDecree" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="sTypeOffender" type="STRING"/>
+            <column name="sFile" type="STRING"/>
+            <column name="sAgents" type="STRING"/>
+            <column name="bConfidentiality" type="BOOLEAN"/>
+            <column name="sTypeLawEnforcement" type="STRING"/>
+            <column name="sDecision" type="STRING"/>
+            <column name="nSum" type="NUMERIC"/>
+            <column name="sVersionPublication" type="STRING"/>
+            <column name="sPaid" type="STRING"/>
+            <column name="sPayment" type="STRING"/>
+            <column name="sTypeAppeal" type="STRING"/>
+            <column name="sContentAppeal" type="STRING"/>
+            <column name="bPosted" type="BOOLEAN"/>
+            <column name="bCanceled" type="BOOLEAN"/>
+            <column name="bLegalizationProceeds" type="BOOLEAN"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventEnforcementOrder.csv" tableName="ActionEventEnforcementOrder" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="sTypeOffender" type="STRING"/>
+            <column name="sFile" type="STRING"/>
+            <column name="sAgents" type="STRING"/>
+            <column name="bConfidentiality" type="BOOLEAN"/>
+            <column name="nID_SubjectOrgan_EnforcementER" type="NUMERIC"/>
+            <column name="sStatutoryActs" type="STRING"/>
+            <column name="sDateExecution" type="DATETIME"/>
+            <column name="sDateNoticeExecution" type="DATETIME"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionEventEnforcementRequirements.csv" tableName="ActionEventEnforcementRequirements" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="sTypeOffender" type="STRING"/>
+            <column name="sFile" type="STRING"/>
+            <column name="sAgents" type="STRING"/>
+            <column name="bConfidentiality" type="BOOLEAN"/>
+            <column name="nID_SubjectOrgan_EnforcementER" type="NUMERIC"/>
+            <column name="sStatutoryActs" type="STRING"/>
+            <column name="sDateExecution" type="DATETIME"/>
+            <column name="sDateNoticeExecution" type="DATETIME"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStatutory.csv" tableName="ActionStatutory" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DictionaryClass.csv" tableName="DictionaryClass" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DictionaryType.csv" tableName="DictionaryType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Dictionary.csv" tableName="Dictionary" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_DictionaryType" type="NUMERIC"/>
+            <column name="nID_DictionaryClass" type="NUMERIC"/>
+            <column name="sKey" type="STRING"/>
+            <column name="sValue" type="STRING"/>
+        </loadUpdateData>
+             
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectOperatorBank.csv" tableName="SubjectOperatorBank" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="nMFO" type="NUMERIC"/>
+            <column name="sOKPO" type="STRING"/>
+            <column name="sLocation" type="STRING"/>
+        </loadUpdateData>
+              
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectBankAccount.csv" tableName="SubjectBankAccount" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOperatorBank" type="NUMERIC"/>
+            <column name="nAccount" type="NUMERIC"/>
+            <column name="nAccountFON" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectOrganOperatorStudy.csv" tableName="SubjectOrganOperatorStudy" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNumber" type="STRING"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+            <column name="sNumberContract" type="STRING"/>
+            <column name="sDateFrom" type="DATETIME"/>
+            <column name="sDateTill" type="DATETIME"/>
+            <column name="sTypeActivities" type="STRING"/>
+            <column name="sTypeContract" type="STRING"/>
+            <column name="sSpecialization" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperEmitente.csv" tableName="SubjectStockPaperEmitente" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="bStoppedMakingChangesDS" type="BOOLEAN"/>
+            <column name="bAbsentFromLocation" type="BOOLEAN"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="bStoppedTrading" type="BOOLEAN"/>
+            <column name="bManipulatingPrices" type="BOOLEAN"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperInvestmentCertificate.csv" tableName="ObjectStockPaperInvestmentCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeIssuanceInvestmentCertificate" type="NUMERIC"/>
+            <column name="nID_Dictionary_FormExistenceInvestmentCertificate" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperAMC.csv" tableName="SubjectStockPaperAMC" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_AMC" type="NUMERIC"/>
+            <column name="sKindActivity" type="STRING"/>
+            <column name="nID_DocumentStatutory_Licence" type="NUMERIC"/>
+            <column name="nID_SubjectStockPaperInvestmentInstitutions" type="NUMERIC"/>
+            <column name="nID_Place_AMC" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_AMCHead" type="NUMERIC"/>
+            <column name="nSizeAuthorizedFund" type="NUMERIC"/>
+            <column name="sFirstStatutoryFund" type="STRING"/>
+            <column name="sLastStatutoryFund" type="STRING"/>
+            <column name="sNameFounderAMC" type="STRING"/>
+            <column name="bResident" type="BOOLEAN"/>
+            <column name="nID_Country" type="NUMERIC"/>
+            <column name="sPartAuthorizedCapital" type="STRING"/>
+            <column name="bISIflag" type="BOOLEAN"/>
+            <column name="bNPFflag" type="BOOLEAN"/>
+            <column name="bIIflag" type="BOOLEAN"/>
+            <column name="bAPFflag" type="BOOLEAN"/>
+            <column name="bBranches" type="BOOLEAN"/>
+        </loadUpdateData>
+    
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperInvestmentInstitutions.csv" tableName="SubjectStockPaperInvestmentInstitutions" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNameFull" type="STRING"/>
+            <column name="nID_SubjectStockPaperAMC" type="NUMERIC"/>
+            <column name="nID_Dictionary_ISIFlag" type="NUMERIC"/>
+            <column name="nID_Dictionary_ISITerm" type="NUMERIC"/>
+            <column name="nID_Dictionary_ISIForm" type="NUMERIC"/>
+            <column name="nID_Dictionary_ISIType" type="NUMERIC"/>
+            <column name="nID_Dictionary_SpecializedFundsType" type="NUMERIC"/>
+            <column name="nID_Dictionary_QualifyingFundsType" type="NUMERIC"/>
+            <column name="sDateReglament" type="DATETIME"/>
+            <column name="nID_TermType" type="NUMERIC"/>
+            <column name="nTermCount" type="NUMERIC"/>
+            <column name="nEDRISI" type="NUMERIC"/>
+            <column name="sDateEDRISI" type="DATETIME"/>
+            <column name="sNumberDocEDRISI" type="STRING"/>
+            <column name="sDateTemporaryDocEDRISI" type="DATETIME"/>
+            <column name="sNumberTemporaryDocEDRISI" type="STRING"/>
+            <column name="nID_Dictionary_StageExemptionEDRISI" type="NUMERIC"/>
+            <column name="sDateExemptionEDRISI" type="DATETIME"/>
+            <column name="sNumberExemptionEDRISI" type="STRING"/>
+            <column name="sReasonExemptionEDRISI" type="STRING"/>
+            <column name="bChangeDocEDRISI" type="BOOLEAN"/>
+            <column name="sDateNewDocEDRISI" type="DATETIME"/>
+            <column name="sNumberNewDocEDRISI" type="STRING"/>
+            <column name="bAchievementStandards" type="BOOLEAN"/>
+            <column name="sDateAchievementStandards" type="DATETIME"/>
+            <column name="sDateClose" type="DATETIME"/>
+            <column name="sDateGetMessage" type="DATETIME"/>
+            <column name="nID_ObjectStockPaperInvestmentCertificate" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperAuditor.csv" tableName="SubjectStockPaperAuditor" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Auditor" type="NUMERIC"/>
+            <column name="nID_Place_Auditor" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_CertificateFirm" type="NUMERIC"/>
+            <column name="nID_SubjectOperatorBank_Auditor" type="NUMERIC"/>
+            <column name="sPositionCustom" type="STRING"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="nID_Document" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperDepository.csv" tableName="SubjectStockPaperDepository" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_Place_Depository" type="NUMERIC"/>
+            <column name="nID_SubjectOperatorBank_Depository" type="NUMERIC"/>
+            <column name="bAURKD" type="BOOLEAN"/>
+            <column name="bAUFT" type="BOOLEAN"/>
+            <column name="nID_SubjectHuman_DepositoryHead" type="NUMERIC"/>
+            <column name="sNumberFolder" type="STRING"/>
+            <column name="nID_SubjectHuman_ResponsiblePerson" type="NUMERIC"/>
+            <column name="bClear" type="BOOLEAN"/>
+            <column name="nID_SubjectOrgan_Depository" type="NUMERIC"/>
+            <column name="nID_TermType_Contract" type="NUMERIC"/>
+            <column name="nTermCount_Contract" type="NUMERIC"/>
+            <column name="nID_TermType_TemporaryContract" type="NUMERIC"/>
+            <column name="nTermCount_TemporaryContract" type="NUMERIC"/>
+            <column name="nCountSubdivision" type="NUMERIC"/>
+            <column name="nBranches" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Auditor" type="NUMERIC"/>
+            <column name="nID_ActionEventAudit" type="NUMERIC"/>
+            <column name="sKindStatut" type="STRING"/>
+            <column name="bLicence" type="BOOLEAN"/>
+        </loadUpdateData>
+               
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperFinancialInstitution.csv" tableName="SubjectStockPaperFinancialInstitution" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_FinancialInstitution" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_FinancialInstitutionHead" type="NUMERIC"/>
+            <column name="sInternalDocInformation" type="STRING"/>
+            <column name="sSymbol" type="STRING"/>
+            <column name="bSRO" type="BOOLEAN"/>
+            <column name="nID_DocumentStatutory_KIF" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_Licence" type="NUMERIC"/>
+            <column name="nID_ActionEvent_AddRegistry" type="NUMERIC"/>
+            <column name="nID_ActionEvent_RemoveRegistry" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Reissue" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Duplicate" type="NUMERIC"/>
+        </loadUpdateData>
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperFON.csv" tableName="SubjectStockPaperFON" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectStockPaperFinancialInstitution" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="nID_TermType" type="NUMERIC"/>
+            <column name="nTermCount" type="NUMERIC"/>
+        </loadUpdateData>
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperFundExchange.csv" tableName="SubjectStockPaperFundExchange" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_FundExchange" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_FundExchange" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_FundExchangeHead" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperOwner.csv" tableName="SubjectStockPaperOwner" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nQuarter" type="NUMERIC"/>
+            <column name="nYear" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Depositary" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sForeignINNEmitente" type="STRING"/>
+            <column name="nID_Country" type="NUMERIC"/>
+            <column name="sForeignINNStockPapers" type="STRING"/>
+            <column name="sCFICode" type="STRING"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Currency" type="NUMERIC"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nPartCharterCapital" type="NUMERIC"/>
+            <column name="nQuantityBlocked" type="NUMERIC"/>
+            <column name="nPartBlockedCharterCapital" type="NUMERIC"/>
+            <column name="sTypeOwner" type="STRING"/>
+            <column name="nID_SubjectOrgan_Owner" type="NUMERIC"/>
+            <column name="nID_Place_Owner" type="NUMERIC"/>
+            <column name="nID_SubjectContact_OwnerNonResident" type="NUMERIC"/>
+            <column name="sForeignINNOwner" type="STRING"/>
+            <column name="nID_SubjectHuman_Owner" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_OwnerISI" type="NUMERIC"/>
+            <column name="nID_SubjectStockPaperFON_OwnerFON" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_OwnerAMC" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperRateAgency.csv" tableName="SubjectStockPaperRateAgency" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_RateAgency" type="NUMERIC"/>
+            <column name="nID_Dictionary_KVED" type="NUMERIC"/>
+            <column name="nID_SubjectOperatorBank_FON" type="NUMERIC"/>
+            <column name="sInfoParticipation" type="STRING"/>
+            <column name="sOfficials" type="STRING"/>
+            <column name="sOwners" type="STRING"/>
+            <column name="nID_SubjectHuman_RateAgencyHead" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_RateAgencyAccountant" type="NUMERIC"/>
+            <column name="nCountEmployee" type="NUMERIC"/>
+            <column name="bLawEnforcement" type="BOOLEAN"/>
+            <column name="sNumberDocument" type="STRING"/>
+            <column name="sBusinessEntities" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperTrader.csv" tableName="SubjectStockPaperTrader" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Trader" type="NUMERIC"/>
+            <column name="nSizeCharterCapitalSince" type="NUMERIC"/>
+            <column name="nSizeCharterCapitalForeign" type="NUMERIC"/>
+            <column name="nID_Country_Trader" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Auditor" type="NUMERIC"/>
+            <column name="nID_ActionEventAudit" type="NUMERIC"/>
+            <column name="bBrokerageLicense" type="BOOLEAN"/>
+            <column name="bDealershipLicense" type="BOOLEAN"/>
+            <column name="bUnderwritingLicense" type="BOOLEAN"/>
+            <column name="bManagmentLicense" type="BOOLEAN"/>
+            <column name="nID_Place_Trader" type="NUMERIC"/>
+            <column name="bNonBankingFlag" type="BOOLEAN"/>
+            <column name="bTOVFlag" type="BOOLEAN"/>
+            <column name="bBankruptFlag" type="BOOLEAN"/>
+            <column name="sCurator" type="STRING"/>
+            <column name="nAmountRent" type="NUMERIC"/>
+            <column name="sDateRentTill" type="DATETIME"/>
+            <column name="sRent27" type="STRING"/>
+            <column name="sBranches" type="STRING"/>
+            <column name="sFolder" type="STRING"/>
+            <column name="nID_SubjectHuman_TraderHead" type="NUMERIC"/>
+            <column name="nID_SubjectHuman_TraderAccountant" type="NUMERIC"/>
+        </loadUpdateData>
+              
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectStockPaperCertifiedProfessionals.csv" tableName="SubjectStockPaperCertifiedProfessionals" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sNumberFolder" type="STRING"/>
+            <column name="sDateFolder" type="DATETIME"/>
+            <column name="sDateTillFolder" type="DATETIME"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="bDuplicate" type="BOOLEAN"/>
+            <column name="bCancellation" type="BOOLEAN"/>
+            <column name="nID_Place_CertifiedProfessionals" type="NUMERIC"/>
+            <column name="sDatePayment" type="DATETIME"/>
+            <column name="nID_SubjectHuman" type="NUMERIC"/>
+            <column name="sPosition" type="STRING"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeActivity" type="NUMERIC"/>
+            <column name="nID_Dictionary_State" type="NUMERIC"/>
+            <column name="nID_Document" type="NUMERIC"/>
+            <column name="nID_SubjectOrganOperatorStudy" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperBond.csv" tableName="ObjectStockPaperBond" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeIssuanceBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeSecuredBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_GuarantorBond" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_GuarantorBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_FormExistenceBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypePlacementBond" type="NUMERIC"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="nInterestRate" type="NUMERIC"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="sDateBeginRepayment" type="DATETIME"/>
+            <column name="sDateEndRepayment" type="DATETIME"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>
+            <column name="bLoanBonds" type="BOOLEAN"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperFON.csv" tableName="ObjectStockPaperFON" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sOrganPermissionEmission" type="STRING"/>
+            <column name="bSuspensionFlag" type="BOOLEAN"/>
+            <column name="sDateSuspensionEmission" type="DATETIME"/>
+            <column name="sNumberSuspensionEmission" type="STRING"/>
+            <column name="sDatePermissionEmission" type="DATETIME"/>
+            <column name="sNumberPermissionEmission" type="STRING"/>
+            <column name="sDateDecisionRegistry" type="DATETIME"/>
+            <column name="nSizeOwnCapital" type="NUMERIC"/>
+            <column name="nID_SubjectStockPaperFON" type="NUMERIC"/>
+            <column name="nID_SubjectOperatorBank_FON" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_FormIssuanceFON" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeIssuanceFON" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypePlacementFON" type="NUMERIC"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="sInvestmentDirection" type="STRING"/>
+            <column name="nID_SubjectOrgan_RealEstateDeveloper" type="NUMERIC"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="sDateEndTurnover" type="DATETIME"/>
+            <column name="sDateBeginRepayment" type="DATETIME"/>
+            <column name="sDateEndRepayment" type="DATETIME"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>          
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="sDateRegistarationProspectus" type="DATETIME"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Depositary" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperMortgageBond.csv" tableName="ObjectStockPaperMortgageBond" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeMortgageBond" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeIssuanceMortgageBond" type="NUMERIC"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="sMortgageCoverageSize" type="STRING"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="sDateEndTurnover" type="DATETIME"/>
+            <column name="sDateBeginRepayment" type="DATETIME"/>
+            <column name="sDateEndRepayment" type="DATETIME"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="sDateRegistarationProspectus" type="DATETIME"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Depositary" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Manager" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_ServingInstitution" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperMortgageCertificate.csv" tableName="ObjectStockPaperMortgageCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sDateDecisionRegistry" type="DATETIME"/>
+            <column name="nSizeOwnCapital" type="NUMERIC"/>
+            <column name="bNonBankingFlag" type="BOOLEAN"/>
+            <column name="sDatePermissionEmissionNonBanking" type="DATETIME"/>
+            <column name="sNumberPermissionEmissionNonBanking" type="STRING"/>
+            <column name="bSuspensionFlag" type="BOOLEAN"/>
+            <column name="sDateSuspensionEmission" type="DATETIME"/>
+            <column name="sNumberSuspensionEmission" type="STRING"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeIssuanceMortgageCertificate" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeMortgageCertificate" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypePlacementMortgageCertificate" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="sDateRegistarationInformation" type="DATETIME"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="sDateEndTurnover" type="DATETIME"/>
+            <column name="sDateBeginRepayment" type="DATETIME"/>
+            <column name="sDateEndRepayment" type="DATETIME"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>          
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>           
+            <column name="nID_SubjectOrgan_Depositary" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Manager" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_MortgageManager" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="sDateOrderResults" type="DATETIME"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>          
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperOptionCertificate.csv" tableName="ObjectStockPaperOptionCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeOptionCertificate" type="NUMERIC"/>
+            <column name="nID_Dictionary_VarietyOptionCertificate" type="NUMERIC"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="nID_TermType" type="NUMERIC"/>
+            <column name="nTermCount" type="NUMERIC"/>
+            <column name="sNumberCertificate" type="STRING"/>
+            <column name="sDateIssue" type="DATETIME"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectStockPaperShare.csv" tableName="ObjectStockPaperShare" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan_Emitente" type="NUMERIC"/>
+            <column name="sSeries" type="STRING"/>
+            <column name="nSizeCharterCapitalIssuance" type="NUMERIC"/>
+            <column name="nCommonDenomination" type="NUMERIC"/>
+            <column name="nQuantity" type="NUMERIC"/>
+            <column name="nDenomination" type="NUMERIC"/>
+            <column name="nID_Dictionary_FormExistenceShare" type="NUMERIC"/>
+            <column name="nID_Dictionary_TypeShare" type="NUMERIC"/>
+            <column name="nID_Dictionary_ReasonRegisteringIssuanceShare" type="NUMERIC"/>
+            <column name="bReorganization" type="BOOLEAN"/>
+            <column name="nID_SubjectOrgan_EmitenteReorganization" type="NUMERIC"/>
+            <column name="sDateBeginIPO" type="DATETIME"/>
+            <column name="sDateEndIPO" type="DATETIME"/>
+            <column name="nPaidStateFee" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Issue" type="NUMERIC"/>
+            <column name="nID_DocumentStatutory_Certificate" type="NUMERIC"/>
+            <column name="bFictitious" type="BOOLEAN"/>
+            <column name="nID_ActionEvent_Fictitious" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Change" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Report" type="NUMERIC"/>
+            <column name="nQuantitySharesIPO" type="NUMERIC"/>
+            <column name="nID_ActionEvent_Terminate" type="NUMERIC"/>       
+            <column name="bShareKIF" type="BOOLEAN"/>
+        </loadUpdateData>
+      
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperBond.csv" tableName="ActionStockPaperBond" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperBond" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperFON.csv" tableName="ActionStockPaperFON" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperFON" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperInvestmentCertificate.csv" tableName="ActionStockPaperInvestmentCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperInvestmentCertificate" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperMortgageBond.csv" tableName="ActionStockPaperMortgageBond" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperMortgageBond" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperMortgageCertificate.csv" tableName="ActionStockPaperMortgageCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperMortgageCertificate" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperOptionCertificate.csv" tableName="ActionStockPaperOptionCertificate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperOptionCertificate" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ActionStockPaperShare.csv" tableName="ActionStockPaperShare" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_ActionEvent" type="NUMERIC"/>
+            <column name="nID_ObjectStockPaperShare" type="NUMERIC"/>
+            <column name="nID_SubjectOrgan" type="NUMERIC"/>
+        </loadUpdateData>        
+                
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyValueType.csv" tableName="PropertyValueType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyType.csv" tableName="PropertyType" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_DictonaryType" type="NUMERIC"/>
+            <column name="nID_PropertyValueType" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+        </loadUpdateData>
+     
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyGroup.csv" tableName="PropertyGroup" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Property.csv" tableName="Property" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_PropertyType" type="NUMERIC"/>
+            <column name="nID_PropertyGroup" type="NUMERIC"/>
+            <column name="bRequred" type="BOOLEAN"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyValue.csv" tableName="PropertyValue" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_EntityItem" type="NUMERIC"/>
+            <column name="nID_Property" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyBoolean.csv" tableName="PropertyBoolean" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="bValue" type="BOOLEAN"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyDate.csv" tableName="PropertyDate" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="oValue" type="DATETIME"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyFile.csv" tableName="PropertyFile" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sID_Data" type="STRING"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+            <column name="sFileName" type="STRING"/>
+            <column name="sExtName" type="STRING"/>
+            <column name="sContentType" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyFloat.csv" tableName="PropertyFloat" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nValue" type="NUMERIC"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyInteger.csv" tableName="PropertyInteger" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nValue" type="NUMERIC"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyLong.csv" tableName="PropertyLong" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nValue" type="NUMERIC"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyStringLong.csv" tableName="PropertyStringLong" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sValue" type="STRING"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/PropertyStringShort.csv" tableName="PropertyStringShort" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sValue" type="STRING"/>
+            <column name="nID_PropertyValue" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectRightBP.csv" tableName="SubjectRightBP" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sID_BP" type="STRING"/>
+            <column name="sID_Place_UA" type="STRING"/>
+            <column name="sID_Group_Referent" type="STRING"/>
+            <column name="asID_Group_Export" type="STRING"/>
+            <column name="sFormulaFilter_Export" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData> 
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/SubjectHumanPositionCustom.csv" tableName="SubjectHumanPositionCustom" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadData encoding="UTF-8" file="data/SubjectGroup.csv" tableName="SubjectGroup" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sID_Group_Activiti" type="STRING"/>
+            <column name="sChain" type="STRING"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+            <column name="nID_SubjectHumanPositionCustom" type="NUMERIC"/>
+        </loadData>
+
+        <loadData encoding="UTF-8" file="data/SubjectGroupTree.csv" tableName="SubjectGroupTree" separator=";">
+            <column name="nID_SubjectGroup_Parent" type="NUMERIC"/>
+            <column name="nID_SubjectGroup_Child" type="NUMERIC"/>
+        </loadData>
+        
+        <loadData encoding="UTF-8" file="data/SubjectAccount.csv" tableName="SubjectAccount" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sLogin" type="STRING"/>
+            <column name="sNote" type="STRING"/>
+            <column name="nID_SubjectAccountType" type="NUMERIC"/>
+            <column name="nID_Server" type="NUMERIC"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+        </loadData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentTypeGroup.csv" tableName="DocumentTypeGroup" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/DocumentTypeGroupTree.csv" tableName="DocumentTypeGroupTree" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="nID_DocumentType" type="NUMERIC"/>
+            <column name="nID_DocumentTypeGroup" type="NUMERIC"/>
+            <column name="nID_DocumentTypeGroup_Parent" type="NUMERIC"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/TableFieldPublic.csv" tableName="TableFieldPublic" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="bPublic" type="BOOLEAN"/>
+            <column name="sPath" type="STRING"/>
+            <column name="sContext" type="STRING"/>
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Server.csv" tableName="Server" separator=";">
+            <column name="nID"          type="NUMERIC"/>
+            <column name="sID"          type="STRING"/>
+            <column name="sType"        type="STRING"/>
+            <column name="sURL_Alpha"   type="STRING"/>
+            <column name="sURL_Beta"    type="STRING"/>
+            <column name="sURL_Omega"   type="STRING"/>
+            <column name="sURL"         type="STRING"/>
+        </loadUpdateData>
+        
+        <loadData encoding="UTF-8" file="data/RegistryNSSMC.csv" tableName="RegistryNSSMC" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sIDRegistry" type="STRING"/>
+            <column name="sName" type="STRING"/>
+        </loadData>
+
+    </changeSet>
+
+</databaseChangeLog>

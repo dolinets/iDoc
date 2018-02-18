@@ -1,0 +1,347 @@
+
+
+<snap-content snap-opt-tap-to-close="false" style="top: 20px; background: #E4E4E4;" igov-when-scrolled="whenScrolled()" class="content-staff">
+
+     <div class="main staff-form tasks-form" >
+        <!--<div class="back-forward-btns" ng-class="{'col-xs-9':isMenuOpened, 'col-xs-12 idoc-view-fullsize':!isMenuOpened}">-->
+      <!--&lt;!&ndash;<button class="btn btn-default" ng-click="historyBack()" title="До списку посад">&#60;&#60;</button>&ndash;&gt;-->
+
+      <!--<div style="float: right;" >-->
+        <!--<button class="btn btn-default"-->
+                <!--ng-disabled="!navigateInfo.staff.previous"-->
+                <!--ng-click="nextOrPrevTask('previous')"-->
+                <!--title="Попередня посада">&#60;-->
+        <!--</button>-->
+        <!--<button class="btn btn-default"-->
+                <!--ng-disabled="!navigateInfo.staff.next"-->
+                <!--ng-click="nextOrPrevTask('next')"-->
+                <!--title="Наступна посада">&#62;-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="tasks-form-view tasks-form-staff-view staff-form-staff-view col-xs-9" >
+      <form class="row form-field" name="employeeForm">
+
+        <!-- start spinner -->
+        <div ng-if="Employeespinner" ng-class="{'margin-left-35': isMenuOpened, 'margin-left-48': !isMenuOpened}">
+          <img class="staff-spinner" src="../../../assets/images/idoc-spinner.gif" alt="Завантаження...">
+        </div>
+        <!-- end spinner -->
+
+         <div class="col-sm-12 staff-form-field staff-block">
+           <div class="col-sm-12 staff-input">
+
+         <span class="col-sm-3 staff-lab">
+            <label>Прізвище
+            <span style="color: red" class="ng-scope">*</span>
+            </label>
+         </span>
+          <div class="col-sm-6 staff-input-pers">
+            <input name="humans"
+                   type='text'
+                   class="form-control"
+                   value="currHuman.lastname"
+                   ng-model="currHuman.lastname" required
+                   ng-disabled="staffRole===false"/>
+          </div>
+        </div>
+        <div class="col-sm-12 staff-input">
+         <span class="col-sm-3 staff-lab">
+           <label>Ім'я
+           <span style="color: red" class="ng-scope">*</span>
+           </label>
+         </span>
+          <div class="col-sm-6 staff-input-pers">
+            <input name="humans"
+                   type='text'
+                   value="currHuman.firstname"
+                   ng-model="currHuman.firstname"
+                   class="form-control" required
+                   ng-disabled="staffRole===false"/>
+          </div>
+        </div>
+
+        <div class="col-sm-12 staff-input">
+    <span class="col-sm-3 staff-lab">
+      <label>По батькові
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+          <div class="col-sm-6">
+            <input
+                    name="humans"
+                    type='text'
+                    class="form-control"
+                    value="currHuman.secondname"
+                    ng-model="currHuman.secondname" required
+                    ng-disabled="staffRole===false"/>
+          </div>
+        </div>
+
+    <div class="col-sm-12 staff-input">
+    <span class="col-sm-3 staff-lab">
+      <label>Логін
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+            <div class="col-sm-6">
+                <input
+                        id="login"
+                        name="humans"
+                        type='text'
+                        class="form-control"
+                        value="{{currHuman.login}}"
+                        ng-model="currHuman.login"
+                        ng-disabled="!newHuman || staffRole===false" required/>
+            </div>
+          </div>
+           <div ng-if="newHuman === true">
+           <div class="col-sm-12 staff-input">
+    <span class="col-sm-3 staff-lab">
+      <label>Пароль
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+             <div class="col-sm-6">
+               <input
+                 name="pass"
+                 type='password'
+                 class="form-control"
+                 value="currHuman.pass"
+                 ng-model="currHuman.pass"
+                 minlength="8"
+                 pattern="(?=^.{8,}$)(?=.*\d)((?=.*[a-z])|(?=.*[A-Z])).*$"
+                 placeholder="мінімум 8 символів"
+                 ng-disabled="staffRole===false" required/>
+             </div>
+           </div>
+           <div class="col-sm-12 staff-input">
+    <span class="col-sm-3 staff-lab">
+      <label>Повторити пароль
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+             <div class="col-sm-6">
+               <input
+                 name="pass"
+                 type='password'
+                 class="form-control"
+                 value="currHuman.pass2"
+                 minlength="8"
+                 placeholder="мінімум 8 символів"
+                 pattern="(?=^.{8,}$)(?=.*\d)((?=.*[a-z])|(?=.*[A-Z])).*$"
+                 ng-model="currHuman.pass2" required
+                 ng-disabled="staffRole===false"/>
+             </div>
+           </div>
+         </div>
+          <span class="col-sm-2 col-sm-offset-3 staff-lab staff-pass staff-pass-off" 
+          ng-if="newHuman === false && (staffRole === true || showChangePass())">
+          <a href="#" ng-click="toggleModalStaff()">
+      <label class="staff-label">Змінити пароль</label>
+            </a>
+    </span>
+        </div>
+          <br>
+    <div class="col-sm-12 staff-input">
+      <span class="col-sm-3 staff-lab">
+        <label>Статус
+        <span style="color: red" class="ng-scope">*</span>
+        </label>
+      </span>
+
+      <div class="col-sm-6">
+        <input
+          id="status"
+          style="width: 98%;"
+          ng-if="!staffRole"
+          name="humans"
+          type='text'
+          class="form-control"
+          ng-value="currHuman.status.sNote"
+          disabled>
+      </div>
+
+      <ui-select
+        ng-if="staffRole"
+        ng-model="currHuman.status"
+        theme="bootstrap"
+        ng-disabled="modalSpinner"
+        class="col-sm-6"
+        required>
+
+        <ui-select-match class="staff-position-add" style="width: 98%;">
+            {{$select.selected.sNote}}
+        </ui-select-match>
+
+          <ui-select-choices repeat="s in userStatuses">
+              <span title="{{s.sNote}}>">
+                {{s.sNote}}
+              </span>
+          </ui-select-choices>
+      </ui-select>
+    </div>
+
+  <div class="col-sm-12 staff-input">
+    <span class="col-sm-3 staff-lab">
+      <label>Телефон
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+          <div class="col-sm-6 staff-fon">
+            <input
+              name="humans"
+              type='text'
+              class="form-control"
+              value="currHuman.phone"
+              ng-model="currHuman.phone"
+              ui-mask="+380 (99) 999-99-99"
+              ng-disabled="staffRole===false" required
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 staff-input staff-input-email">
+    <span class="col-sm-3 staff-lab">
+      <label>Email
+      <span style="color: red" class="ng-scope">*</span>
+      </label>
+    </span>
+            <div class="col-sm-6 staff-input-person">
+                <input
+                        name="humans"
+                        type='email'
+                        class="form-control staff-form-add"
+                        value="currHuman.email"
+                        ng-model="currHuman.email"  required
+                        ng-disabled="staffRole===false"/>
+            </div>
+        </div>
+
+
+        <modal-dialog-staff show='modalShown'></modal-dialog-staff>
+            <modal-dialog-staff-contact show='modalShownContact'></modal-dialog-staff-contact>
+          <modal-dialog-staff-add-position show='modalShownPosition'></modal-dialog-staff-add-position>
+
+        <div class="col-sm-3 col-sm-offset-3 staff-lab staff-lab-cont" ng-if="newHuman === false">
+          <a href="#"  ng-click="toggleModalStaffContact()">
+            <label class="staff-label">Інші контакти</label>
+
+          </a>
+        </div>
+        <br />
+        <br />
+
+        <div class="col-sm-12">
+  <span class="col-sm-3 staff-check" style="margin-left: 34px; font-weight: normal !important;">
+      <label for="communication" style="font-weight: normal;">Керівник <input type="checkbox" id="communication" 
+        ng-model="checkBoss.value"></label>
+    </span>
+        </div>
+        <br>
+        <hr class="hr-staff hr-divider"/>
+          <div class="row ">
+
+                  <div class="col-sm-12 staff-input staff-input-posit"  >
+                      <span class="col-sm-3 staff-lab">
+                         <label>Підрозділ
+                         <span style="color: red" class="ng-scope">*</span>
+                         </label>
+                      </span>
+                      <ui-select ng-model="subdivision.selected"
+                                 theme="bootstrap"
+                                 on-select="onSelectUser($item)"
+                                 ng-disabled="modalSpinner || !staffRole"
+                                  class="col-sm-6"
+                                 ng-change="getSelectedData(subdivision.selected)" >
+
+                          <ui-select-match class="staff-row-select_ staff-position-add" title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+                              {{$select.selected.sName}}
+                          </ui-select-match>
+
+                          <ui-select-choices repeat="user in subdivisionList"
+                                             refresh="foundCompanyCurHuman($select.search)"
+                                             refresh-delay="300"
+                                             minimum-input-length="3">
+                  <span title="{{user.sName}}, <{{user.sLogin}}>" >
+                    {{user.sName}}
+                  </span>
+                              <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                      <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                  </span>
+                          </ui-select-choices>
+                      </ui-select>
+
+                  </div>
+
+          </div>
+
+
+        <div>
+        <div class="row ">
+                  <div class="col-sm-12 staff-input staff-input-posit"  >
+                      <span class="col-sm-3 staff-lab">
+                         <label>Посада
+                         <span style="color: red" class="ng-scope">*</span>
+                         </label>
+                      </span>
+                      <ui-select ng-model="subposition.selected"
+                                 theme="bootstrap"
+                                 on-select="onSelectUser($item)"
+                                 ng-disabled="modalSpinner || !staffRole"
+                                 class="col-sm-6"
+                      ng-change="getSelectedData(subposition.selected)" >
+
+
+
+                          <ui-select-match class="staff-position-add" title="{{$select.selected.sNote}}" placeholder="Введіть від 3-х символів">
+                              {{$select.selected.sNote}}
+
+                          </ui-select-match>
+
+                          <ui-select-choices repeat="user in curPositionList"
+                                             refresh="getPositionList($select.search)"
+                                             refresh-delay="300"
+                                             minimum-input-length="3"
+                                             ng-disabled="staffRole===false">
+                  <span title="{{user.sNote}}>">
+                    {{user.sNote}}
+                  </span>
+                              <span title="{{user.sNote}}" style="display: block">
+
+                  </span>
+                          </ui-select-choices>
+                      </ui-select>
+
+                  </div>
+          </div>
+          <span class="col-sm-2 col-sm-offset-3 staff-lab staff-pass" ng-if="staffRole===true">
+        <a href="#" ng-click="toggleModalStaffPosition()">
+          <label class="staff-label">Додати</label>
+        </a>
+          </span>
+        </div>
+
+
+      <div ng-if="newHuman === false">
+          <modal-dialog-staff-add-referents></modal-dialog-staff-add-referents>
+
+          <staff-rights></staff-rights>
+      </div>
+
+        <div class="row row-save">
+          <div class="col-sm-6 main-form-controls staff-but staff-but-form-control staff-form-control">
+            <button type="submit" class="btn btn-info btn-staff" ng-disabled="staffRole===false" ng-click="saveEmployee()">Зберегти</button>
+            <button type="button" class="btn btn-link btn-staff staff-del" ng-class="{'isActiveTab': isActive('staff')}" ui-sref="staff">Скасувати зміни</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>
+
+
+
+
+</snap-content>

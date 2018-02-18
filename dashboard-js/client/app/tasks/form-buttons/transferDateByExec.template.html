@@ -1,0 +1,39 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12">
+
+    <div class='input-group date' style="width: 100%;" id='datetimepicker1'>
+      <label for="execDate">Перенести термiн на:</label>
+      <input type="text" class="form-control input-sm"
+             format='DD/MM/YYYY'
+             separator='/'
+             id="execDate"
+             datetimepicker
+             datetimepickerOptions="{{disablePastDays}}"
+             name="execDate"
+             ng-required="true"
+             ng-model="data.date">
+    </div>
+
+    <div style="margin-top: 20px">
+      <label for="execText">Коментар:</label>
+      <textarea name="execText"
+                id="execText"
+                ng-required="true"
+                ng-model="data.text"
+                style="width:100%;"
+                maxlength="2000"
+                class="form-control">
+      </textarea>
+    </div>
+
+    <div class="button-block-pull-right">
+      <hr>
+      <div class="col-md-12 issue-control-button">
+        <button class="btn btn-info btn-igov"
+                ng-click="execTransferDate()"
+                ng-disabled="!data.text || !data.date">Пiдтвердити
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

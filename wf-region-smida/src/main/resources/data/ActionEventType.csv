@@ -1,0 +1,26 @@
+nID;sID;nID_ActionEventTypeGroup;sName;sNote
+1;test;NULL;test;test
+2;Change;1;Реєстрація змін;Change
+3;Report;1;Реєстрація звіту;Report
+4;Terminate;1;Зупинення обігу;Terminate
+5;Continue;1;Відновлення обігу;Continue
+6;Cancellation;1;Скасування реєстрації випуску;Cancellation
+7;Fictitious;1;Визнання ЦП такими, що відповідають ознакам фіктивності;Fictitious
+8;Audit;6;Аудит;Audit
+9;AddToEDRISI;4;Внесення в ЄДРІСІ;Add to EDRISI
+10;RemoveFromEDRISI;4;Вилучення з ЄДРІСІ;Remove from EDRISI
+11;AddToRegistry;4;Внесення до реестру;Add to registry
+12;ExclusionfromRegistry;4;Вилучення з реєстру;Exclusion from registry
+13;IssueDocumentsStatutory;2;Видача документа;Issue Documents Statutory
+14;DuplicateDocumentsStatutory;2;Видача дубліката документа;Duplicate Documents Statutory
+15;ReissueDocumentsStatutory;2;Переоформлення документа;Reissue Documents Statutory
+16;CancellationDocumentsStatutory;2;Анулювання документа;Cancellation Documents Statutory
+17;ExclusionDocumentsStatutory;2;Виключення документа з реєстру;Exclusion Documents Statutory
+18;EnforcementDecree;3;Правозастосування (Постанова);Enforcement Decree
+19;EnforcementOrder;3;Правозастосування (Розпорядження);Enforcement Order
+20;EnforcementRequirements;3;Правозастосування (Вимоги);Enforcement Requirements 
+21;MovingToPosition;5;Преведення/переміщення на посаду;Moving to Position
+22;AddToLegal entity;5;Прийняття в юридичну особу;Add to Legal entity
+23;FreeUp;5;Звільнення;Free up
+24;Issue;1;Випуск;Issue
+25;Stopping;2;Зупинення;Stopping

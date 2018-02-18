@@ -1,0 +1,70 @@
+<div style="position: relative">
+
+  <div class="form-group" >
+    <div class="input-group dropdown-users-list" dropdown>
+
+      <input autocomplete="off"
+             class="form-control"
+             name="group"
+             type="text"
+             ng-model="vm.selected"
+             typeahead="item.name for item in vm.get() | filter:$viewValue"
+             typeahead-on-select="vm.onSelectGroup($item)"
+             typeahead-empty
+             ng-required="ngRequired"
+             ng-change="vm.groupsSearch(vm.selected)"
+             ng-paste="vm.groupsSearch(vm.selected, true)"
+             ng-minlength="3"
+             placeholder="Введіть від 3-х символів"/>
+
+      <ul class="dropdown-menu"
+          role="menu">
+        <li ng-repeat="item in vm.get()">
+          <a ng-click="vm.onSelectGroup(item)">{{item.name}}</a>
+        </li>
+      </ul>
+
+      <span class="input-group-btn">
+        <button class="btn btn-default user-dropdown-caret"
+                type="button"
+                dropdown-toggle>
+          <span class="caret"></span>
+        </button>
+        <button class="btn btn-primary"
+                type="button"
+                ng-click="vm.addGroup()">
+          Додати в групу
+        </button>
+      </span>
+    </div>
+  </div>
+
+
+  <!--<div class="col-md-12 col-xs-12">-->
+  <div class="form-group">
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="item in vm.data.groupsList">
+        <span class="col-md-11 col-xs-11">{{item.name}}</span>
+        <div class="btn-group">
+          <button type="button" class="btn btn-danger" ng-click="vm.removeGroup(item)"
+                  tooltip="Виключити з групи" tooltip-trigger="mouseenter" tooltip-placement="top"
+                  tooltip-append-to-body="true">
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </div>
+      </li>
+      <li class="list-group-item" ng-repeat="item in vm.data.groupsToAdd">
+            <span class="col-md-11 col-xs-11">{{item.name}}</span>
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger" ng-click="vm.removeGroup(item)"
+                        tooltip="Виключити з групи" tooltip-trigger="mouseenter" tooltip-placement="top"
+                        tooltip-append-to-body="true">
+                    <i class="fa fa-trash-o"></i>
+                </button>
+            </div>
+        </li>
+    </ul>
+  </div>
+
+
+</div>

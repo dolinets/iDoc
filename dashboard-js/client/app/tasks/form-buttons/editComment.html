@@ -1,0 +1,28 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12">
+    <div style="margin-top: 20px">
+      <label>Коментар:</label>
+      <textarea name="askMessage"
+                id="askMessage"
+                ng-required="true"
+                style="width:100%;"
+                class="form-control"
+                ng-model="data.message"
+                ng-disabled="modalSpinner">
+      </textarea>
+    </div>
+
+    <div class="button-block-pull-right">
+      <hr>
+      <div class="col-md-12 issue-control-button">
+        <button class="btn btn-info btn-igov"
+                ng-click="sendEditMessage()"
+                ng-disabled="!data.message || modalSpinner">Зберегти зміни
+        </button>
+      </div>
+    </div>
+  </div>
+  <div ng-if="modalSpinner" ng-class="{'spinner-container-menu':isMenuOpened, 'spinner-container-full-size':!isMenuOpened}" style="text-align: center">
+    <span class="test-spinner"></span>
+  </div>
+</div>

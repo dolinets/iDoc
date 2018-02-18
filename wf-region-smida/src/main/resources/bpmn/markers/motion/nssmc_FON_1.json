@@ -1,0 +1,155 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_FON_01": {
+      "aField_ID": [
+        "nSizeCharterCapitalFON",
+        "bNonBankingFlagFON",
+        "bSuspensionFlagFON",
+        "sDatePermissionEmissionFON",
+        "sNumberPermissionEmissionFON",
+        "sDateDecisionRegistryFON",
+        "nSizeOwnCapitalFON",
+        "sNameFON",
+        "asTermTypeUnitFON",
+        "nTermCountFON",
+        "sNameBankFON",
+        "sOKPO_BankFON",
+        "nMFO_BankFON",
+        "nCurrentAccountFON",
+        "nAccountFON",
+        "sSeriesFON",
+        "nCommonDenominationFON",
+        "nQuantityFON",
+        "nDenominationFON",
+        "asFormIssuanceFON",
+        "sTypeIssuanceFON",
+        "asTypePlacementFON",
+        "nPaidStateFee",
+        "sInvestmentDirectionFON",
+        "sLocation_SubjectOrgan_Construction",
+        "phone_Construction",
+        "email_Construction",
+        "sDateBeginIPO_FON",
+        "sDateEndIPO_FON",
+        "sDateEndTurnoverFON",
+        "sDateBeginRepaymentFON",
+        "sDateEndRepaymentFON",
+        "sDateIssueFON",
+        "sOrganAuthorFON",
+        "sNumberCertificateFON",
+        "sDateCertificateFON",
+        "asNameCertificateFON",
+        "sDateRegistarationProspectusFON",
+        "sID_SubjectOrgan_OKPO_DepositaryFON",
+        "sFullName_SubjectOrgan_DepositaryFON",
+        "sLocation_SubjectOrgan_DepositaryFON",
+        "sNumberLicenceDepositaryFON",
+        "sDateLicenceDepositaryFON"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Issue'"
+    },
+    "ShowFieldsOnCondition_FON_02": {
+      "aField_ID": [
+        "sDateChangeFON",
+        "sOrganChangeFON",
+        "sReasonChangeFON",
+        "sCharacterChangesFON"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Change'"
+    },
+    "ShowFieldsOnCondition_FON_03": {
+      "aField_ID": [
+        "sDateReportSubmissionIPO_FON",
+        "nCommonDenominationIPO_FON",
+        "nQuantityIPO_FON",
+        "sDateCertificateReportFON",
+        "sOrganReportMortgageFON",
+        "sReasonReportMortgageFON"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Report'"
+    },
+    "ShowFieldsOnCondition_FON_04": {
+      "aField_ID": [
+        "sDateOrderMortgageFON_Pause",
+        "nDocumentOrderFON_Pause",
+        "sOrganOrderFON_Pause",
+        "sReasonOrderFON_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Pause'"
+    },
+    "ShowFieldsOnCondition_FON_05": {
+      "aField_ID": [
+        "nDocumentFictitiousFON",
+        "sDateFictitiousFON"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_FON_06": {
+      "aField_ID": [
+        "sDatePermissionEmissionNonBankingFON",
+        "sNumberPermissionEmissionNonBankingFON",
+        "sOrganPermissionEmissionNonBankingFON"
+      ],
+      "asID_Field": {
+        "sReason1": "bNonBankingFlagFON"
+      },
+      "sCondition": "[sReason1]=='true'"
+    },
+    "ShowFieldsOnCondition_FON_07": {
+      "aField_ID": [
+        "sDateSuspensionEmissionFON",
+        "sNumberSuspensionEmissionFON"
+      ],
+      "asID_Field": {
+        "sReason1": "bSuspensionFlagFON"
+      },
+      "sCondition": "[sReason1]=='true'"
+    },
+    "ShowFieldsOnCondition_FON_08": {
+      "aField_ID": [
+        "sDateOrderMortgageFON_Continue",
+        "nDocumentOrderFON_Continue",
+        "sOrganOrderFON_Continue",
+        "sReasonOrderFON_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_FON_09": {
+      "aField_ID": [
+        "sDateOrderMortgageFON_Cancellation",
+        "nDocumentOrderFON_Cancellation",
+        "sOrganOrderFON_Cancellation",
+        "sReasonOrderFON_Cancellation"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='CertificatesFON' && [sReason2]=='Cancellation'"
+    }
+  }
+}

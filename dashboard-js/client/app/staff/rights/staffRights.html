@@ -1,0 +1,98 @@
+<div class="row">
+	<div class="table-responsive table-responsive-ref col-md-12 col-lg-12 col-sm-12 col-xs-12">
+			<span class="col-sm-3 staff-lab" style="margin-top: 0;">
+				 <label>Доступ до бізнес-процесів
+				 </label>
+			</span>
+
+			<table  class="table table-ref " ng-if="currHuman.rights && currHuman.rights.length" style="margin-left: 28%">
+              <thead>
+              <tr id="text-th">
+                  <th rowspan="1" class="table-ref-th staff-table-ref">Бізнес-процес</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="text-center active" ng-repeat="r in currHuman.rights track by $index">
+                <td>
+                    <input
+                      name="dataReferent"
+                      type='text'
+                      class="form-control"
+                      value="{{r.sName}}"
+                      disabled
+                    />
+
+                    <div style="position: absolute; margin-top: -30px; right: 65px;" ng-if="staffRole">
+	                    <button class="btn btn-xs btn-default remove-btn btn-staff-remove" 
+	                	title="Видалити '{{r.sName}}'"
+	                	ng-click="removeRight($index)">
+	                		<span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span>
+	                	</button>
+	                </div>
+                </td>
+              </tr>
+              </tbody>
+
+         	</table>
+
+			<!-- <div class="col-sm-6">
+				<ul style="padding-left: 10px;">
+					<li class="staff-list-position" style="margin: 5px 0;" ng-repeat="r in currHuman.rights track by $index">
+						<span>{{r.sName}}</span>
+						<button class="btn btn-xs" ng-click="removeRight($index)" title="Видалити '{{r.sName}}'">
+							<span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span>
+						</button>
+					</li>
+				</ul>
+				
+			</div> -->
+
+	<span ng-if="staffRole" 
+	ng-class="{'col-sm-2 col-sm-offset-3 staff-lab staff-pass': currHuman.rights && currHuman.rights.length}"
+	ng-style="{'margin-left' : !currHuman.rights || !currHuman.rights.length  ? '26px': ''}">
+        <a href="#" class="staff-lab" ng-click="showAddModal()">
+        	<label class="staff-label" id="right-scroll">Додати</label>
+        </a>
+    </span>
+
+	</div>
+</div>
+
+<div class='ng-modal' ng-show='showRightsModal'>
+	<div class='ng-modal-dialog-staff staff-position' style="position: absolute; 
+		transform: translate(-50%, -75%); margin-top: 0px !important;">
+		<div class='ng-modal-dialog-content-staff' >
+
+			<h3 class="staff-position-modal">Додати права</h3>
+
+			<div class="col-sm-12">
+				<ui-select ng-model="selectedRight.s"
+			        theme="bootstrap"
+			        ng-disabled="modalSpinner || contactLoading">
+
+			        <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+			  			{{$select.selected.sName}}
+					</ui-select-match>
+
+					<ui-select-choices repeat="r in (rights | filter: $select.search)"
+						refresh-delay="300"
+						minimum-input-length="3">
+						<span>{{r.sName}}</span>
+					</ui-select-choices>
+
+			    </ui-select>
+
+			</div>
+			<br><br>
+			<div class="btn btn-success staff-position-modal" ng-click="addRight()">Зберегти</div>
+			<div class="btn btn-default" ng-click="cancel()">Скасувати</div>
+
+			<span ng-if="contactLoading" style="float: right;">
+              <img src="../../assets/images/idoc-spinner.gif" width="30px"> 
+              {{contactLoading}}
+            </span>
+
+		</div>
+	</div>
+	<div class='ng-modal-overlay-staff modal-staff-pass modal-staff-password' ng-click="cancel()"></div>
+</div>

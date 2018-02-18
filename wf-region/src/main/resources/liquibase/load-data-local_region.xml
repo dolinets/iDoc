@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+     <changeSet id="Update data" author="brunneng" runOnChange="true">
+         
+                          
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Currency.csv" tableName="Currency" separator=";">
+            <column name="nID"          type="NUMERIC"/>
+            <column name="sID_UA"       type="STRING"/>
+            <column name="sName_UA"     type="STRING"/>
+            <column name="sName_EN"     type="STRING"/>
+            <column name="sID_Currency" type="STRING"/>
+        </loadUpdateData>
+
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/ObjectEarthTarget.csv" tableName="ObjectEarthTarget" separator=";">
+            <column name="nID"        type="NUMERIC"/>
+            <column name="sID_UA"     type="STRING"/>
+            <column name="sName_UA"   type="STRING"/>
+        </loadUpdateData>
+        
+		
+        <loadUpdateData tableName="ObjectPlace_UA" primaryKey="nID" encoding="UTF-8" file="data/ObjectPlace_UA.csv" separator=";" >
+            <column name="nID" type = "NUMERIC" />
+            <column name="sID" type = "STRING" />
+            <column name="sName_UA" type = "STRING" />
+            <column name="nID_PlaceType" type = "NUMERIC" />
+        </loadUpdateData>
+        
+        <loadUpdateData primaryKey="nID" encoding="UTF-8" file="data/Server.csv" tableName="Server" separator=";">
+            <column name="nID"          type="NUMERIC"/>
+            <column name="sID"          type="STRING"/>
+            <column name="sType"        type="STRING"/>
+            <column name="sURL_Alpha"   type="STRING"/>
+            <column name="sURL_Beta"    type="STRING"/>
+            <column name="sURL_Omega"   type="STRING"/>
+            <column name="sURL"         type="STRING"/>
+        </loadUpdateData>
+        
+    </changeSet>    
+
+</databaseChangeLog>

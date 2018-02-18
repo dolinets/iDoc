@@ -1,0 +1,2491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="issue-smida-add-table-Currensy_error-false" author="alex komarenko" failOnError="false">
+        
+        <createTable tableName="Currency">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            
+            <column name="sID_UA" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sName_UA" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sName_EN" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sID_Currency" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="issue-smida-add-all-tables" author="alex Komarenko">
+        
+        <modifyDataType columnName="sFormPrivacy" newDataType="varchar(255)" tableName="SubjectOrgan"/>
+        
+        <createTable tableName="Country">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            
+            <column name="nID_UA" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sID_Two" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sID_Three" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sNameShort_UA" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sNameShort_EN" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            
+            <column name="sReference_LocalISO" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>   
+        </createTable>
+         
+        <createTable tableName="TermType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+                
+        <createTable tableName="SubjectTreeType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectTree">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Subject_Parent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectTree_Parent"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Subject_Child" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectTree_Child"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectTreeType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectTree_SubjectTreeType"
+                             referencedTableName="SubjectTreeType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectTree_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+             
+        <createTable tableName="DocumentStatutoryState">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="DocumentStatutory">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentStatutory_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_TermType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_DocumentStatutory_TermType"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateFrom" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateTill" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectTree_Publisher" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_DocumentStatutory_SubjectTree_Publisher"
+                             referencedTableName="SubjectTree" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sKey_Document_Adjustment" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDate_Document_Adjustment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Document_Last" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_DocumentStatutory_Document_Last"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutoryState" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_DocumentStatutory_DocumentStatutoryState"
+                             referencedTableName="DocumentStatutoryState" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="DocumentTree">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Document_Parent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentTree_Parent"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Document_Child" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentTree_Child"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="DocumentStatutoryState_Type">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_DocumentType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentStatutoryState_Type_DocumentType"
+                             referencedTableName="DocumentType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutoryState" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentStatutoryState_Type_DocumentStatutoryState"
+                             referencedTableName="DocumentStatutoryState" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventTypeGroup">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEventTypeGroup" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ActionEventType_ActionEventTypeGroup"
+                             referencedTableName="ActionEventTypeGroup" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEvent">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEventType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEvent_ActionEventType"
+                             referencedTableName="ActionEventType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Author" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEvent_SubjectOrgan_Author"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDate" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sReason" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ActionEvent_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>     
+              
+        <createTable tableName="ActionEventAudit">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventAudit_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateConclusion" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventReportStockPaper">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventReportStockPaper_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nSizeCharterCapitalIPO" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenominationIPO" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantityIPO" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateReportSubmissionIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventChangeStockPaper">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventChangeStockPaper_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sCharacterChanges" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ActionEventEnforcementDecree">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventEnforcementDecree_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sTypeOffender" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sFile" type="varchar(4000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sAgents" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bConfidentiality" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTypeLawEnforcement" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDecision" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nSum" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sVersionPublication" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sPaid" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sPayment" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTypeAppeal" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sContentAppeal" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bPosted" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bCanceled" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bLegalizationProceeds" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventEnforcementOrder">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventEnforcementOrder_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sTypeOffender" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sFile" type="varchar(4000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sAgents" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bConfidentiality" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_EnforcementER" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ActionEventEnforcementOrder_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sStatutoryActs" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateExecution" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateNoticeExecution" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionEventEnforcementRequirements">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionEventEnforcementRequirements_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sTypeOffender" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sFile" type="varchar(4000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sAgents" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bConfidentiality" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_EnforcementER" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ActionEventEnforcementRequirements_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sStatutoryActs" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateExecution" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateNoticeExecution" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStatutory">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStatutory_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStatutory_DocumentStatutory"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStatutory_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+               
+        <createTable tableName="DictionaryClass">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="DictionaryType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="Dictionary">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_DictionaryType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Dictionary_DictionaryType"
+                             referencedTableName="DictionaryType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DictionaryClass" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_Dictionary_DictionaryClass"
+                             referencedTableName="DictionaryClass" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sKey" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sValue" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectOperatorBank">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Subject" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectOperatorBank_Subject"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nMFO" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sOKPO" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sLocation" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectBankAccount">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOperatorBank" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectBankAccount_SubjectOperatorBank"
+                             referencedTableName="SubjectOperatorBank" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nAccount" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nAccountFON" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>   
+        
+        <createTable tableName="SubjectOrganOperatorStudy">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumber" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectOrganOperatorStudy_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sNumberContract" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateFrom" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateTill" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTypeActivities" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTypeContract" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_Specialization" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectOrganOperatorStudy_Dictionary"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperEmitente">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperEmitente_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bStoppedMakingChangesDS" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bAbsentFromLocation" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bStoppedTrading" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bManipulatingPrices" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperInvestmentCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperInvestmentCertificate_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperInvestmentCertificate_DocumentStatutory"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeIssuanceInvestmentCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperInvestmentCertificate_Dictionary_Type"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_FormExistenceInvestmentCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperInvestmentCertificate_Dictionary_Form"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperInvestmentCertificate_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperInvestmentInstitutions">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNameFull" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_ISIFlag" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_ISIFlag"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_ISITerm" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_ISITerm"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_ISIForm" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_ISIForm"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_ISIType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_ISIType"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_SpecializedFundsType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_Special"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_QualifyingFundsType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_Qualif"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateReglament" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_TermType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_TermType"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nEDRISI" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDateEDRISI" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNumberDocEDRISI" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDateTemporaryDocEDRISI" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberTemporaryDocEDRISI" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_StageExemptionEDRISI" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_Stage"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateExemptionEDRISI" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberExemptionEDRISI" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sReasonExemptionEDRISI" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bChangeDocEDRISI" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateNewDocEDRISI" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberNewDocEDRISI" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bAchievementStandards" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateAchievementStandards" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateClose" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateGetMessage" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ObjectStockPaperInvestmentCertificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_Dictionary_ObjectSt"
+                             referencedTableName="ObjectStockPaperInvestmentCertificate" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperAMC">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_AMC" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAMC_SubjectOrgan_AMC"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_AMC" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAMC_SubjectContact_AMC"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sKindActivity" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Licence" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAMC_DocumentStatutory_Licence"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectStockPaperInvestmentInstitutions" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAMC_SubjectStockPaperInvestmentInstitutions"
+                             referencedTableName="SubjectStockPaperInvestmentInstitutions" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_KIF" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAMC_SubjectContact_KIF"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Place_AMC" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAMC_Place_AMC"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_AMCHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAMC_SubjectHuman_AMCHead"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nSizeAuthorizedFund" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sFirstStatutoryFund" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sLastStatutoryFund" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNameFounderAMC" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bResident" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Country" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAMC_Country"
+                             referencedTableName="Country" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sPartAuthorizedCapital" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bISIflag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bNPFflag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bIIflag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bAPFflag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bBranches" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addColumn tableName="SubjectStockPaperInvestmentInstitutions">
+            <column name="nID_SubjectStockPaperAMC" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperInvestmentInstitutions_SubjectStockPaperAMC"
+                             referencedTableName="SubjectStockPaperAMC" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+        
+        <createTable tableName="SubjectStockPaperAuditor">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Auditor" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAuditor_SubjectOrgan_Auditor"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Auditor" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAuditor_SubjectContact_Auditor"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Place_Auditor" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAuditor_Place_Auditor"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_CertificateFirm" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAuditor_DocumentStatutory_CertificateFirm"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOperatorBank_Auditor" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAuditor_SubjectOperatorBank_Auditor"
+                             referencedTableName="SubjectOperatorBank" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sPositionCustom" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperAuditor_DocumentStatutory_Certificate"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAuditor_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperAuditor_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>    
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperDepository">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Place_Depository" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_Place_Depository"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOperatorBank_Depository" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectOperatorBank_Depository"
+                             referencedTableName="SubjectOperatorBank" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bAURKD" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bAUFT" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman_DepositoryHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectHuman_DepositoryHead"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sNumberFolder" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman_ResponsiblePerson" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectHuman_ResponsiblePerson"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bClear" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Depository" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperDepository_SubjectOrgan_Depository"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Depository" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectContact_Depository"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Subdivision" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectContact_Subdivision"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceDepository" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDep"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceDepositoryISI" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDepISI"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceDepositoryPF" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDepPF"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_TermType_Contract" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_TermType_Сontract"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount_Contract" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_TermType_TemporaryContract" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_TermType_TemporaryСontract"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount_TemporaryContract" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCountSubdivision" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nBranches" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectContact_Branches" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectContact_Branches"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Auditor" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_SubjectOrgan_Auditor"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEventAudit" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperDepository_ActionEventAudit"
+                             referencedTableName="ActionEventAudit" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sKindStatut" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bLicence" type="boolean">
+                <constraints nullable="true"/>
+            </column>              
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperFinancialInstitution">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_FinancialInstitution" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_SubjectOrgan_FI"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_FinancialInstitution" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_SubjectContact_FI"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_FinancialInstitutionHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_SubjectHuman_FI"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sInternalDocInformation" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="sSymbol" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="bSRO" type="boolean">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="nID_DocumentStatutory_KIF" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_DocumentStatutory_KIF"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Licence" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_DocumentStatutory_Lic"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_AddRegistry" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_ActionEvent_AddReg"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_RemoveRegistry" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_ActionEvent_RemoveReg"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_DocumentStatutory_Cer"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Reissue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_ActionEvent_Reissue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Duplicate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFinancialInstitution_ActionEvent_Duplicate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperFON">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectStockPaperFinancialInstitution" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFON_SubjectStockPaperFinancialInstitution"
+                             referencedTableName="SubjectStockPaperFinancialInstitution" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sName" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>  
+            <column name="nID_TermType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFON_TermType"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperFundExchange">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_FundExchange" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFundExchange_SubjectOrgan_FundExchange"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_FundExchange" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFundExchange_SubjectContact_FundExchange"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_FundExchange" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperFundExchange_DocumentStatutory_FundExchange"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_FundExchangeHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperFundExchange_SubjectHuman_FundExchangeHead"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperOwner">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nQuarter" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nYear" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Depositary" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectOrgan_Depositary"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperOwner_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sForeignINNEmitente" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Country" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_Country"
+                             referencedTableName="Country" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sForeignINNStockPapers" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sCFICode" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Currency" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_Currency"
+                             referencedTableName="Currency" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nPartCharterCapital" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantityBlocked" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nPartBlockedCharterCapital" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTypeOwner" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Owner" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperOwner_SubjectOrgan_Owner"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Owner" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectContact_Owner"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Place_Owner" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_Place_Owner"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_OwnerNonResident" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectContact_OwnerNonResident"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sForeignINNOwner" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman_Owner" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectHuman_Owner"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_OwnerISI" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectHuman_OwnerISI"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectStockPaperFON_OwnerFON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectStockPaperFON_OwnerFON"
+                             referencedTableName="SubjectStockPaperFON" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_OwnerAMC" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperOwner_SubjectHuman_OwnerAMC"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperRateAgency">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_RateAgency" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperRateAgency_SubjectOrgan_RateAgency"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_RateAgency" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperRateAgency_SubjectContact_RateAgency"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_KVED" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperRateAgency_Dictionary"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOperatorBank_FON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperRateAgency_SubjectOperatorBank_FON"
+                             referencedTableName="SubjectOperatorBank" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sInfoParticipation" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sOfficials" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sOwners" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman_RateAgencyHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperRateAgency_SubjectHuman_RateAgencyHead"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_RateAgencyAccountant" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperRateAgency_RateAgencyAccountant"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nCountEmployee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bLawEnforcement" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberDocument" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sBusinessEntities" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperTrader">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Trader" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperTrader_SubjectOrgan_Trader"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Trader" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_SubjectContact_Trader"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nSizeCharterCapitalSince" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nSizeCharterCapitalForeign" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Country_Trader" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_Country_Trader"
+                             referencedTableName="Country" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Auditor" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_SubjectOrgan_Auditor"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEventAudit" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_ActionEventAudit"
+                             referencedTableName="ActionEventAudit" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bBrokerageLicense" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceBrokerage" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceBrokerage"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bDealershipLicense" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceDealership" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceDealership"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bUnderwritingLicense" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceUnderwriting" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceUnderwrit"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bManagmentLicense" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_LicenceManagment" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceManagment"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Place_Trader" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_Place_Trader"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bNonBankingFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="bTOVFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="bBankruptFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column> 
+            <column name="sCurator" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>  
+            <column name="nAmountRent" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateRentTill" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sRent27" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sBranches" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sFolder" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman_TraderHead" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_SubjectHuman_TraderHead"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectHuman_TraderAccountant" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperTrader_SubjectHuman_TraderAccountant"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="SubjectStockPaperCertifiedProfessionals">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sNumberFolder" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateFolder" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateTillFolder" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_DocumentStatutory_C"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bDuplicate" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bCancellation" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Place_CertifiedProfessionals" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_Place_CertifiedProf"
+                             referencedTableName="Place" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDatePayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectHuman" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_SubjectHuman"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sPosition" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeActivity" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_Dictionary_TypeActiv"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_State" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_Dictionary_State"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrganOperatorStudy" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectStockPaperCertifiedProfessionals_SubjectOrganOperatSt"
+                             referencedTableName="SubjectOrganOperatorStudy" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+         
+        <createTable tableName="ObjectStockPaperBond">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperBond_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Bond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_SubjectContact"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_TypeBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_TypeBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeIssuanceBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_TypeIssuanceBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeSecuredBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_TypeSecuredBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_GuarantorBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_GuarantorBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_GuarantorBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_SubjectOrgan_GuarantorBond"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_FormExistenceBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_FormExistenceBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypePlacementBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_Dictionary_TypePlacementBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nInterestRate" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperBond_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperBond_DocumentStatutory_Certificate"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperBond_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperFON">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sOrganPermissionEmission" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bSuspensionFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateSuspensionEmission" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberSuspensionEmission" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDatePermissionEmission" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberPermissionEmission" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateDecisionRegistry" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nSizeOwnCapital" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectStockPaperFON" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperFON_SubjectStockPaperFON"
+                             referencedTableName="SubjectStockPaperFON" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOperatorBank_FON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_SubjectOperatorBank"
+                             referencedTableName="SubjectOperatorBank" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_FormIssuanceFON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_Dictionary_FormIssuanceFON"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeIssuanceFON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_Dictionary_TypeIssuanceFON"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypePlacementFON" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_Dictionary_TypePlacementFON"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sInvestmentDirection" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectContact_RealEstateDeveloper" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_SubjectContact_RealEstateDeveloper"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndTurnover" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperFON_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperFON_DocumentStatutory_Certificate"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateRegistarationProspectus" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Depositary" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_SubjectOrgan_Depositary"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>    
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperFON_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>            
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperMortgageBond">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageBond_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_MortgageBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_SubjectContact_MortgageBond"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_TypeMortgageBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_Dictionary_TypeMortgageBond"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeIssuanceMortgageBond" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_Dictionary_TypeIssuanceMort"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sMortgageCoverageSize" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndTurnover" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageBond_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateRegistarationProspectus" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Certificate"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Depositary" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_SubjectOrgan_Depositary"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Manager" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_SubjectOrgan_Manager"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Manager" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Manager"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Licence" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Licence"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_ServingInstitution" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_SubjectOrgan_ServingInstitution"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageBond_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperMortgageCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_MortgageCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_SubjectContact_MortgageC"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateDecisionRegistry" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nSizeOwnCapital" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bNonBankingFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDatePermissionEmissionNonBanking" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberPermissionEmissionNonBanking" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bSuspensionFlag" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateSuspensionEmission" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberSuspensionEmission" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_TypeIssuanceMortgageCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_Dictionary_TypeIssuanceM"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeMortgageCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_Dictionary_TypeMortgageC"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypePlacementMortgageCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_Dictionary_TypePlacement"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateRegistarationInformation" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndTurnover" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateBeginRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndRepayment" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_DocumentStatutory_Certif"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Depositary" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_SubjectOrgan_Depositary"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_Manager" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_SubjectOrgan_Manager"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan_MortgageManager" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_SubjectOrgan_MortgageM"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateOrderResults" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperMortgageCertificate_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>  
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperOptionCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperOptionCertificate_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_TypeOptionCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_Dictionary_TypeOptionCer"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_VarietyOptionCertificate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_Dictionary_VarietyOptionC"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_TermType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_TermType"
+                             referencedTableName="TermType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nTermCount" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberCertificate" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateIssue" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperOptionCertificate_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Document" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperOptionCertificate_Document"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectStockPaperShare">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_Emitente" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperShare_SubjectOrgan_Emitente"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectContact_Share" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_SubjectContact_Share"
+                             referencedTableName="SubjectContact" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nSizeCharterCapitalIssuance" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nCommonDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nQuantity" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nDenomination" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Dictionary_FormExistenceShare" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_Dictionary_FormExistenceShare"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_TypeShare" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_Dictionary_TypeShare"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_Dictionary_ReasonRegisteringIssuanceShare" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_Dictionary_ReasonRegisteringIssuanceS"
+                             referencedTableName="Dictionary" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bReorganization" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SubjectOrgan_EmitenteReorganization" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_SubjectOrgan_EmitenteReorganization"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sDateBeginIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEndIPO" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nPaidStateFee" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Issue" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperShare_ActionEvent_Issue"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_DocumentStatutory_Certificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectStockPaperShare_DocumentStatutory_Certificate"
+                             referencedTableName="DocumentStatutory" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bFictitious" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Fictitious" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_ActionEvent_Fictitious"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Change" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_ActionEvent_Change"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ActionEvent_Report" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_ActionEvent_Report"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nQuantitySharesIPO" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ActionEvent_Terminate" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectStockPaperShare_ActionEvent_Terminate"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperBond">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperBond_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperBond" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperBond_ObjectStockPaperBond"
+                             referencedTableName="ObjectStockPaperBond" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperBond_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperFON">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperFON_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperFON" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperFON_ObjectStockPaperFON"
+                             referencedTableName="ObjectStockPaperFON" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperFON_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperInvestmentCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperInvestmentCertificate_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperInvestmentCertificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperInvestmentCertificate_ObjectStockPaperInvCer"
+                             referencedTableName="ObjectStockPaperInvestmentCertificate" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperInvestmentCertificate_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperMortgageBond">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageBond_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperMortgageBond" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageBond_ObjectStockPaperMortgageBond"
+                             referencedTableName="ObjectStockPaperMortgageBond" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageBond_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperMortgageCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageCertificate_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperMortgageCertificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageCertificate_ObjectStockPaperMortCer"
+                             referencedTableName="ObjectStockPaperMortgageCertificate" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperMortgageCertificate_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperOptionCertificate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperOptionCertificate_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperOptionCertificate" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperOptionCertificate_ObjectStockPaperOptionCer"
+                             referencedTableName="ObjectStockPaperOptionCertificate" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperOptionCertificate_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ActionStockPaperShare">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ActionEvent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperShare_ActionEvent"
+                             referencedTableName="ActionEvent" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectStockPaperShare" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperShare_ObjectStockPaperShare"
+                             referencedTableName="ObjectStockPaperShare" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ActionStockPaperShare_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyValueType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_DictionaryType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_PropertyType_DictionaryType"
+                             referencedTableName="DictionaryType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_PropertyValueType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_PropertyType_PropertyValueType"
+                             referencedTableName="PropertyValueType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyGroup">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="Property">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_PropertyType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Property_PropertyType"
+                             referencedTableName="PropertyType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_PropertyGroup" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Property_PropertyGroup"
+                             referencedTableName="PropertyGroup" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="bRequred" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyValue">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_EntityItem" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_Property" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_PropertyValue_Property"
+                             referencedTableName="Property" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyBoolean">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="bValue" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyBoolean_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyDate">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="oValue" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyDate_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyFile">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID_Data" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyFile_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sFileName" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sExtName" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sContentType" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyFloat">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nValue" type="DOUBLE">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyFloat_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyInteger">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nValue" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyInteger_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyLong">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nValue" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyLong_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="PropertyStringLong">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sValue" type="text">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyStringLong_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="PropertyStringShort">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sValue" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_PropertyValue" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_PropertyStringShort_PropertyValue"
+                             referencedTableName="PropertyValue" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="issue-smida-modifyDataType-Dictionary_sValue" author="alex komarenko">
+        
+        <modifyDataType columnName="sValue" newDataType="varchar(1000)" tableName="Dictionary"/>
+        
+    </changeSet>
+    
+    <changeSet id="issue-32-add-tables-and-sID_ActionEventType" author="alex komarenko">
+        
+        <createTable tableName="DocumentTypeGroup">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="DocumentTypeGroupTree">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            
+            <column name="nID_DocumentType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentTypeGroupTree_DocumentType"
+                             referencedTableName="DocumentType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            
+            <column name="nID_DocumentTypeGroup" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentTypeGroupTree_DocumentTypeGroup"
+                             referencedTableName="DocumentTypeGroup" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            
+            <column name="nID_DocumentTypeGroup_Parent" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_DocumentTypeGroupTree_DocumentTypeGroup_Parent"
+                             referencedTableName="DocumentTypeGroup" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <addColumn tableName="ActionEventType">
+            <column name="sID" type="varchar(255)" defaultValue="test">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+    <changeSet id="issue-33-add-table-TableFieldPublic" author="alex komarenko">
+        
+        <createTable tableName="TableFieldPublic">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            
+            <column name="bPublic" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="sPath" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            
+            <column name="sContext" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="issue-add-Server-to-smida" author="alex komarenko" failOnError="false">
+        
+        <createTable tableName="Server">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sType" type="varchar(20)">
+            </column>
+            <column name="sURL_Alpha" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL_Beta" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL_Omega" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="issue-34-add-RegistryNSSMC" author="alex komarenko">
+        
+        <createTable tableName="RegistryNSSMC">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sIDRegistry" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+
+    <changeSet id="issue-39-edit-table-fields" author="Sergei Mordasov">
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_SubjectContact_Depository"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_SubjectContact_Depository"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_SubjectContact_Subdivision"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_SubjectContact_Subdivision"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDep"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_DocumentStatutory_LicenceDepository"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDepISI"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_DocumentStatutory_LicenceDepositoryISI"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_DocumentStatutory_LicenceDepPF"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_DocumentStatutory_LicenceDepositoryPF"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperDepository" constraintName="FK_SubjectStockPaperDepository_SubjectContact_Branches"/>
+        <dropColumn tableName="SubjectStockPaperDepository" columnName="nID_SubjectContact_Branches"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperTrader" constraintName="FK_SubjectStockPaperTrader_SubjectContact_Trader"/>
+        <dropColumn tableName="SubjectStockPaperTrader" columnName="nID_SubjectContact_Trader"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperTrader" constraintName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceBrokerage"/>
+        <dropColumn tableName="SubjectStockPaperTrader" columnName="nID_DocumentStatutory_LicenceBrokerage"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperTrader" constraintName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceDealership"/>
+        <dropColumn tableName="SubjectStockPaperTrader" columnName="nID_DocumentStatutory_LicenceDealership"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperTrader" constraintName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceUnderwrit"/>
+        <dropColumn tableName="SubjectStockPaperTrader" columnName="nID_DocumentStatutory_LicenceUnderwriting"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperTrader" constraintName="FK_SubjectStockPaperTrader_DocumentStatutory_LicenceManagment"/>
+        <dropColumn tableName="SubjectStockPaperTrader" columnName="nID_DocumentStatutory_LicenceManagment"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperFinancialInstitution" constraintName="FK_SubjectStockPaperFinancialInstitution_SubjectContact_FI"/>
+        <dropColumn tableName="SubjectStockPaperFinancialInstitution" columnName="nID_SubjectContact_FinancialInstitution"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperAuditor" constraintName="FK_SubjectStockPaperAuditor_SubjectContact_Auditor"/>
+        <dropColumn tableName="SubjectStockPaperAuditor" columnName="nID_SubjectContact_Auditor"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperOwner" constraintName="FK_SubjectStockPaperOwner_SubjectContact_Owner"/>
+        <dropColumn tableName="SubjectStockPaperOwner" columnName="nID_SubjectContact_Owner"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperAMC" constraintName="FK_SubjectStockPaperAMC_SubjectContact_AMC"/>
+        <dropColumn tableName="SubjectStockPaperAMC" columnName="nID_SubjectContact_AMC"/>
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperAMC" constraintName="FK_SubjectStockPaperAMC_SubjectContact_KIF"/>
+        <dropColumn tableName="SubjectStockPaperAMC" columnName="nID_SubjectContact_KIF"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperRateAgency" constraintName="FK_SubjectStockPaperRateAgency_SubjectContact_RateAgency"/>
+        <dropColumn tableName="SubjectStockPaperRateAgency" columnName="nID_SubjectContact_RateAgency"/>
+
+        <dropForeignKeyConstraint baseTableName="SubjectStockPaperFundExchange" constraintName="FK_SubjectStockPaperFundExchange_SubjectContact_FundExchange"/>
+        <dropColumn tableName="SubjectStockPaperFundExchange" columnName="nID_SubjectContact_FundExchange"/>
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperShare" constraintName="FK_ObjectStockPaperShare_SubjectContact_Share"/>
+        <dropColumn tableName="ObjectStockPaperShare" columnName="nID_SubjectContact_Share"/>
+        <addColumn tableName="ObjectStockPaperShare">
+            <column name="bShareKIF" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperBond" constraintName="FK_ObjectStockPaperBond_SubjectContact"/>
+        <dropColumn tableName="ObjectStockPaperBond" columnName="nID_SubjectContact_Bond"/>
+        <addColumn tableName="ObjectStockPaperBond">
+            <column name="bLoanBonds" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperFON" constraintName="FK_ObjectStockPaperFON_SubjectContact_RealEstateDeveloper"/>
+        <renameColumn tableName="ObjectStockPaperFON" oldColumnName="nID_SubjectContact_RealEstateDeveloper" newColumnName="nID_SubjectOrgan_RealEstateDeveloper"/>
+        <addForeignKeyConstraint
+                baseTableName="ObjectStockPaperFON"
+                baseColumnNames="nID_SubjectOrgan_RealEstateDeveloper"
+                constraintName="FK_ObjectStockPaperFON_SubjectOrgan_RealEstateDeveloper"
+                referencedTableName="SubjectOrgan"
+                referencedColumnNames="nID"
+                deleteCascade="false"
+        />
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperMortgageBond" constraintName="FK_ObjectStockPaperMortgageBond_SubjectContact_MortgageBond"/>
+        <dropColumn tableName="ObjectStockPaperMortgageBond" columnName="nID_SubjectContact_MortgageBond"/>
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperMortgageBond" constraintName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Certificate"/>
+        <dropColumn tableName="ObjectStockPaperMortgageBond" columnName="nID_DocumentStatutory_Certificate"/>
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperMortgageBond" constraintName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Manager"/>
+        <dropColumn tableName="ObjectStockPaperMortgageBond" columnName="nID_DocumentStatutory_Manager"/>
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperMortgageBond" constraintName="FK_ObjectStockPaperMortgageBond_DocumentStatutory_Licence"/>
+        <dropColumn tableName="ObjectStockPaperMortgageBond" columnName="nID_DocumentStatutory_Licence"/>
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperMortgageCertificate" constraintName="FK_ObjectStockPaperMortgageCertificate_SubjectContact_MortgageC"/>
+        <dropColumn tableName="ObjectStockPaperMortgageCertificate" columnName="nID_SubjectContact_MortgageCertificate"/>
+
+        <dropForeignKeyConstraint baseTableName="DocumentStatutory" constraintName="FK_DocumentStatutory_Document_Last"/>
+        <dropColumn tableName="DocumentStatutory" columnName="nID_Document_Last"/>
+
+        <addColumn tableName="DocumentStatutoryState_Type">
+            <column name="nID_Document_Last" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_DocumentStatutoryState_Type_Document_Last"
+                             referencedTableName="Document" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+
+        <dropForeignKeyConstraint baseTableName="SubjectOrganOperatorStudy" constraintName="FK_SubjectOrganOperatorStudy_Dictionary"/>
+        <dropColumn tableName="SubjectOrganOperatorStudy" columnName="nID_Dictionary_Specialization"/>
+        <addColumn tableName="SubjectOrganOperatorStudy">
+            <column name="sSpecialization" type="varchar(255)"/>
+        </addColumn>
+
+        <dropForeignKeyConstraint baseTableName="ObjectStockPaperOptionCertificate" constraintName="FK_ObjectStockPaperOptionCertificate_Document"/>
+        <dropColumn tableName="ObjectStockPaperOptionCertificate" columnName="nID_Document" />
+
+    </changeSet>
+    
+    <changeSet id="issue-54-add-SubjectRightRegistry" author="Sergei Mordasov">
+        <createTable tableName="SubjectRightRegistry">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sID_Registry" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sLogin" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

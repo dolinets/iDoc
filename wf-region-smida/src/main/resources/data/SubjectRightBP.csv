@@ -1,0 +1,11 @@
+nID;sID_BP;sID_Place_UA;sID_Group_Referent;asID_Group_Export;sFormulaFilter_Export;sNote
+1;nssmc_trader;;nssmc;nssmc;NULL;NULL
+2;nssmc_share;;nssmc;nssmc;NULL;NULL
+3;nssmc_operator_study;;nssmc;nssmc;NULL;NULL
+4;nssmc_license;;nssmc;nssmc;NULL;NULL
+5;nssmc_bond;;nssmc;nssmc;NULL;NULL
+6;_doc_nssmc_decision;;nssmc;nssmc;NULL;NULL
+7;nssmc_isi;;nssmc;nssmc;NULL;NULL
+8;_doc_nssmc_enforcement;;nssmc;nssmc;NULL;NULL
+9;_doc_test_nssmc;;nssmc;nssmc;NULL;NULL
+10;_doc_nssmc_CertifiedProfessionals;;nssmc;nssmc;NULL;NULL

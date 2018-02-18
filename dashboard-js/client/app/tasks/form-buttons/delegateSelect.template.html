@@ -1,0 +1,73 @@
+<div class="row issue-modal-content">
+  <div>
+    <div class="col-md-12" style="margin-top: 10px;">
+      <label for="execDelegate">Оберiть на кого делегувати завдання</label>
+      <ui-select ng-model="delegate.exec"
+                 id="execDelegate"
+                 on-select="onSelectDelegate()"
+                 theme="bootstrap">
+
+        <ui-select-match placeholder="Введіть від 3-х символів">
+                  <span title="{{$select.selected.sName}}">
+                    {{$select.selected.sName}}
+                  </span>
+        </ui-select-match>
+
+        <ui-select-choices repeat="user in executors | orderByLogin | filter:$select.search"
+                           refresh="refreshUserData($select.search)"
+                           refresh-delay="300"
+                           minimum-input-length="3">
+                  <span title="{{user.sName}}, <{{user.sLogin}}>">
+                    {{user.sName}}
+                  </span>
+                  <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                    <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                  </span>
+        </ui-select-choices>
+      </ui-select>
+      <label ng-if="addFlag === false" class="validation-message">Повторне делегування неприпустимо</label>
+
+      <div class="col-md-12 no-padding-left-right" style="margin-top: 10px;">
+        <div class="col-md-6 no-padding-left-right" style="padding-right: 3px;">
+          <label for="execDate">Дата виконання</label>
+          <input class="form-control"
+                 format='DD/MM/YYYY'
+                 separator='/'
+                 id="execDate"
+                 ng-change="onSelectDelegate()"
+                 datetimepicker
+                 datetimepickerOptions="{{disablePastDays}}"
+                 name="execDate"
+                 ng-required="true"
+                 ng-model="delegate.date">
+        </div>
+        <div class="col-md-6 no-padding-left-right" style="padding-left: 3px;">
+          <label for="soExec">Виконання</label>
+          <select id="soExec" name="soExec" class="form-control" ng-model="delegate.soExec">
+            <option value="no">Без спільного виконання</option>
+            <option value="yes">Спільне виконання</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 issue-delegate-list">
+      <label ng-if="data.executors.length > 0" style="display:block;">Виконавцi</label>
+      <span ng-repeat="delegate in data.executors" class="issue-delegate-users">
+        <span style="text-align: left">
+          {{delegate.exec.sFirstName}} {{getInitials(delegate.exec.sLastName)}}
+        </span>
+        <span class="glyphicon glyphicon-remove" ng-click="removeDelegator($index)"></span>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="button-block-pull-right">
+  <hr>
+  <div class="col-md-12 issue-control-button">
+    <button class="btn btn-info btn-igov"
+            ng-click="delegateExec()"
+            ng-disabled="isFormInvalid()">Пiдтвердити
+    </button>
+  </div>
+</div>

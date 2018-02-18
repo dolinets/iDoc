@@ -1,0 +1,132 @@
+<!--<div class="row ">-->
+  <!--<div>-->
+    <!--<div class="col-md-12"  ng-if="tabMenu === 'employee'">-->
+       <!--<ui-select ng-model="dataUsers.selected"-->
+                 <!--theme="bootstrap"-->
+                 <!--on-select="onSelectUser($item)"-->
+                 <!--ng-disabled="modalSpinner"-->
+                 <!--ng-change="getSelectedUser(dataUsers.selected)"-->
+                 <!--ng-click="getHumanFromFilter(dataUsers.selected)">-->
+
+        <!--<ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">-->
+          <!--{{$select.selected.sName}}-->
+        <!--</ui-select-match>-->
+
+        <!--<ui-select-choices repeat="user in usersList"-->
+                           <!--refresh="foundUsers($select.search)"-->
+                           <!--refresh-delay="300"-->
+                           <!--minimum-input-length="3"-->
+                           <!--ui-sref="staff.employee">-->
+                  <!--<span title="{{user.sName}}, <{{user.sLogin}}>" >-->
+                    <!--{{user.sName}}-->
+                  <!--</span>-->
+          <!--<span  title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">-->
+                      <!--<small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>-->
+                  <!--</span>-->
+        <!--</ui-select-choices>-->
+      <!--</ui-select>-->
+
+    <!--</div>-->
+
+    <!--<div class="col-md-12"  ng-if="tabMenu === 'position'">-->
+      <!--<ui-select ng-model="dataUsersPosit.selected"-->
+                 <!--theme="bootstrap"-->
+                 <!--on-select="onSelectUser($item)"-->
+                 <!--ng-disabled="modalSpinner"-->
+                 <!--ng-change="getSelectedUser(dataUsersPosit.selected)"-->
+                 <!--ng-click="getCompany(dataUsersPosit.selected)">-->
+
+        <!--<ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">-->
+          <!--{{$select.selected.sName}}-->
+        <!--</ui-select-match>-->
+
+        <!--<ui-select-choices repeat="user in usersListPosit"-->
+                           <!--refresh="foundUsers($select.search)"-->
+                           <!--refresh-delay="300"-->
+                           <!--minimum-input-length="3"-->
+                           <!--ui-sref="staff.profile">-->
+                  <!--<span title="{{user.sName}}, <{{user.sLogin}}>">-->
+                    <!--{{user.sName}}-->
+                  <!--</span>-->
+          <!--<span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">-->
+                      <!--<small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>-->
+                  <!--</span>-->
+        <!--</ui-select-choices>-->
+      <!--</ui-select>-->
+
+    <!--</div>-->
+
+  <!--</div>-->
+<!--</div>-->
+
+<script type="text/ng-template" id="nod_renderer.html">
+    <div ui-tree-handle data-nodrag
+         class="tree-node tree-node-content"
+         ng-click="getCompany(attr, $index, position)"
+         ui-sref="staff.profile"
+         ng-style="{'word-break': doWordWrap(position.sName)}">
+        <a class="btn btn-xs button-tree"
+           ng-if="position.aSubjectGroupChilds && position.aSubjectGroupChilds.length > 0"
+            ng-click="toggle(this)"><span
+                class="glyphicon"
+                ng-class="{
+          'glyphicon-chevron-down': collapsed,
+          'glyphicon-chevron-right': !collapsed
+        }"></span></a> {{position.sName}}
+     </div>
+    <ol ui-tree-nodes="" ng-model="position.aSubjectGroupChilds" ng-class="{hidden: !collapsed}">
+        <li ng-repeat="position in position.aSubjectGroupChilds" ui-tree-node ng-include="'nod_renderer.html'">
+        </li>
+    </ol>
+</script>
+
+
+<div class="row">
+    <div class="col-sm-12" ng-if="tabMenu === 'position'">
+        <div ui-tree id="tree-root" ng-if="departList && departList.length> 0">
+            <ol ui-tree-nodes ng-model="departList">
+                <li ng-repeat="position in departList" ui-tree-node ng-include="'nod_renderer.html'"></li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle
+         class="tree-node tree-node-content"
+         data-nodrag
+         ng-click="getHuman(attr, $index, human)"
+         ui-sref="staff.employee">
+        <a class="btn btn-xs button-tree"
+           ng-if="human.aSubjectGroupChilds && human.aSubjectGroupChilds.length> 0"
+           ng-click="toggle(this)">
+            <span
+                class="glyphicon"
+                ng-class="{
+          'glyphicon-chevron-down': collapsed,
+          'glyphicon-chevron-right': !collapsed
+        }"></span></a>
+        {{human.sName}}
+      <br>
+      <span class="staff-list-position">{{human.oSubjectHumanPositionCustom.sNote}}</span>
+    </div>
+    <ol ui-tree-nodes="" ng-model="human.aSubjectGroupChilds" ng-class="{hidden: !collapsed}" >
+        <li ng-repeat="human in human.aSubjectGroupChilds" ui-tree-node ng-include="'nodes_renderer.html'" >
+        </li>
+    </ol>
+</script>
+
+<div class="row">
+    <div class="col-sm-12"  ng-if="tabMenu === 'employee'">
+        <div ui-tree id="tree_root" ng-if="humanList && humanList.length> 0">
+            <ol ui-tree-nodes ng-model="humanList" >
+                <li ng-repeat="human in humanList" ui-tree-node ng-include="'nodes_renderer.html'" ></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- start spinner -->
+<div ng-if="spinner" ng-class="{'margin-left-35': isMenuOpened, 'margin-left-48': !isMenuOpened}">
+    <img class="staff-spinner" src="../../../assets/images/idoc-spinner.gif" alt="Завантаження...">
+</div>
+<!-- end spinner -->

@@ -1,0 +1,53 @@
+<div ng-include="'components/navbar/navbar.html'" class="navbar-fixed-top"></div>
+<div class="container-fluid" ng-if="!checkIfSuperAdmin()">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="todo">
+        <h1>Панель адміністрування доступна тільки адміністраторам зі статусом "superadmin"</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid" ng-if="checkIfSuperAdmin()">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="todo">
+        <h1>{{iGovTitle}}</h1>
+        <form class="user-login-block" ng-submit="sendPasswordCustom()">
+          <div class="text-left">
+            <h4>Відправка пароля користувачу</h4>
+          </div>
+          <div class="form-group my-group">
+            <label class="myLabel">Логін користувача : </label>
+            <input class="form-control" placeholder="Логін" ng-model="singleUserPass.sUserLogin" required/> <br><br>
+            <input type="submit" class="btn btn-info" value="Надіслати пароль">
+          </div>
+        </form>
+        <form class="user-login-block" ng-submit="sendPasswordsUsersOnServer()">
+          <div class="text-left">
+            <h4>Відправка паролів всіх користувачів сервера</h4>
+          </div>
+          <div class="form-group my-group">
+            <div>
+              <div class="checkbox super-checkbox">
+                <label style="font-size: 1em">
+                  <input type="checkbox" ng-model="allUsersPass.bSend">
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                  Надіслати паролі всім користувачам на пошту
+                </label>
+              </div>
+              <div class="checkbox super-checkbox">
+                <label style="font-size: 1em">
+                  <input type="checkbox" ng-model="allUsersPass.bSendAdmin">
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                  Надіслати всі паролі користувачів на пошту адміністратору
+                </label>
+              </div>
+            </div>
+            <input type="submit" class="btn btn-info" value="Надіслати усі паролі">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

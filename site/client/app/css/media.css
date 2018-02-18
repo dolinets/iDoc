@@ -1,0 +1,512 @@
+@media  (max-width: 700px){
+  .carousel-inner>.item>img{
+  height: 100% !important;
+}
+  /*.contact-send {*/
+    /*margin-top: 35% !important;*/
+  /*}*/
+}
+@media  (max-width: 1850px){
+
+  /*.contact-send {*/
+    /*margin-top: 32% !important;*/
+  /*}*/
+}
+@media  (max-width: 1650px){
+
+  /*.contact-send {*/
+    /*margin-top: 3% !important;*/
+  /*}*/
+}
+@media  (min-width: 760px) and (max-width: 1100px){
+
+  /*.contact-send {*/
+    /*margin-top: 4% !important;*/
+  /*}*/
+}
+@media  (min-width: 870px) and (max-width: 960px){
+
+  /*.contact-send {*/
+    /*margin-top: 36% !important;*/
+  /*}*/
+}
+@media  (max-width: 759px){
+
+  /*.contact-send {*/
+    /*margin-top: 40% !important;*/
+  /*}*/
+}
+@media  (min-width: 760px) and (max-width: 1200px) {
+  .block-email{
+    margin-left: 47%;
+  }
+  /*.contact-send {*/
+    /*margin-top: 35%;*/
+  /*}*/
+  button.but-send{
+    width: 230px;
+  }
+  .send-text{
+     width: 50%;
+  }
+  .send-text p{
+    font-size: 1.4em ;
+  }
+  .send-text h3{
+    font-size: 1.8em ;
+  }
+  .present-send {
+    margin: 0px;
+  }
+  .present {
+    position: relative;
+    margin-top: 10px;
+    height: 140px;
+    width: 400px;
+  }
+  .present-send input {
+    width: 90%;
+    height: 30px;
+    margin-top: 3%;
+    font-size: 15px;
+    margin-left: 20px;
+  }
+  .triangle{
+    margin-top: 50px;
+  }
+  /*button.but-send1 {*/
+    /*min-width: 150px;*/
+    /*height: 30px;*/
+    /*margin-top: 42px;*/
+  /*}*/
+  .head-info h1 {
+    line-height: 2.4rem;
+    font-size: 1.5em;
+    letter-spacing: 0.1em;
+    margin-top: -10px;
+  }
+  .head-info p {
+    font-size: 0.8em;
+    margin-top: -20px;
+
+  }
+  button.but-send1{
+    height: 10px;
+  }
+  .contact-send input {
+    height: 15px;
+    font-size: 0.7em;
+  }
+  /*.head-info {*/
+    /*margin-top: 50px;*/
+    /*margin-left: -10px;*/
+    /*min-width: 200px;*/
+    /*width: 70%;*/
+  /*}*/
+  .first-slide{
+    margin-top: 0px;
+  }
+
+  .advantages-world,
+  .advantages-delegete,
+  .advantages-bd,
+  .advantages-sign,
+  .advantages-preferenses,
+  .advantages-doc{
+    width: 70px !important;
+    height: 70px;
+    background-size: 65px 65px;
+    background-position:  3px 2px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  .advantages-world-p,
+  .advantages-delegete-p,
+  .advantages-sign-p,
+  .advantages-bd-p,
+  .advantages-preferenses-p,
+  .advantages-doc-p {
+     margin-top: 20px;
+  }
+  .advantages-world-p p,
+  .advantages-delegete-p p,
+  .advantages-sign-p p,
+  .advantages-bd-p p,
+  .advantages-preferenses-p p,
+  .advantages-doc-p p{
+    font-size: 0.9em;
+    line-height: 1.0rem;
+  }
+  .title-h2{
+    font-size: 1.7em;
+    margin-top: 7%;
+  }
+  .video-show{
+     margin-top: 10%;
+   }
+  .video-text h2{
+    line-height: 1.8rem;
+    font-size: 1.8em;
+    letter-spacing: 0.1rem;
+
+  }
+  .video-text{
+    margin-left: 0px;
+    margin-top: 20%;
+    width: 50%;
+  }
+}
+@media  (min-width: 760px) and (max-width: 1100px) {
+  .block-email {
+    margin-left: 37%;
+  }
+  /*.contact-send {*/
+    /*margin-top: 35%;*/
+  /*}*/
+
+  /*.head-info {*/
+    /*margin-top: -15px;*/
+
+  /*}*/
+}
+@media  (min-width: 500px) and (max-width: 759px) {
+  .block-email {
+    margin-left: 30%;
+  }
+  .block-email,
+  .block-facebook,
+  .block-contact{
+    width: 40px;
+    height: 40px;
+    background-size: 100% 100%;
+
+  }
+
+  p.title-contact{
+    font-size: 12px;
+  }
+  .block-facebook{
+    width: 35px !important;
+    height: 35px;
+    background-size: 100% 100%;
+  }
+  /*.block-head-p{*/
+    /*margin-left: 10%;*/
+  /*}*/
+  .block-video{
+    height: 60%;
+  }
+  button.but-send{
+    margin-top: 40px ;
+    margin-left: 10px;
+    height: 35px ;
+    width: 200px;
+  }
+  /*.contact-send {*/
+    /*margin-top: 35%;*/
+  /*}*/
+
+  .send-text{
+    width: 45%;
+    margin-top: 50px;
+  }
+  .send-text p{
+    font-size: 1.0em ;
+  }
+  .send-text h3{
+    font-size: 1.4em ;
+  }
+  .send-contact{
+    width: 250px;
+    height: 350px;
+    min-width: 200px;
+  }
+  .present-send {
+    margin: 0px;
+  }
+  .present {
+    position: relative;
+    margin-top: 50px;
+    height: 140px;
+    width: 250px;
+    margin-left: 35%;
+  }
+  .present-send input {
+    width: 85%;
+    height: 30px;
+    margin-top: 3%;
+    font-size: 15px;
+  }
+  .triangle{
+    margin-top: 50px;
+  }
+  /*button.but-send1 {*/
+    /*min-width: 150px;*/
+    /*height: 30px;*/
+    /*margin-top: 40px;*/
+  /*}*/
+  .head-info h1 {
+    line-height: 1.4rem;
+    font-size: 0.8em;
+    letter-spacing: 0.1em;
+  }
+  .head-info p {
+     font-size: 0.6em;
+    margin-top: -15px;
+      }
+  button.but-send1{
+    height: 10px;
+    font-size: 0.9em;
+    margin-top: -5px;
+  }
+  .contact-send input {
+    height: 15px;
+    font-size: 0.7em;
+  }
+  /*.head-info {*/
+    /*margin-top: -10px;*/
+
+  /*}*/
+
+  .advantages{
+    height: 70%;
+  }
+  .advantages-world,
+  .advantages-delegete,
+  .advantages-bd,
+  .advantages-sign,
+  .advantages-preferenses,
+  .advantages-doc{
+    width: 40px !important;
+    height: 40px;
+    background-size: 35px 35px;
+    background-position:  3px 2px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .advantages-world-p,
+  .advantages-delegete-p,
+  .advantages-sign-p,
+  .advantages-bd-p,
+  .advantages-preferenses-p,
+  .advantages-doc-p {
+    margin-top: 10px;
+  }
+  .advantages-world-p p,
+  .advantages-delegete-p p,
+  .advantages-sign-p p,
+  .advantages-bd-p p,
+  .advantages-preferenses-p p,
+  .advantages-doc-p p{
+    font-size: 0.6em;
+    line-height: 0.6rem;
+    letter-spacing: 0.1em;
+  }
+  .title-h2{
+    font-size: 1.2em;
+  }
+  .video-show{
+    height: 450px;
+    min-width: 500px;
+    background-size: 48% 140px;
+    margin-top: 0px;
+    margin-left: 30%;
+  }
+  .video-show iframe{
+    width: 35.5%;
+    height: 102px;
+    margin-left: 7.8%;
+    margin-top: 22px;
+  }
+  .video-text h2{
+    line-height: 1.0rem;
+    font-size: 1.4em;
+    letter-spacing: 0.1rem;
+
+  }
+  .video-text{
+    margin-left: 0px;
+    margin-top: 1%;
+    width: 100%;
+  }
+}
+@media  (max-width: 499px) {
+  .cont-inf{
+    margin-left: -115px;
+    margin-top: 20px;
+  }
+  p.cont-mail{
+    margin-top: -8px !important;
+  }
+  .block-email {
+    margin-left: 50%;
+  }
+  .block-email,
+  .block-facebook,
+  .block-contact{
+    width: 30px;
+    height: 30px;
+    background-size: 100% 100%;
+  }
+  /*.block-head-p{*/
+    /*margin-left: 1%;*/
+  /*}*/
+  .block-contact{
+    margin-left: 90%;
+  }
+  h1.title{
+    font-size: 28px;
+  }
+  .title{
+  width: 60px;
+  }
+  p.title-contact,
+  p.title-doc{
+    font-size: 10px;
+    line-height: 0.9rem;
+   }
+  .block-facebook{
+    margin-left: 60%;
+    width: 20px !important;
+    height: 26px;
+    background-size: 100% 100%;
+    margin-top: -28px;
+  }
+  /*.block-head-p{*/
+    /*margin-left: 10%;*/
+  /*}*/
+  button.but-send{
+    margin-top: 30px ;
+    height: 30px ;
+    width: 125px;
+    margin-left: -10px;
+    padding-left: 2px;
+  }
+
+  /*.contact-send{*/
+    /*margin-top: 45%;*/
+  /*}*/
+  .send-text{
+    width: 30%;
+    margin-top: 50px;
+  }
+  .send-text p{
+    font-size: 0.5em ;
+  }
+  .send-text h3{
+    font-size: 0.8em ;
+  }
+  .send-contact{
+    width: 140px;
+    height: 200px;
+  }
+
+  .present-send {
+    margin: 0px;
+  }
+  .present {
+    margin-top: 30px;
+    height: 110px;
+    width: 200px;
+  }
+  .present-send input {
+    width: 85%;
+    height: 20px;
+    margin-top: 2%;
+    font-size: 13px;
+  }
+  /*button.but-send1 {*/
+    /*min-width: 150px;*/
+    /*height: 30px;*/
+    /*margin-top:25px;*/
+  /*}*/
+  .head-info h1 {
+    line-height: 0.8rem;
+    font-size: 0.8em;
+    letter-spacing: 0.05rem;
+    margin-top: 3%;
+  }
+  .head-info p {
+    font-size: 0.6em;
+    margin-top: -15px;
+  }
+  /*.head-info {*/
+    /*margin-top: 30px;*/
+    /*margin-left: -10px;*/
+    /*min-width: 200px;*/
+    /*width: 80%;*/
+  /*}*/
+  .triangle {
+    width: 50px;
+    height: 150px;
+    margin-top: 20px;
+  }
+  .first-slide{
+    width: 100%;
+    height: 50%;
+    margin-top: 10%;
+  }
+  .advantages{
+    height: 60%;
+  }
+  .advantages-world,
+  .advantages-delegete,
+  .advantages-bd,
+  .advantages-sign,
+  .advantages-preferenses,
+  .advantages-doc{
+    width: 10px !important;
+    height: 30px;
+    background-size: 25px 25px;
+    background-position:  2px 2px;
+    margin-top: 5px;
+   }
+  .advantages-world-p,
+  .advantages-delegete-p,
+  .advantages-sign-p,
+  .advantages-bd-p,
+  .advantages-preferenses-p,
+  .advantages-doc-p {
+    margin-top: -70px;
+    margin-left: 30px;
+
+  }
+  .advantages-world-p p,
+  .advantages-delegete-p p,
+  .advantages-sign-p p,
+  .advantages-bd-p p,
+  .advantages-preferenses-p p,
+  .advantages-doc-p p{
+    font-size: 0.5em;
+    line-height: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+  .title-h2{
+    font-size: 0.9em;
+    }
+  .video-show{
+    height: 450px;
+    min-width: 500px;
+    background-size: 48% 140px;
+    margin-top: 0px;
+    margin-left: 20%;
+  }
+  .video-show iframe{
+    width: 35.5%;
+    height: 102px;
+    margin-left: 7.8%;
+    margin-top: 22px;
+  }
+  .video-text h2{
+    line-height: 1.0rem;
+    font-size: 1.0em;
+    letter-spacing: 0.1rem;
+
+  }
+  .video-text{
+    margin-left: 0px;
+    margin-top: 1%;
+    width: 100%;
+  }
+
+}

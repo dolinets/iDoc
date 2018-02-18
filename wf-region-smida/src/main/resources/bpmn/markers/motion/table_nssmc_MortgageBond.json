@@ -1,0 +1,28 @@
+{
+  "aField": [
+    {
+      "id": "sSeriesStockPaperMortgageBond",
+      "name": "Серія іпотечних облігацій (у разі наявності)",
+      "type": "string",
+      "nWidth": "25%"
+    },
+    {
+      "id": "nDenominationMortgageBond",
+      "name": "Номінальна вартість іпотечної облігації",
+      "type": "string",
+      "nWidth": "25%"
+    },
+    {
+      "id": "nQuantityMortgageBond",
+      "name": "Кількість іпотечних облігацій",
+      "type": "long",
+      "nWidth": "25%"
+    },
+    {
+      "id": "sMortgageCoverageSize",
+      "name": "Розмір іпотечного покриття, що забезпечує випуск іпотечних облігацій",
+      "type": "long",
+      "nWidth": "25%"
+    }
+  ]
+}

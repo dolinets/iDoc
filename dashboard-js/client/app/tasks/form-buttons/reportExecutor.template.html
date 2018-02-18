@@ -1,0 +1,65 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12">
+    <form name="form" novalidate>
+
+    <div style="padding-bottom: 10px;">
+      <label for="status">Статус виконання: </label>
+      <select id="status" class="form-control" ng-model="data.status" ng-change="clearModel()">
+        <option value="executed">Виконане</option>
+        <option value="notExecuted">Не виконане</option>
+        <option value="unactual">Не актуальне</option>
+      </select>
+    </div>
+
+
+
+    <div class="report-file col-md-12"
+         style="padding-left: 0; padding-right: 0"
+         ng-if="data.status && reportType === 'file' && ['notExecuted', 'unactual'].indexOf(data.status) === -1">
+      <label>Прикрiпити файл звiту:</label>
+      <file-field name="reportFile"
+                  ng-model="data.content"
+                  ng-required="true">
+      </file-field>
+
+      <span ng-if="data.content && data.content.indexOf('sFileNameAndExt') > -1" style="position: absolute; top: 90px;">
+        <span style="font-weight: bold;">Додано файл: </span> <br>
+        {{getFileName(data.content)}}
+      </span>
+    </div>
+
+    <div ng-if="data.status && (reportType === 'textArea'  || ['notExecuted', 'unactual'].indexOf(data.status) !== -1)">
+      <label for="reportText">Звiт:</label>
+      <textarea name="{{item.id}}"
+                id="reportText"
+                ng-required="true"
+                ng-model="data.content"
+                style="position: absolute; max-height: 170px; width: 92.5%;"
+                maxlength="2000"
+                class="form-control">
+      </textarea>
+    </div>
+
+    <div ng-if="data.status && reportType === 'string' && ['notExecuted', 'unactual'].indexOf(data.status) === -1">
+      <label for="reportNumb">Номер документу:</label>
+      <input type="text" class="form-control" id="sOrder_1" name="sOrder_1" ng-model="data.content">
+    </div>
+
+    <span class="validation-message" ng-messages="form.$error">
+      <span ng-message="OrderValue">Такого номеру не існує</span>
+      <span ng-message="StrictOrdersValue">Документ не існує у системі</span>
+    </span>
+
+    </form>
+  </div>
+
+  <div class="button-block-pull-right">
+    <hr>
+    <div class="col-md-12 issue-control-button">
+      <button class="btn btn-link attach-btn"
+              ng-disabled="!data.content || !data.status || form.$invalid"
+              ng-click="sendReport(data.status, form)">Пiдтвердити
+      </button>
+    </div>
+  </div>
+</div>

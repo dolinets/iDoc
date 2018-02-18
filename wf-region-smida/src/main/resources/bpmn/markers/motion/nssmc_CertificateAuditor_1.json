@@ -1,0 +1,85 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_AU_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_Auditor",
+        "sLegalForm_Auditor",
+        "sFullName_SubjectOrgan_Auditor",
+        "sSeriesRegistrationEDR_Auditor",
+        "sNumberRegistrationEDR_Auditor",
+        "sLocation_SubjectOrgan_Auditor",
+        "phone_Auditor",
+        "email_Auditor",
+        "sSite_Auditor",
+        "nZipCode_Auditor",
+        "sID_UA_Auditor",
+        "sNameRegion_Auditor",
+        "sCity_Auditor",
+        "sDateCertificate_Auditor",
+        "sNumberCertificate_Auditor",
+        "asTermTypeCertificate_Auditor",
+        "nTermCountCertificate_Auditor",
+        "sDateTill_Certificate_Auditor",
+        "sNameBank_Certificate_Auditor",
+        "nMFO_Bank_Certificate_Auditor",
+        "sLocation_Bank_Certificate_Auditor",
+        "nAccount_Bank_Certificate_Auditor",
+        "sPositionCustom_Certificate_Auditor",
+        "sSeries_CertificateAuditor",
+        "sNumber_CertificateAuditor",
+        "sDate_CertificateAuditor",
+        "asTermType_CertificateAuditor",
+        "nTermCount_CertificateAuditor",
+        "sDateIssue_CertificateAuditor",
+        "sDateDecision_CertificateAuditor",
+        "sNumberDecision_CertificateAuditor"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='Auditor' && [sReason2]=='Add'"
+    },
+    "ShowFieldsOnCondition_AU_02": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_Auditor",
+        "sLegalForm_Auditor",
+        "sFullName_SubjectOrgan_Auditor",
+        "sSeriesRegistrationEDR_Auditor",
+        "sNumberRegistrationEDR_Auditor",
+        "sLocation_SubjectOrgan_Auditor",
+        "phone_Auditor",
+        "email_Auditor",
+        "sSite_Auditor",
+        "nZipCode_Auditor",
+        "sID_UA_Auditor",
+        "sNameRegion_Auditor",
+        "sCity_Auditor",
+        "sDateCertificate_Auditor",
+        "sNumberCertificate_Auditor",
+        "asTermTypeCertificate_Auditor",
+        "nTermCountCertificate_Auditor",
+        "sDateTill_Certificate_Auditor",
+        "sNameBank_Certificate_Auditor",
+        "nMFO_Bank_Certificate_Auditor",
+        "sLocation_Bank_Certificate_Auditor",
+        "nAccount_Bank_Certificate_Auditor",
+        "sPositionCustom_Certificate_Auditor",
+        "sSeries_CertificateAuditor",
+        "sNumber_CertificateAuditor",
+        "sDate_CertificateAuditor",
+        "asTermType_CertificateAuditor",
+        "nTermCount_CertificateAuditor",
+        "sDate_RemoveRegistry_CertificateAuditor",
+        "sReason_Cancellation_CertificateAuditor",
+        "sDateDecision_CertificateAuditor",
+        "sNumberDecision_CertificateAuditor"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='Auditor' && [sReason2]=='Remove'"
+    }
+  }
+}

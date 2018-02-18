@@ -1,0 +1,2 @@
+nID;nID_SubjectOrgan_Trader;nSizeCharterCapitalSince;nSizeCharterCapitalForeign;nID_Country_Trader;nID_SubjectOrgan_Auditor;nID_ActionEventAudit;bBrokerageLicense;bDealershipLicense;bUnderwritingLicense;bManagmentLicense;nID_Place_Trader;bNonBankingFlag;bTOVFlag;bBankruptFlag;sCurator;nAmountRent;sDateRentTill;sRent27;sBranches;sFolder;nID_SubjectHuman_TraderHead;nID_SubjectHuman_TraderAccountant
+1;1;NULL;NULL;NULL;NULL;NULL;1;1;NULL;1;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL;NULL

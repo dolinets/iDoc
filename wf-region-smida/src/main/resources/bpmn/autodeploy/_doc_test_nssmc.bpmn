@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="_doc_test_nssmc" name="тестовий процес" isExecutable="true">
+    <startEvent id="startevent1" name="Start">
+      <extensionElements>
+        <activiti:formProperty id="sID_Custom_GovPublic" name="Номер звернення ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="processInstanceId" name="ид процесса ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="processDefinitionId" name="processDefinitionId ; ;bVisible=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sKey_Step_Document" name="sKey_Step_Document ; ;bVisible=false" type="string"></activiti:formProperty>
+      </extensionElements>
+    </startEvent>
+    <userTask id="usertask1" name="селекти">
+      <extensionElements>
+        <activiti:formProperty id="sValue_Dictionary_1" name="Дикшонари; ;DictionaryType=DictionaryType_1" type="select" required="true"></activiti:formProperty>
+        <activiti:formProperty id="nID_Dictionary_1" name="nID_Dictionary_1 autocomplete" type="string"></activiti:formProperty>
+        <activiti:formProperty id="DictionaryType_1" name="DictionaryType_1" type="string" default="1"></activiti:formProperty>
+        <activiti:formProperty id="DictionaryType_2" name="DictionaryType_2" type="string" default="2"></activiti:formProperty>
+        <activiti:formProperty id="sTableDictionaryType_2" name="табличка для проверки селектов дикшонари; ;bNew=true" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sValue_Dictionary_2&quot;,&quot;name&quot;:&quot;Дикшонари; ;DictionaryType=DictionaryType_2&quot;,&quot;type&quot;:&quot;select&quot;,&quot;required&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;nID_Dictionary_2&quot;,&quot;name&quot;:&quot;nID_Dictionary_2 autocomplete&quot;,&quot;type&quot;:&quot;string&quot;,&quot;bVisible&quot;:&quot;false&quot;}]}"></activiti:formProperty>
+        <activiti:formProperty id="sName_ActionEventTypeGroup_1" name="Экшен; ;ActionEventTypeGroup=ActionEventTypeGroup_1" type="select" required="true"></activiti:formProperty>
+        <activiti:formProperty id="nID_ActionEventTypeGroup_1" name="nID_ActionEventTypeGroup_1 autocomplete" type="string"></activiti:formProperty>
+        <activiti:formProperty id="ActionEventTypeGroup_1" name="ActionEventTypeGroup_1" type="string" default="1"></activiti:formProperty>
+        <activiti:formProperty id="ActionEventTypeGroup_2" name="ActionEventTypeGroup_2" type="string" default="2"></activiti:formProperty>
+        <activiti:formProperty id="sTableActionEventTypeGroup_2" name="табличка для проверки селектов экшена; ;bNew=true" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sName_ActionEventTypeGroup_2&quot;,&quot;name&quot;:&quot;Экшен; ;nID_ActionEventTypeGroup=ActionEventTypeGroup_2&quot;,&quot;type&quot;:&quot;select&quot;,&quot;required&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;nID_ActionEventTypeGroup_2&quot;,&quot;name&quot;:&quot;nID_ActionEventTypeGroup_2 autocomplete&quot;,&quot;type&quot;:&quot;string&quot;}]}"></activiti:formProperty>
+        <activiti:formProperty id="sName_TermType_1" name="sName_TermType_1 select" type="select" required="true"></activiti:formProperty>
+        <activiti:formProperty id="nID_TermType_1" name="nID_TermType_1 autocomplete" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sTableTermType_2" name="табличка для проверки селектов терм тайпа; ;bNew=true" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sName_TermType_2&quot;,&quot;name&quot;:&quot;sName_TermType_1 select&quot;,&quot;type&quot;:&quot;select&quot;,&quot;required&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;nID_TermType_2&quot;,&quot;name&quot;:&quot;nID_TermType_2 autocomplete&quot;,&quot;type&quot;:&quot;string&quot;,&quot;bVisible&quot;:&quot;false&quot;}]}"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${DocumentInit_iDoc}">
+          <activiti:field name="sKey_GroupPostfix_New">
+            <activiti:expression><![CDATA[${sLoginAuthor}]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="sKey_GroupPostfix">
+            <activiti:string><![CDATA[_default_nssmc]]></activiti:string>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow1" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram__doc_test_nssmc">
+    <bpmndi:BPMNPlane bpmnElement="_doc_test_nssmc" id="BPMNPlane__doc_test_nssmc">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="30.0" y="46.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="61.0" width="128.0" x="100.0" y="33.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="273.0" y="46.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="228.0" y="63.0"></omgdi:waypoint>
+        <omgdi:waypoint x="273.0" y="63.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="65.0" y="63.0"></omgdi:waypoint>
+        <omgdi:waypoint x="100.0" y="63.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

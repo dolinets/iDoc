@@ -1,0 +1,13 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_3": {
+      "aField_ID": [
+        "sInstalled_12"
+      ],
+      "asID_Field": {
+        "sClient": "saTypeDecree_1"                          
+      },
+      "sCondition": "[sClient] == 'Closed_2'" 
+    }
+  }
+}

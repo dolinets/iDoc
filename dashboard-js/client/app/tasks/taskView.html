@@ -1,0 +1,933 @@
+<style>
+  label {
+    margin-bottom: 0;
+  }
+
+  .empty-modal {
+    width: 150px;
+    height: 34px;
+  }
+
+  .open-full-info {
+    position: fixed;
+    top: 130px;
+    right: 10px;
+    z-index: 100;
+  }
+
+  .open-full-info a {
+    font-size: 24px;
+  }
+
+  .open-full-info a:hover {
+    text-decoration: none;
+  }
+
+  .documentUsers {
+    margin-top: 20px;
+  }
+
+  .documentDate {
+    float: right;
+  }
+</style>
+
+<div class="back-forward-btns" ng-class="{'col-xs-9':isMenuOpened, 'col-xs-12 idoc-view-fullsize':!isMenuOpened}">
+  <button class="btn btn-default" ng-click="historyBack()" title="До списку документів/завдань">&#60;&#60;</button>
+
+  <div style="float: right;">
+    <button class="btn btn-default"
+            ng-disabled="!navigateInfo.task.previous"
+            ng-click="nextOrPrevTask('previous')"
+            title="Попередній документ/завдання">&#60;
+    </button>
+    <button class="btn btn-default"
+            ng-disabled="!navigateInfo.task.next"
+            ng-click="nextOrPrevTask('next')"
+            title="Наступний документ/завдання">&#62;
+    </button>
+  </div>
+</div>
+
+<div ng-if="spinner" ng-class="{'spinner-container-menu':isMenuOpened, 'spinner-container-full-size':!isMenuOpened}">
+  <span class="test-spinner"></span>
+</div>
+
+<div class="tasks-form-view"
+     ng-class="{'col-xs-9':isMenuOpened, 'col-xs-12 idoc-content-fullsize':!isMenuOpened, 'spinner-is-on': isMenuOpened && spinner, 'spinner-is-on-full': !isMenuOpened && spinner}">
+  <show-error data="error" ng-show="error"></show-error>
+
+  <div class="task-view-info">
+    <h4 ng-show="sSelectedTask == 'all' && taskData.sLoginAssigned">Призначено на: {{taskData.sLoginAssigned}}</h4>
+    <h4 ng-show="sSelectedTask == 'all' && taskData.sLoginAssigned == null">Вільний тікет</h4>
+    <button ng-show="sSelectedTask == 'all' && taskData.sLoginAssigned" ng-click="unassign()" class="btn btn-success">
+      Відкріпити
+    </button>
+  </div>
+
+  <!--номер заявки и дата подачи-->
+  <div class="task-number-date" style="margin-bottom: 10px">
+    <h3 class="display-inline-block">{{'№ ' + orderID }}</h3>
+    <span class="float-right">від {{creationDateFormatted(taskData.oProcess.sDateCreate)}}</span>
+  </div>
+
+  <div style="position: relative; margin-bottom: 24px;">
+    <span style="font-size: 18px">{{taskData.oProcess.sName}}</span>
+  </div>
+
+  <div class="btn-group task-form-tabs">
+    <a ng-class="{'tab-is-selected' : tabHistoryAppeal === 'appeal'}" class="btn btn-link">
+      <span ng-if="!isDocument()">Завдання</span>
+      <span ng-if="isDocument()">Документ</span>
+    </a>
+
+    <a ng-if="tabMenu === 'documents'"
+       ng-class="{'tab-is-selected' : tabHistoryAppeal === 'fulfillment'}"
+       class="btn btn-link"
+       disabled="true"
+       style="display: none;"
+       ui-sref="tasks.typeof.fulfillment({id: taskId})">Виконання
+    </a>
+
+    <a ng-class="{'tab-is-selected' : tabHistoryAppeal === 'history'}"
+       class="btn btn-link"
+       ui-sref="tasks.typeof.history({tab: tabMenu, sID_Order: orderID, '#': sSelectedTask})">
+      <span ng-if="isDocument()">Iсторiя документу</span>
+      <span ng-if="!isDocument()">Iсторiя завдання</span>
+    </a>
+  </div>
+
+  <!--форма заявки-->
+  <div ng-if="!clarify">
+    <form name="form" novalidate style="padding-bottom: 70px">
+      <!--start адресат документа -->
+      <header-destination></header-destination>
+      <!--end адресат документа  -->
+      <div ng-repeat="item in taskForm" class="task-form-property row" ng-if="isFieldVisible(item)"
+           ng-class="getBpAndFieldID(item)">
+        <!-- сепаратор -->
+        <div class="addition-hr" ng-if="insertOrdersSeparator(item.id).bShow">
+          <table style="width: 100%; height: auto">
+            <tr ng-if="insertSeparator(item.id).sText.length > 0">
+              <td style="width: 30%; text-align: right">
+                <hr class="hr-divider side-left" style="width: 95%;">
+              </td>
+              <td colspan="2" style="max-width: 40%; text-align: center">
+                <span style="bottom: 0px; padding: 0px">{{insertOrdersSeparator(item.id).sText}}</span>
+              </td>
+              <td style="width: 30%; text-align: left">
+                <hr class="hr-divider side-right" style="width: 95%;">
+              </td>
+            </tr>
+            <tr ng-if="insertOrdersSeparator(item.id).sText.length == 0">
+              <td style="width: 50%; text-align: right">
+                <hr class="hr-divider side-left" style="width: 97%;">
+              </td>
+              <td style="width: 50%; text-align: left">
+                <hr class="hr-divider side-right" style="width: 97%;">
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div ng-if="(item.value || item.oValue) && isFormPropertyDisabled(item)">
+          <simple-field></simple-field>
+          <date-field></date-field>
+          <textarea-field></textarea-field>
+          <enum-field></enum-field>
+          <checkbox-field></checkbox-field>
+          <select-field></select-field>
+          <file-html></file-html>
+          <phone-field></phone-field>
+          <table-field></table-field>
+          <table-field-history></table-field-history>
+        </div>
+
+        <!--поле типа user-->
+        <p ng-if="item.type == 'user'">
+          <label>{{sFieldLabel(item.name)}}</label>
+          <input class="form-control"
+                 name="{{item.id}}"
+                 ng-disabled="true"
+                 ng-required="isRequired(item)"
+                 ng-model="item.value"
+                 ng-class="{submitted:isRequired(item) && isTaskSubmitted()}"/>
+        </p>
+
+        <!--поле типа marker-->
+        <label style="display: none;"
+               ng-if="item.type == 'markers'"
+               name="{{item.id}}"
+               ng-required="isRequired(item)"
+               class="form-control_">{{item.value}}
+        </label>
+
+        <span style="display: none;" ng-if="['invisible'].indexOf(item.type) > -1">
+          <label>{{sFieldLabel(item.name)}} {{isRequired(item) && item.writable ? "*" : ""}}</label>
+        </span>
+
+        <span ng-if="['label'].indexOf(item.type) > -1 && item.value">
+          <span class="col-sm-6 task-form-title">
+            <label>{{sFieldLabel(item.name)}} {{isRequired(item) && item.writable ? "*" : ""}}</label>
+          </span>
+                <span class="col-sm-6 task-form-written-right-sight">
+            <label>{{item.value}}</label>
+          </span>
+        </span>
+
+        <span ng-if="['queueData'].indexOf(item.type) > -1">
+          <span class="col-sm-6 task-form-title">
+            <label>{{sFieldLabel(item.name)}} {{isRequired(item) && item.writable ? "*" : ""}}</label>
+          </span>
+                <span class="col-sm-6 task-form-written-right-sight">
+            <label
+              title="{{nID_FlowSlotTicket_FieldQueueData(item.value)}}">{{sDate_FieldQueueData(item.value)}}</label>
+          </span>
+        </span>
+
+        <div class="col-sm-6">
+          <div
+            ng-if="clarify && item.writable && (item.type==='string' || item.type==='textArea' || item.type==='date')">
+            <!--item.writable-->
+            <input type="checkbox" ng-model="clarifyFields[item.id].clarify" id="{{item.id}}_clarify"/>
+            <label for="{{item.id}}_clarify">Уточнити</label>
+            <div ng-if="clarifyFields[item.id].clarify">
+              <textarea ng-model="clarifyFields[item.id].text"
+                        class="form-control"
+                        placeholder="Уточнення для {{sFieldLabel(item.name)}}"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--редактируемые поля для чиновника-->
+      <hr class="hr-divider" ng-if="!inUnassigned() && isUnDisabledFields()">
+      <div ng-repeat="item in taskForm" class="task-form-property row"
+           ng-if="isFieldVisible(item) && !isFormPropertyDisabled(item)"
+           ng-class="getBpAndFieldID(item)">
+
+        <!-- сепаратор -->
+        <div class="addition-hr" ng-if="insertSeparator(item.id).bShow">
+          <table style="width: 100%; height: auto">
+            <tr ng-if="insertSeparator(item.id).sText.length > 0">
+              <td style="width: 30%; text-align: right">
+                <hr class="hr-divider side-left" style="width: 95%;">
+              </td>
+              <td colspan="2" style="max-width: 40%; text-align: center">
+                <span style="bottom: 0px; padding: 0px">{{insertSeparator(item.id).sText}}</span>
+              </td>
+              <td style="width: 30%; text-align: left">
+                <hr class="hr-divider side-right" style="width: 95%;">
+              </td>
+            </tr>
+            <tr ng-if="insertSeparator(item.id).sText.length == 0">
+              <td style="width: 50%; text-align: right">
+                <hr class="hr-divider side-left" style="width: 97%;">
+              </td>
+              <td style="width: 50%; text-align: left">
+                <hr class="hr-divider side-right" style="width: 97%;">
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!--поле типа simple-field-->
+        <simple-field></simple-field>
+
+        <!--поле типа date-->
+        <date-field></date-field>
+
+        <!--поле типа text-area-->
+        <textarea-field></textarea-field>
+
+        <!--поле типа enum-->
+        <enum-field></enum-field>
+
+        <!--поле типа checkbox-->
+        <checkbox-field></checkbox-field>
+
+        <!--поле типа file-->
+        <file-formfield></file-formfield>
+
+        <!--поле типа table-->
+        <table-field></table-field>
+
+        <!--поле типа select-->
+        <select-field></select-field>
+
+        <!--поле типа fileHTML-->
+        <file-html></file-html>
+
+        <!--поле типа phoneField-->
+        <phone-field></phone-field>
+      </div>
+
+      <!--issues start-->
+      <div class="issue-block" ng-if="taskData.aProcessSubjectTask.length > 0 || (taskData.aProcessSubjectTask.length > 0 && isIssueAdd)"
+        ng-hide="isIssueEdit">
+        <issue-for-read></issue-for-read>
+      </div>
+      <!--issues end-->
+
+      <div ng-if="isIssueEdit || isIssueAdd" id="issue-scroll">
+        <issue-block></issue-block>
+      </div>
+
+      <!--атачи-->
+      <div class="control-form-fields" ng-if="taskData.aAttachment.length > 0 || taskData.aNewAttachment.length > 0" ng-hide="sSelectedTask === 'docHistory'">
+
+        <div class="addition-hr">
+          <hr class="hr-divider side-left">
+          <span>Додатки</span>
+          <hr class="hr-divider side-right">
+        </div>
+
+        <div ng-if="sSelectedTask !== 'unassigned'">
+          <div class="dropup" ng-repeat="item in taskData.aAttachment" style="position:relative;">
+            <div class="like-modal dropdown-menu drop-up" role="menu" style="bottom: 128%">
+              <p>{{item.description | tableButtonFilter}}</p>
+              <a href="/api/tasks/{{taskId}}/attachments/{{item.id}}/content/{{($index+1)}}" target="_blank"
+                 ng-if="!isTableAttachment(item.description)" class="btn btn-info">Завантажити
+              </a>
+              <a ng-click="openTableAttachment(item.id, item.taskId)" ng-if="isTableAttachment(item.description)"
+                 class="btn btn-info">Переглянути
+              </a>
+              <button class="btn btn-info" ng-disabled="checkSignState.inProcess"
+                      ng-click="checkAttachmentSign(taskId, item.id, item.description)"
+                      ng-if="!isTableAttachment(item.description)">Перевірити ЕЦП
+              </button>
+            </div>
+            <button style="position:relative;" ng-if="item.description !== ' '" type="button"
+                    class="btn btn-link attach-btn idoc-attach-button dropdown-toggle" data-toggle="dropdown"
+                    title="{{item.description | tableButtonFilter}}">
+              <i class="fa fa-paperclip" aria-hidden="true"></i>
+              {{item.description | cut : true : 25 | tableButtonFilter}}
+            </button>
+          </div>
+
+          <div class="dropup" ng-repeat="item in taskData.aNewAttachment" style="position:relative;">
+
+            <div class="like-modal dropdown-menu drop-up" role="menu" style="bottom: 128%">
+              <p>{{item.sFieldLabel | tableButtonFilter}}</p>
+              <a href="/api/tasks/download/{{taskData.oProcess.nID}}/attachment/{{item.id || item.sId}}"
+                 target="_blank"
+                 ng-if="!isTableAttachment(item) && item.type === 'file'"
+                 class="btn btn-info">Завантажити</a>
+              <a
+                href="/api/tasks/download/{{takeTheKeyFromJSON(item)}}/attachment/Mongo/{{takeTheFileNameFromJSON(item)}}"
+                target="_blank"
+                ng-if="!isTableAttachment(item) && (item.type === 'string' || item.sType === 'file')"
+                class="btn btn-info">Завантажити</a>
+              <button class="btn btn-info"
+                      ng-disabled="checkSignState.inProcess"
+                      ng-click="checkAttachmentSign(takeInformFromJSON(item, 'key'), takeInformFromJSON(item, 'storage'), item.name, true)"
+                      ng-if="!isTableAttachment(item)">Перевірити ЕЦП</button>
+              <a ng-click="openTableAttachment(item.id, taskData.oProcess.nID, true)"
+                 ng-if="isTableAttachment(item) && sSelectedTask !== 'docHistory'"
+                 class="btn btn-info">Переглянути</a>
+              <a ng-click="openTableAttachment(item.oValue, false, true)"
+                 ng-if="isTableAttachment(item) && sSelectedTask === 'docHistory'"
+                 class="btn btn-info">Переглянути</a>
+            </div>
+            <button style="position:relative;"
+                    ng-if="(item.id !== 'sTableFile' && item.sId !== 'sTableFile') && item.name !== ' '"
+                    type="button"
+                    class="btn btn-link attach-btn idoc-attach-button dropdown-toggle"
+                    data-toggle="dropdown"
+                    title="{{item.sFieldLabel | tableButtonFilter}}">
+              <i class="fa fa-paperclip" aria-hidden="true"></i>
+              {{item.sFieldLabel | cut : true : 25 | tableButtonFilter}}
+            </button>
+          </div>
+        </div>
+        <div ng-if="sSelectedTask === 'unassigned'" style="font-weight: bold; text-align: center">
+          <span>Щоб переглянути додатки, необхідно взяти звернення в роботу</span>
+        </div>
+      </div>
+
+      <!--document users role-->
+
+      <div class="documentUsers" ng-repeat="group in groupsNote | orderBy:'step'">
+        <div class="addition-hr" ng-if="documentLogins && documentLogins.length !== 0"
+             ng-hide="group.namestep === 'Перегляд' && watchLogins.length === 0">
+          <hr class="hr-divider side-left">
+          <span id="{{group.namestep}}" ng-bind="group.namestep"></span>
+          <hr class="hr-divider side-right">
+        </div>
+        <div style="margin-bottom: 20px" ng-hide="sSelectedTask == 'docHistory'">
+          <div ng-repeat="urgentStep in docRights.SetUrgent_soValue">
+            <div style="margin-left: 45px; display: inline-block">
+              <input type="checkbox"
+                     id="urgent"
+                     ng-if="urgentStep && urgentStep.indexOf('step_' + group.step) > -1"
+                     ng-checked="checkStepIsUrgent(urgentStep)"
+                     ng-click="setUrgentStatus(null, urgentStep, true)"
+                     title="Позначити увесь крок як екстрений/зняти екстреність з усього кроку"/>
+            </div>
+            <div style="display: inline-block; margin-left: 5px">
+            <span ng-if="urgentStep && urgentStep.indexOf('step_' + group.step) > -1"
+                  ng-hide="group.namestep === 'Перегляд'">Позначити увесь крок як екстрений/зняти екстреність з усього кроку</span>
+            </div>
+          </div>
+        </div>
+        <div ng-if="documentLogins" ng-repeat="users in documentLogins" class="users-list">
+          <div ng-if="users.aUser.length !== 0  && group.namestep === users.oDocumentStepType.sNote">
+            <div ng-if="users.bWrite" class="col-xs-12 user-in-users-list" style="margin-bottom: 10px">
+              <div class="col-xs-12" ng-repeat="user in users.aUser">
+                <div class="col-xs-6">
+                  <button class="btn btn-xs remove-user-btn"
+                  ng-if="users.showDeleteBtn && user.sLogin === user.sID_Group"
+                  ng-click="removeUserFromDoc(users)" title="Видалити учасника документу">
+                    <span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span>
+                  </button>
+
+                  <input type="checkbox"
+                         ng-if="docRights.SetUrgent_soValue && docRights.SetUrgent_soValue.indexOf(users.sKeyStep) > -1 && user.sLogin === user.sID_Group"
+                         ng-model="users.bUrgent"
+                         ng-click="setUrgentStatus(user.sLogin, users.sKeyStep, false, users.bUrgent)"
+                         title="Додати/зняти екстреність для користувача"
+                         ng-hide="sSelectedTask == 'docHistory'"/>
+                  <div style="float:right;">
+                      <span id="{{user.sLogin}}" ng-if="user.sLogin === user.sID_Group" title="{{user.sLogin}}">
+                        {{ getShortName(user.sFIO) }}
+                        <span id="({{users.sLogin_Referent}})" ng-if="users.sDate && users.sFIO_Referent"
+                              title="{{users.sLogin_Referent}}"
+                              style="font-weight: normal">
+                            ({{getShortName(users.sFIO_Referent)}})
+                        </span>
+                        <br>
+                        <span id="userId" ng-if="user.sSubjectHumanPosition"
+                              style="font-size: 11px; color: dimgrey; float:left">
+                          {{user.sSubjectHumanPosition}}
+                          <span ng-if="user.sCompany"
+                                style="font-size: 11px; color: dimgrey; margin-left: 5px; font-weight: bold">{{user.sCompany}}
+                          </span>
+                        </span>
+                       </span>
+                  </div>
+                  <span class="documentRole" style="float:right;">{{users.sName}}</span>
+                </div>
+
+                <div class="col-xs-6" ng-if="user.sLogin === user.sID_Group">
+                  <div ng-if="!users.bNeedECP">
+                      <span id="{{users.sDate ? users.sDate : 'Немає підпису'}}" class="documentDate"
+                            style="float: left;">
+                        <b id="{{users.oDocumentStepType.sSing}}"
+                           ng-if="users.sDate && (users.oDocumentStepSubjectSignType.sID  === 'sign' || !users.oDocumentStepSubjectSignType)"
+                           ng-bind="users.oDocumentStepType.sSing"></b>
+                        <b ng-if="users.sDate && users.oDocumentStepSubjectSignType.sID !== 'sign'"
+                           ng-bind="users.oDocumentStepSubjectSignType.sName"></b>
+                        {{users.sDate ? '(' + users.sDate + ')' : 'Немає підпису'}}
+                      </span>
+                  </div>
+                  <div ng-if="users.bNeedECP">
+                      <span class="documentDate" style="float: left;">
+                        <b
+                          ng-if="users.sDateECP && (users.oDocumentStepSubjectSignType.sID  === 'sign' || !users.oDocumentStepSubjectSignType)"
+                          ng-bind="users.oDocumentStepType.sSing"></b>
+                        <b ng-if="users.sDateECP  && users.oDocumentStepSubjectSignType.sID !== 'sign'"
+                           ng-bind="users.oDocumentStepSubjectSignType.sName"></b>
+                        {{users.sDateECP ? '(' + users.sDateECP + ')' : 'Немає ЕЦП'}}</span>
+                  </div>
+                  <div ng-repeat="items in chatMessages.aProcessChat">
+                    <div ng-repeat="item in items.aProcessChatMessage | unique: 'sKeyGroup_Author'">
+                      <div>
+                        <conversation></conversation>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="!users.bWrite" ng-show="users.bWrite!==null" class="col-xs-12" style="margin-bottom: 10px">
+              <div class="col-xs-12" ng-repeat="user in users.aUser">
+                <div class="col-xs-6">
+                  <button class="btn btn-xs remove-user-btn"
+                  ng-if="users.showDeleteBtn && user.sLogin === user.sID_Group"
+                  ng-click="removeUserFromDoc(users)" title="Видалити учасника документу">
+                    <span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span>
+                  </button>
+
+                  <div style="float: right;">
+                      <span ng-if="user.sLogin === user.sID_Group" title="{{user.sLogin}}" style="font-weight: normal">
+                        {{ getShortName(user.sFIO) }}
+                        <span ng-if="users.sDate && users.sFIO_Referent" title="{{users.sLogin_Referent}}">
+                          ({{getShortName(users.sFIO_Referent)}})
+                        </span>
+                        <br>
+                        <span ng-if="user.sSubjectHumanPosition" style="font-size: 11px; color: dimgrey; float:left">{{user.sSubjectHumanPosition}}
+                        <span ng-if="user.sCompany"
+                              style="font-size: 11px; color: dimgrey; margin-left: 5px; font-weight: bold">{{user.sCompany}}
+                          </span>
+                        </span>
+                      </span>
+                  </div>
+                  <span class="documentRole" style="float: right;">{{users.sName}}</span>
+                </div>
+
+                <div class="col-xs-6" ng-if="user.sLogin === user.sID_Group">
+                    <span id="{{users.sDate ? users.sDate : 'Немає ознайомлення'}}" class="documentDate"
+                          style="float: left;">
+                        <b ng-if="users.sDate && users.oDocumentStepSubjectSignType.sID !== 'sign'"
+                           ng-bind="users.oDocumentStepSubjectSignType.sName"></b>
+                        {{users.sDate ? '(' + users.sDate + ')' : 'Немає ознайомлення'}}
+                      </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-repeat="users in watchLogins">
+          <div ng-if="group.namestep === 'Перегляд'" class="col-xs-12" style="margin-bottom: 10px">
+            <div class="col-xs-12" ng-repeat="user in users.aUser">
+              <div class="col-xs-6">
+                <button class="btn btn-xs remove-user-btn"
+                  ng-if="users.showDeleteBtn && user.sLogin === user.sID_Group"
+                  ng-click="removeUserFromDoc(users, true)" title="Видалити учасника документу">
+                    <span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span>
+                </button>
+                <div style="float: right;">
+                            <span ng-if="user.sLogin === user.sID_Group" title="{{user.sLogin}}"
+                                  style="font-weight: normal">
+                              {{ getShortName(user.sFIO) }}
+                              <span ng-if="users.sDate && users.sFIO_Referent" title="{{users.sLogin_Referent}}">
+                                ({{getShortName(users.sFIO_Referent)}})
+                              </span>
+                              <br>
+                              <span ng-if="user.sSubjectHumanPosition"
+                                    style="font-size: 11px; color: dimgrey; float: left">{{user.sSubjectHumanPosition}}
+                                <span ng-if="user.sCompany"
+                                      style="font-size: 11px; color: dimgrey; margin-left: 5px; font-weight: bold">{{user.sCompany}}
+                                </span>
+                              </span>
+                            </span>
+                </div>
+                <span class="documentRole" style="float: right;">{{users.sName}}</span>
+              </div>
+
+              <div class="col-xs-6" ng-if="user.sLogin === user.sID_Group">
+                <span class="documentDate" style="float: left;">{{users.sDate ? users.sDate : 'На перегляді'}}</span>
+                <div ng-repeat="items in chatMessages.aProcessChat">
+                  <div ng-repeat="item in items.aProcessChatMessage | unique: 'sKeyGroup_Author'">
+                    <div>
+                      <conversation></conversation>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-form-fields"
+           ng-class="{'width-with-opened-menu':isMenuOpened, 'width-with-closed-menu':!isMenuOpened}"
+           style="position:fixed; bottom: 0; background: white; z-index: 5;">
+        <div class="main-form-controls" ng-init="checkForEmpty()" ng-if="sSelectedTask !== 'ecp'">
+          <div
+            ng-if="(!clarify && inUnassigned() || !clarify && isDocument()) && (taskData.aProcessSubjectTask.length === 0 || isDocument())"
+            class="fixed-bottom-menu-buttons">
+            <div ng-hide="taskData.sLoginAssigned != null || sSelectedTask == 'all'">
+              <button ng-click="assignTask()"
+                      class="btn btn-info take-to-work-button"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()"
+                      ng-show="taskData.sLoginAssigned == null && !isDocument()">Взяти в роботу
+              </button>
+              <button ng-click="assignAndSubmitDocument(form, false, false, 'seen')"
+                      class="btn btn-info take-to-work-button"
+                      ng-if="(!isDocumentNotSigned || (!documentRights.bWrite && isDocumentNotSigned)) && ['docHistory', 'viewed'].indexOf(sSelectedTask) === -1"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      stub="Відпрацювати"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess() || !isDocumentNotSigned"
+                      ng-show="taskData.sLoginAssigned == null && isDocument()"
+                      ng-hide="documentRights.bWrite === null">
+                <span ng-if="!isDocumentNotSigned">Підписано</span>
+                <span ng-if="documentRights.bWrite === false && isDocumentNotSigned">Ознайомлений</span>
+              </button>
+              <button id="signId"
+                      ng-click="assignAndSubmitDocument(form, isNeedECP())"
+                      class="btn btn-info take-to-work-button"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      stub="Відпрацювати"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess() || !isDocumentNotSigned"
+                      ng-if="documentRights.bWrite && isDocumentNotSigned && (taskData.sLoginAssigned == null && isDocument()) && ['docHistory', 'viewed'].indexOf(sSelectedTask) === -1">
+                <span ng-if="!isNeedECP() && documentRights.bWrite !== null">Пiдписати</span>
+                <span ng-if="isNeedECP() && documentRights.bWrite !== null">Пiдписати ЕЦП</span>
+              </button>
+              <button ng-click="assignAndSubmitDocument(form, false, true)"
+                      class="btn btn-info take-to-work-button"
+                      ng-if="isDocumentEdit()"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">
+                Редагувати
+              </button>
+              <button ng-if="['finished', 'docHistory', 'unassigned', 'viewed'].indexOf(sSelectedTask) === -1"
+                      ng-click="saveChangesTask(form)"
+                      class="btn btn-link"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">Зберегти
+              </button>
+              <label ng-show="isTaskInProcess() && !isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Зачекайте...</label>
+              <label ng-show="isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Задачу направлено в роботу.</label>
+            </div>
+          </div>
+
+          <div ng-if="!clarify && !inUnassigned() && (taskData.aProcessSubjectTask.length === 0 || isDocument())"
+               class="fixed-bottom-menu-buttons">
+            <div ng-hide="taskData.sLoginAssigned == null || sSelectedTask == 'all' || documentRights">
+              <button
+                ng-hide="taskData.sLoginAssigned == null || sSelectedTask == 'finished' || sSelectedTask == 'docHistory'"
+                ng-click="submitTaskQuestion(form)"
+                class="btn btn-info"
+                style="background-color: #3694BA; outline: none; border: none"
+                ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">Опрацювати
+              </button>
+              <button ng-if="['finished', 'docHistory', 'unassigned', 'viewed'].indexOf(sSelectedTask) === -1"
+                      ng-click="saveChangesTask(form)"
+                      class="btn btn-link"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">Зберегти
+              </button>
+              <label ng-show="isTaskInProcess()&& !isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Зачекайте...</label>
+              <label ng-show="isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Опрацьовано.</label>
+            </div>
+
+            <div ng-hide="taskData.sLoginAssigned == null || sSelectedTask == 'all' || !documentRights">
+              <button id="createId"
+                      ng-hide="taskData.sLoginAssigned == null || sSelectedTask == 'finished' || sSelectedTask == 'docHistory'"
+                      ng-if="['docHistory', 'viewed'].indexOf(sSelectedTask) === -1"
+                      ng-click="submitTask(form)"
+                      class="btn btn-info"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      stub="Відпрацювати"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess() || !isDocumentNotSigned">
+                <span ng-if="!isDocumentNotSigned && documentRights.bWrite !== null">Підписано</span>
+                <span ng-if="documentRights.bWrite === false && !isDocument()">Ознайомлений</span>
+                <span ng-if="isDocument() && isDocumentNotSigned && documentRights.bWrite !== null">Створити</span>
+              </button>
+              <button ng-click="submitTask(form)"
+                      ng-if="isDocument() && documentRights.bWrite === null &&
+                             isDocumentEdit() && taskData.sLoginAssigned !== null &&
+                             ['docHistory', 'finished'].indexOf(sSelectedTask) === -1"
+                      class="btn btn-info"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">
+                Редагувати
+              </button>
+              <button ng-click="submitTask(form, false, checkboxForAutoECP.status)"
+                      ng-if="documentRights.bWrite && !isDocument() && isDocumentNotSigned && taskData.sLoginAssigned !== null && ['docHistory', 'viewed', 'finished'].indexOf(sSelectedTask) === -1"
+                      class="btn btn-info"
+                      style="background-color: #3694BA; outline: none; border: none"
+                      stub="Відпрацювати"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess() || !isDocumentNotSigned">
+                <span ng-if="!checkboxForAutoECP.status && !sSelectedTask === 'ecp'">Пiдписати</span>
+                <span ng-if="checkboxForAutoECP.status || sSelectedTask === 'ecp'">Пiдписати ЕЦП</span>
+              </button>
+              <button ng-if="['finished', 'docHistory', 'unassigned', 'viewed'].indexOf(sSelectedTask) === -1"
+                      ng-click="saveChangesTask(form)"
+                      class="btn btn-link"
+                      ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">Зберегти
+              </button>
+              <label ng-show="isTaskInProcess()&& !isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Зачекайте...</label>
+              <label ng-show="isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Задачу опрацьовано.</label>
+            </div>
+          </div>
+
+          <!--<button ng-hide="!isRemoveDocumentButtonVisible()"-->
+          <!--ng-click="removeDocument(taskData.oProcess.nID)"-->
+          <!--class="btn btn-danger"-->
+          <!--ng-disabled="isTaskInProcess()">Видалити-->
+          <!--</button>-->
+          <button ng-if="docRights.DeleteDocument && getDocRightsLength < 2 && isDocument() && sSelectedTask !== 'docHistory'"
+                  ng-click="removeDocument(taskData.oProcess.nID)"
+                  class="btn btn-danger"
+                  ng-disabled="isTaskInProcess()">Видалити
+          </button>
+
+          <div ng-hide="(taskData.sLoginAssigned === null && !isDocument())
+                       || sSelectedTask === 'finished'
+                       || sSelectedTask === 'all'
+                       || (taskData.aProcessSubjectTask.length > 0 && !isDocument())
+                       || taskData.oProcess.sBP.indexOf('system') == 0" class="fixed-bottom-menu-buttons"
+               style="position:relative;">
+            <div class="dropup" ng-if="!clarify && !inUnassigned()">
+              <div class="print-form-div dropdown-menu drop-up" role="menu">
+                <div ng-repeat="item in printTemplateList">
+                  <a href="#" ng-click="newPrint(form, item)">{{item.displayTemplate}}</a>
+                </div>
+              </div>
+              <button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
+              <button ng-if="printTemplateList.length === 0" ng-click="print()" class="btn btn-link dropdown-toggle"
+                      data-toggle="dropdown">Роздрукувати
+              </button>
+            </div>
+          </div>
+
+          <div style="display: inline-block;" ng-if="!inUnassigned() && bHasEmail">
+            <div class="tasks-form-buttons-clarify"
+                 ng-if="sSelectedTask=='selfAssigned' && taskData.oProcess.sBP.indexOf('system') != 0 && !isTaskSuccessfullySubmitted()">
+              <button ng-if="!clarify" type="button" class="btn btn-link" ng-click="clarifyToggle()">Внести зауваження
+              </button>
+              <div ng-if="clarify" style="padding-top:5px;">
+                <textarea class="form-control" placeholder="Коментар до зауваження"
+                          ng-model="clarifyModel.sBody"></textarea>
+                <button type="button" class="btn btn-link" ng-click="clarifySend()">Відправити зауваження</button>
+                <button type="button" class="btn btn-default" ng-click="clarifyToggle()">Відміна</button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="isIssueEdit && !isDocument()" style="display: inline-block;">
+            <button ng-click="editAndSubmit(form, false)"
+                    class="btn btn-info"
+                    style="background-color: #3694BA; outline: none; border: none"
+                    ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess()">
+              Редагувати
+            </button>
+          </div>
+
+          <div ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Delegate && getDocRightsLength === 1"
+               class="fixed-bottom-menu-buttons">
+            <button type="button" class="btn btn-link" ng-click="openModalByButton('bDelegates')">Делегувати</button>
+          </div>
+
+          <div
+            ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.AddAcceptor && getDocRightsLength <= 1"
+            class="fixed-bottom-menu-buttons">
+            <button type="button" class="btn btn-link" ng-click="openModalByButton('bAddAcceptor')">Додати підписанта
+            </button>
+          </div>
+          <div ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.AddVisor && getDocRightsLength <= 1"
+               class="fixed-bottom-menu-buttons">
+            <button type="button" class="btn btn-link" ng-click="openModalByButton('bAddVisor')">Ознайомити</button>
+          </div>
+          <button type="button" ng-if="isDocument() && docRights.AddViewer  && getDocRightsLength <= 1"
+                  class="btn btn-link" ng-click="openModalByButton('bAddViewer')">Додати на перегляд
+          </button>
+
+          <div ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.AskMessage"
+               class="fixed-bottom-menu-buttons">
+            <button type="button" class="btn btn-link" ng-click="openModalByButton('bAskMessage')">Зауваження</button>
+          </div>
+
+          <!--<div style="display: inline-block;"-->
+          <!--ng-if="issue && taskData.aProcessSubjectTask.length === 0 && ['finished', 'viewed', 'docHistory', 'unassigned'].indexOf(sSelectedTask) === -1">-->
+          <!--<button type="button" class="btn btn-link" ng-click="addIssue()">Додати завдання</button>-->
+          <!--</div>-->
+          <div style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.CreateTask"
+               ng-hide="docRights.EditTask && !isIssueEdit">
+            <button type="button" class="btn btn-link" ng-click="addIssue()">Додати завдання</button>
+          </div>
+
+          <div ng-repeat="item in documentLogins" style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && item.aUser[0].sLogin === getCurrentUserLogin() &&
+               item.aUser[0].sLogin === item.aUser[0].sID_Group &&
+               taskData.mProcessVariable.sKey_Step_Document === item.sKeyStep && item.sDate">
+            <button type="button" class="btn btn-link"
+                    ng-click="openModalByButton('bSignInfo', null, 'cancelSubmit', null, form)">Зняти підпис
+            </button>
+          </div>
+
+          <div style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.RemoveDocumentStepSubject && getDocRightsLength < 2">
+            <button type="button" class="btn btn-link"
+                    ng-click="openModalByButton('bSignInfo', null, 'needlessly', null, form)">Підпис не потрібен
+            </button>
+          </div>
+
+          <div style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Refuse && getDocRightsLength < 2">
+            <button type="button" class="btn btn-link"
+                    ng-click="openModalByButton('bSignInfo', null, 'refuse', null, form)">Відмовити
+            </button>
+          </div>
+
+          <div style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Seen && getDocRightsLength < 2">
+            <button type="button" class="btn btn-link" ng-click="assignAndSubmitDocument(form, false, false, 'seen')">
+              Ознайомлен
+            </button>
+          </div>
+
+          <div style="display: inline-block;"
+               ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.EditTask && getDocRightsLength < 2">
+            <edit-issue></edit-issue>
+          </div>
+
+          <div style="display: inline-block;"
+               ng-if="taskData.mProcessVariable.sID_Order_Document">
+            <button type="button" class="btn btn-link"
+                    ng-click="getLinkToDocument(taskData.mProcessVariable.sID_Order_Document)">Відкрити документ
+            </button>
+          </div>
+
+          <div style="display:none;" ng-if="!inUnassigned()">
+            <button class="btn btn-warning" style="border: none">Очікую відповідь</button>
+          </div>
+
+          <div ng-if="taskData.aProcessSubjectTask.length > 0 && !isDocument() && !currentUserRole.isComplete"
+               class="fixed-bottom-menu-buttons">
+            <accept-issue ng-if="showAcceptIssue()"></accept-issue>
+            <button type="button" ng-if="currentUserRole.isController" class="btn btn-link"
+                    ng-click="openModalByButton('bCtrlTransferDate')">Перенести
+            </button>
+            <button type="button" ng-if="currentUserRole.isController" class="btn btn-link"
+                    ng-click="openModalByButton('bRejected')">Вiдхилити звiт
+            </button>
+            <button type="button" ng-if="currentUserRole.isExecutor" class="btn btn-link"
+                    ng-click="openModalByButton('bExecTransferDate')">Перенести
+            </button>
+            <button type="button" ng-if="currentUserRole.isExecutor" class="btn btn-link"
+                    ng-click="openModalByButton('bReport')">Додати звiт
+            </button>
+            <button type="button" ng-if="currentUserRole.isExecutor && currentUserRole.nDeep === 0" class="btn btn-link"
+                    ng-click="openModalByButton('bDelegate', false, false, false, form)">Делегувати
+            </button>
+          </div>
+
+          <div class="dropup another-actions" style="display: inline-block;"
+               ng-if="taskData.aProcessSubjectTask && taskData.aProcessSubjectTask.length > 0 && currentUserRole.isController && !isDocument() && !currentUserRole.isComplete">
+            <button class="btn btn-link dropdown-toggle"
+                    style="display: inline-block;"
+                    type="button"
+                    id="dropdownMenu2"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              Інші дії <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" style="padding: 5px;" aria-labelledby="dropdownMenu2">
+              <li>
+                <unactual-issue></unactual-issue>
+              </li>
+              <li>
+                <button type="button" ng-if="currentUserRole.isController" class="btn btn-link"
+                        ng-click="openModalByButton('bNotExecuted')">Не прийняти
+                </button>
+              </li>
+              <li>
+                <edit-issue></edit-issue>
+              </li>
+            </ul>
+          </div>
+
+          <div class="dropup another-actions" style="display: inline-block;"
+               ng-if="isDocument() && getDocRightsLength > 1">
+            <button class="btn btn-link dropdown-toggle"
+                    style="display: inline-block;"
+                    type="button"
+                    id="dropdownMenu3"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              Інші дії <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" style="padding: 5px;" aria-labelledby="dropdownMenu3">
+              <li>
+                <div ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.EditTask">
+                  <edit-issue></edit-issue>
+                </div>
+              </li>
+              <li>
+                <button type="button"
+                        ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.RemoveDocumentStepSubject"
+                        class="btn btn-link" ng-click="openModalByButton('bSignInfo', null, 'needlessly', null, form)">
+                  Підпис не потрібен
+                </button>
+              </li>
+              <li>
+                <button type="button" ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Refuse"
+                        class="btn btn-link" ng-click="openModalByButton('bSignInfo', null, 'refuse', null, form)">
+                  Відмовити
+                </button>
+              </li>
+              <li>
+                <button type="button" ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Seen"
+                        class="btn btn-link" ng-click="assignAndSubmitDocument(form, false, false, 'seen')">Ознайомлен
+                </button>
+              </li>
+              <li>
+                <button type="button"
+                        ng-if="docRights.DeleteDocument && isDocument() && sSelectedTask !== 'docHistory'"
+                        ng-click="removeDocument(taskData.oProcess.nID)" class="btn btn-danger"
+                        ng-disabled="isTaskInProcess()">Видалити
+                </button>
+              </li>
+
+              <li>
+                <button type="button"
+                        ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.Delegate && getDocRightsLength > 1"
+                        class="btn btn-link" ng-click="openModalByButton('bDelegates')">Делегувати
+                </button>
+              </li>
+              <li>
+                <button type="button"
+                        ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.AddAcceptor  && getDocRightsLength > 1"
+                        class="btn btn-link" ng-click="openModalByButton('bAddAcceptor')">Додати підписанта
+                </button>
+              </li>
+              <li>
+                <button type="button"
+                        ng-if="isDocument() && sSelectedTask !== 'docHistory' && docRights.AddVisor  && getDocRightsLength > 1"
+                        class="btn btn-link" ng-click="openModalByButton('bAddVisor')">Ознайомити
+                </button>
+              </li>
+              <li>
+                <button type="button" ng-if="isDocument() && docRights.AddViewer && getDocRightsLength > 1"
+                        class="btn btn-link" ng-click="openModalByButton('bAddViewer')">Додати на перегляд
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="main-form-controls" ng-init="checkForEmpty()" ng-if="sSelectedTask === 'ecp'">
+          <div class="fixed-bottom-menu-buttons">
+            <button ng-click="signTask(form, false, true)"
+                    class="btn btn-info take-to-work-button"
+                    style="background-color: #3b94b7; outline: none; border: none"
+                    stub="Відпрацювати"
+                    ng-disabled="isTaskSuccessfullySubmitted() || isTaskInProcess() || !isDocumentNotSigned">
+              <span ng-if="!isNeedECP()">Пiдписати</span>
+              <span ng-if="isNeedECP()">Пiдписати ЕЦП</span>
+            </button>
+            <label ng-show="isTaskInProcess() && !isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Зачекайте...</label>
+            <label ng-show="isTaskSuccessfullySubmitted()">&nbsp;&nbsp;Документ підписано.</label>
+          </div>
+
+          <div ng-hide="(taskData.sLoginAssigned === null && !isDocument())
+                     || sSelectedTask === 'finished'
+                     || sSelectedTask === 'all'
+                     || taskData.oProcess.sBP.indexOf('system') == 0" class="fixed-bottom-menu-buttons"
+               style="position:relative; float: right">
+            <div class="dropup" ng-if="!clarify && !inUnassigned()">
+              <div class="print-form-div dropdown-menu drop-up" role="menu">
+                <div ng-repeat="item in printTemplateList">
+                  <a href="#" ng-click="newPrint(form, item)">{{item.displayTemplate}}</a>
+                </div>
+              </div>
+              <button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+                Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
+              <button ng-if="printTemplateList.length === 0" ng-click="print()" class="btn btn-link dropdown-toggle"
+                      data-toggle="dropdown">Роздрукувати
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!--зауваження-->
+  <div ng-if="clarify" style="overflow:hidden;">
+    <clarify-directive></clarify-directive>
+  </div>
+</div>
+
+<print-dialog></print-dialog>
+<table-modal></table-modal>
+<users-hierarchy-modal></users-hierarchy-modal>
+<sign-info-content-dialog></sign-info-content-dialog>
+<buttons-opened-modal ng-if="isModalByButtonIsOpened"></buttons-opened-modal>

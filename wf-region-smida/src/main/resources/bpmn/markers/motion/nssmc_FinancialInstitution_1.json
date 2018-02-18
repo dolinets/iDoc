@@ -1,0 +1,59 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_FI_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_FinancialInstitution",
+        "sFullName_SubjectOrgan_FinancialInstitution",
+        "sLocation_SubjectOrgan_FinancialInstitution",
+        "phone_FinancialInstitution",
+        "email_FinancialInstitution",
+        "sFinancialInstitutionHead",
+        "sSymbol_FinancialInstitution",
+        "bSRO_FinancialInstitution",
+        "sNumberDocEDRISI_FinancialInstitution",
+        "sNumberLicense_FinancialInstitution",
+        "asTermTypeLicense_FinancialInstitution",
+        "nTermCountLicense_FinancialInstitution",
+        "sDate_AddRegistry_FinancialInstitution",
+        "sNumberCertificate_FinancialInstitution",
+        "sNumberDecisionReissue_FinancialInstitution",
+        "sDateDecisionReissue_FinancialInstitution",
+        "sDateIssueDuplicate_FinancialInstitution",
+        "sDateIssueExtract_FinancialInstitution"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='FinancialInstitution' && [sReason2]=='Add'"
+    },
+    "ShowFieldsOnCondition_FI_02": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_FinancialInstitution",
+        "sFullName_SubjectOrgan_FinancialInstitution",
+        "sLocation_SubjectOrgan_FinancialInstitution",
+        "phone_FinancialInstitution",
+        "email_FinancialInstitution",
+        "sFinancialInstitutionHead",
+        "sSymbol_FinancialInstitution",
+        "bSRO_FinancialInstitution",
+        "sNumberDocEDRISI",
+        "sNumberLicense_FinancialInstitution",
+        "asTermTypeLicense_FinancialInstitution",
+        "nTermCountLicense_FinancialInstitution",
+        "sReason_RemoveRegistry_FinancialInstitution",
+        "sDate_RemoveRegistry_FinancialInstitution",
+        "sNumberCertificate_FinancialInstitution",
+        "sNumberDecisionReissue_FinancialInstitution",
+        "sDateDecisionReissue_FinancialInstitution",
+        "sDateIssueDuplicate_FinancialInstitution",
+        "sDateIssueExtract_FinancialInstitution"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='FinancialInstitution' && [sReason2]=='Remove'"
+    }
+  }
+}

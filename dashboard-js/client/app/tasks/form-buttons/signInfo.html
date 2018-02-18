@@ -1,0 +1,40 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12">
+    <div style="margin-top: 20px">
+      <label>Коментар:</label>
+      <textarea name="askMessage"
+                id="askMessage"
+                ng-required="true"
+                style="width:100%;"
+                class="form-control"
+                ng-model="data.message"
+                ng-disabled="modalSpinner">
+      </textarea>
+    </div>
+
+    <div class="button-block-pull-right">
+      <hr>
+      <div class="col-md-12 issue-control-button">
+        <button ng-if="sBody === 'needlessly'"
+                class="btn btn-info btn-igov"
+                ng-click="sendSignInfo()"
+                ng-disabled="!data.message || modalSpinner">Підпис не потрібен
+        </button>
+        <button ng-if="sBody === 'refuse'"
+                class="btn btn-info btn-igov"
+                ng-click="sendSignInfo()"
+                ng-disabled="!data.message || modalSpinner">Відмовити
+        </button>
+        <button ng-if="sBody === 'seen'"
+                class="btn btn-info btn-igov"
+                ng-click="sendSignInfo()"
+                ng-disabled="!data.message || modalSpinner">Ознайомлен
+        </button>
+        <button ng-if="sBody === 'cancelSubmit'"
+                class="btn btn-info btn-igov"
+                ng-click="cancelDocumentSubmit()"
+                ng-disabled="modalSpinner">Зняти підпис</button>
+      </div>
+    </div>
+  </div>
+</div>

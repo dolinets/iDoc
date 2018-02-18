@@ -1,0 +1,42 @@
+<div class="row issue-modal-content">
+  <div class="col-md-12" style="max-height: 50%; overflow-y: scroll" ng-if="nID_Message_Parent">
+    <div ng-if="sBody">
+      <label>Зауваження:</label>
+      <small ng-if="sAuthor && sReferent" style="display: block;">{{sAuthor | getShortName}}&nbsp;({{sReferent | getShortName}})</small>
+      <br>
+      <p>{{sBody}}</p>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div style="margin-top: 20px">
+      <label>Коментар:</label>
+      <textarea name="askMessage"
+                id="askMessage"
+                ng-required="true"
+                style="width:100%;"
+                class="form-control"
+                ng-model="data.message"
+                ng-disabled="modalSpinner">
+      </textarea>
+    </div>
+
+    <div class="button-block-pull-right">
+      <hr>
+      <div class="col-md-12 issue-control-button">
+        <button ng-if="!nID_Message_Parent"
+                class="btn btn-info btn-igov"
+                ng-click="sendAskMessage()"
+                ng-disabled="!data.message || modalSpinner">Відправити зауваження
+        </button>
+        <button ng-if="nID_Message_Parent"
+                class="btn btn-info btn-igov"
+                ng-click="sendAnswerMessage()"
+                ng-disabled="!data.message || modalSpinner">Відповісти
+        </button>
+      </div>
+    </div>
+  </div>
+  <div ng-if="modalSpinner" ng-class="{'spinner-container-menu':isMenuOpened, 'spinner-container-full-size':!isMenuOpened}" style="text-align: center">
+    <span class="test-spinner"></span>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="custom-ng-modal">
+  <div class='custom-ng-modal-overlay' ng-click='closeModalByButton()'></div>
+  <div id="draggable-dialog"
+       ng-style="styles"
+       class='custom-ng-modal-dialog'
+       ng-class="{'col-xs-9 ml-10':isMenuOpened, 'col-xs-12':!isMenuOpened}"
+       style="padding-left: 0; padding-right: 0;">
+    <div class='col-md-12 custom-ng-modal-dialog-content-view'>
+      <div class='custom-ng-modal-header row'>
+        <div id="dragger" class="col-md-12" style="cursor: move;">
+          <span class="issue-name">{{::selectedIssue}}</span>
+          <div class='custom-ng-modal-close' ng-click='closeModalByButton()'>
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </div>
+        </div>
+
+      </div>
+
+      <div class='custom-ng-modal-dialog-content' style="padding: 0;">
+
+        <transfer-date-by-exec ng-if="execCtrlModals.bExecTransferDate"></transfer-date-by-exec>
+
+        <controller-comment ng-if="execCtrlModals.bNotExecuted || execCtrlModals.bRejected"></controller-comment>
+
+        <delegate-select ng-if="execCtrlModals.bDelegate"></delegate-select>
+
+        <transfer-date-by-ctrl ng-if="execCtrlModals.bCtrlTransferDate"></transfer-date-by-ctrl>
+
+        <report-executor ng-if="execCtrlModals.bReport"></report-executor>
+
+        <comment-button ng-if="execCtrlModals.bAskMessage || execCtrlModals.bAskMessageAnswer"></comment-button>
+
+        <edit-comment ng-if="execCtrlModals.bEditMessage"></edit-comment>
+
+        <sign-info ng-if="execCtrlModals.bSignInfo"></sign-info>
+
+        <delegate-document ng-if="execCtrlModals.bDelegates"></delegate-document>
+
+        <viewer-select ng-if="execCtrlModals.bAddViewer"></viewer-select>
+
+        <visor-select ng-if="execCtrlModals.bAddVisor"></visor-select>
+
+        <acceptor-select ng-if="execCtrlModals.bAddAcceptor"></acceptor-select>
+
+        <share-select ng-if="execCtrlModals.bShareDoc"></share-select>
+
+        <certificate-info ng-if="execCtrlModals.bCertificateInfo"></certificate-info>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,295 @@
+nID;sName;sID_Group_Activiti;sChain;nID_Subject;nID_SubjectHumanPositionCustom
+1;Хромаєв Тимур Заурбекович;nssmc_Khromayev;nssmc_;1;1
+2;Назарчук Ігор Ростиславович;nssmc_Nazarchuk;nssmc_;2;2
+3;Панченко Олександр Сергійович;nssmc_Panchenko;nssmc_;3;2
+4;Тарабакін Дмитро Валерійович;nssmc_Tarabakin;nssmc_;4;2
+5;Сахнацька Оксана Андріївна;nssmc_Sakhnatska;nssmc_;5;5
+6;Каменець Ольга Василівна;nssmc_Kamenets;nssmc_;6;3
+7;Скліфус Олена Станіславівна;nssmc_Sklifus;nssmc_;7;4
+8;Лібанов Максим Олександрович;nssmc_Libanov;nssmc_;8;7
+9;Логвиненко Олена Віталіївна;nssmc_Lohvynenko;nssmc_;9;9
+10;Свирида Віталій Вікторович;nssmc_Svyryda;nssmc_;10;11
+11;Веселова Любов Леонідівна;nssmc_Veselova;nssmc_;11;6
+12;Гайова Тетяна Іванівна;nssmc_Hayova;nssmc_;12;6
+13;Дерев’янкін Віталій Валерійович;nssmc_Derevyankin;nssmc_;13;10
+14;Курочкін Сергій Михайлович;nssmc_Kurochkin;nssmc_;14;6
+15;Хорошавцева Світлана Володимирів;nssmc_Khoroshavtseva;nssmc_;15;11
+16;Будьонний Олександр Леонідович;nssmc_Budonnyy;nssmc_;16;9
+17;Остапенко Юлія Віталіївна;nssmc_OstapenkoUV;nssmc_;17;6
+18;Базіченко Яна Валеріївна;nssmc_Bazichenko;nssmc_;18;10
+19;Єфименко Анастасія Юріївна;nssmc_Yefymenko;nssmc_;19;6
+20;Артюшенко Галина Василівна;nssmc_Artyushenko;nssmc_;20;6
+21;Козирєва Вікторія Артурівна;nssmc_Kozyryeva;nssmc_;21;11
+22;Мартиненко Надія Миколаївна;nssmc_MartynenkoN;nssmc_;22;11
+23;Павліков В’ячеслав Вікторович;nssmc_Pavlikov;nssmc_;23;6
+24;Папаіка Алла Вікторівна;nssmc_Papaika;nssmc_;24;7
+25;Хохлова Наталія Віталіївна;nssmc_Khokhlova;nssmc_;25;9
+26;Туркова Олена Миколаївна;nssmc_Turkova;nssmc_;26;10
+27;Цимбрович Олександр Володимирович;nssmc_Tsymbrovych;nssmc_;27;6
+28;Босова Олена Анатоліївна;nssmc_Bosova;nssmc_;28;6
+29;Борщенко Ольга Василівна;nssmc_Borshchenko;nssmc_;29;6
+30;Корж Валентина Миколаївна;nssmc_Korzh;nssmc_;30;11
+31;Лєбєдєва Жанна Миколаївна;nssmc_Lyebyedyeva;nssmc_;31;9
+32;Гришаєва Наталія Вікторівна;nssmc_Hryshayeva;nssmc_;32;6
+33;Кірічок Ганна Сергіївна;nssmc_Kirichok;nssmc_;33;6
+34;Мельник Ірина Володимирівна;nssmc_Melnyk;nssmc_;34;6
+35;Хрустенко Олена Володимирівна;nssmc_Khrustenko;nssmc_;35;6
+36;Яскевич Валерій Леонідович;nssmc_Yaskevych;nssmc_;36;11
+37;Логінова Світлана Юріївна;nssmc_Lohinova;nssmc_;37;6
+38;Добровольський Вадим Валерійович;nssmc_Dobrovolskyy;nssmc_;38;6
+39;Рябова Оксана Сергіївна;nssmc_Ryabova;nssmc_;39;6
+40;Гордієнко Ліна Василівна;nssmc_Hordiyenko;nssmc_;40;6
+41;Ткачук Ксенія Костянтинівна;nssmc_Tkachuk;nssmc_;41;6
+42;Миронюк Ніна Едуардівна;nssmc_Myronyuk;nssmc_;42;11
+43;Дорожко Дмитро Володимирович;nssmc_Dorozhko;nssmc_;43;6
+44;Лазарчук Тетяна Валентинівна;nssmc_Lazarchuk;nssmc_;44;6
+45;Симоненко Оксана Миколаївна;nssmc_Symonenko;nssmc_;45;7
+46;Сальчук Оксана Анатоліївна;nssmc_Salchuk;nssmc_;46;9
+47;Люх Анна Петрівна;nssmc_Lyukh;nssmc_;47;11
+48;Овчаренко Тетяна Анатоліївна;nssmc_Ovcharenko;nssmc_;48;6
+49;Антоненко Світлана Володимирівна;nssmc_AntonenkoS;nssmc_;49;6
+50;Іващенко Ольга Юріївна;nssmc_Ivashchenko;nssmc_;50;6
+51;Тумак Інна Іванівна;nssmc_Tumak;nssmc_;51;6
+52;Гіренко Любов Іванівна;nssmc_Hirenko;nssmc_;52;6
+53;Білоусова Тетяна Ігорівна;nssmc_Bilousova;nssmc_;53;6
+54;Хуторний Юрій Анатолійович;nssmc_Khutornyy;nssmc_;54;6
+55;Соловей Наталія Миколаївна;nssmc_Solovey;nssmc_;55;6
+56;Пістрик Олена Володимирівна;nssmc_Pistryk;nssmc_;56;11
+57;Параїл Лариса Миколаївна;nssmc_Parayil;nssmc_;57;12
+58;Бойчук Микола Миронович;nssmc_Boychuk;nssmc_;58;6
+59;Мотренко Ірина Василівна;nssmc_Motrenko;nssmc_;59;6
+60;Антоненко Анатолій Якович;nssmc_AntonenkoA;nssmc_;60;6
+61;Башина Вікторія Володимирівна;nssmc_Bashyna;nssmc_;61;6
+62;Раєвська Оксана Сергіївна;nssmc_Rayevska;nssmc_;62;10
+63;Ороховський Сергій Юрійович;nssmc_Orokhovskyy;nssmc_;63;6
+64;Раковська Наталія Олександрівна;nssmc_Rakovska;nssmc_;64;6
+65;Фурсова Юлія Владиславівна;nssmc_Fursova;nssmc_;65;6
+66;Гуменна Ганна Юріївна;nssmc_Humenna;nssmc_;66;6
+67;Литвин Ольга Вікторівна;nssmc_LytvynO;nssmc_;67;6
+68;Барамія Іраклій Геннадійович;nssmc_Baramiya;nssmc_;68;10
+69;Рибченко Вікторія Сергіївна ;nssmc_Rybchenko;nssmc_;69;6
+70;Дуригіна Оксана Василівна;nssmc_Duryhina;nssmc_;70;6
+71;Богданець Марія Анатоліївна;nssmc_Bohdanets;nssmc_;71;6
+72;Женжера Вікторія Юріївна;nssmc_Zhenzhera;nssmc_;72;6
+73;Янченко Дмитро Олександрович;nssmc_Yanchenko;nssmc_;73;11
+74;Лукащук Ольга Вікторівна;nssmc_Lukashchuk;nssmc_;74;12
+75;Мороко Ірина Анатоліївна;nssmc_Moroko;nssmc_;75;6
+76;Филипович Тетяна Миколаївна;nssmc_Fylypovych;nssmc_;76;6
+77;Тимощук Дина Сергіївна;nssmc_TymoshchukD;nssmc_;77;6
+78;Мосенцев Костянтин Вікторович;nssmc_Mosentsev;nssmc_;78;11
+79;Сіроштан Тетяна Іванівна;nssmc_Siroshtan;nssmc_;79;6
+80;Соснов Олег Георгійович;nssmc_Sosnov;nssmc_;80;6
+81;Рафальська Катерина Леонідівна;nssmc_Rafalska;nssmc_;81;7
+82;Дубова Олена Анатоліївна;nssmc_Dubova;nssmc_;82;9
+83;Шпотак Людмила Вікторівна;nssmc_Shpotak;nssmc_;83;11
+84;Сорока Вікторія Миколаївна;nssmc_SorokaV;nssmc_;84;6
+85;Пономаренко Яніна Василівна;nssmc_Ponomarenko;nssmc_;85;11
+86;Онопрієнко Людмила Михайлівна;nssmc_Onopriyenko;nssmc_;86;6
+87;Василенко Андрій Владиславович;nssmc_Vasylenko;nssmc_;87;6
+88;Коваленко Наталія Юріївна;nssmc_Kovalenko;nssmc_;88;10
+89;Кохан Вікторія Іванівна;nssmc_Kokhan;nssmc_;89;6
+90;Гузік Інна Василівна;nssmc_Huzik;nssmc_;90;11
+91;Сорока Іван Васильович;nssmc_SorokaI;nssmc_;91;6
+92;Збаражська Олена Єфремівна;nssmc_Zbarazhska;nssmc_;92;11
+93;Добжицька Наталія Володимирівна;nssmc_Dobzhytska;nssmc_;93;6
+94;Шматко Наталія Георгіївна;nssmc_Shmatko;nssmc_;94;6
+95;Курочкіна Ірина Юріївна;nssmc_Kurochkina;nssmc_;95;7
+96;Омельченко Ірина Францівна;nssmc_Omelchenko;nssmc_;96;10
+97;Носікова Ірина Станіславівна;nssmc_Nosikova;nssmc_;97;6
+98;Черноморченко Нінель Володимирівна;nssmc_Chernomorchenko;nssmc_;98;6
+99;Шевкіна Оксана Валеріївна;nssmc_Shevkina;nssmc_;99;6
+100;Глагола Ірина Григорівна;nssmc_Hlahola;nssmc_;100;11
+101;Довженко Олена Станіславівна;nssmc_Dovzhenko;nssmc_;101;6
+102;Бондаренко Аліна Олександрівна;nssmc_Bondarenko;nssmc_;102;6
+103;Горела Марина Володимирівна;nssmc_Horela;nssmc_;103;11
+104;Шуляк Юлія Олександрівна;nssmc_Shulyak;nssmc_;104;6
+105;Човбан Аріадна Ігорівна;nssmc_Chovban;nssmc_;105;6
+106;Козловська Ірина Євгенівна;nssmc_Kozlovska;nssmc_;106;10
+107;Юхно Артем Сергійович;nssmc_Yukhno;nssmc_;107;6
+108;Нечипорук Олена Миколаївна;nssmc_Nechyporuk;nssmc_;108;6
+109;Шаповал Ірина Миколаївна;nssmc_Shapoval;nssmc_;109;6
+110;Караванська Наталія Валеріївна;nssmc_Karavanska;nssmc_;110;6
+111;Мисюра Олег Петрович;nssmc_Mysyura;nssmc_;111;7
+112;Машуренко Руслан Олександрович;nssmc_Mashurenko;nssmc_;112;9
+113;Полева Світлана Миколаївна;nssmc_Poleva;nssmc_;113;10
+114;Смаровоз Михайло Олександрович;nssmc_Smarovoz;nssmc_;114;6
+115;Огонесян Ярослав Олександрович;nssmc_Ohonesyan;nssmc_;115;6
+116;Білодід Світлана Вікторівна;nssmc_Bilodid;nssmc_;116;6
+117;Пасічна Світлана Володимирівна;nssmc_Pasichna;nssmc_;117;11
+118;Калініченко Олена Олегівна;nssmc_Kalinichenko;nssmc_;118;6
+119;Полякова Людмила Олександрівна;nssmc_Polyakova;nssmc_;119;6
+120;Бакало Микола Іванович;nssmc_Bakalo;nssmc_;120;6
+121;Білоченко Тетяна Василівна;nssmc_Bilochenko;nssmc_;121;6
+122;Тринус Микола Анатолійович;nssmc_TrynusN;nssmc_;122;6
+123;Гурін Дмитро Сергійович;nssmc_Hurin;nssmc_;123;6
+124;Дригант Тетяна Валентинівна ;nssmc_Dryhant;nssmc_;124;6
+125;Грибенко Інна Олександрівна;nssmc_Hrybenko;nssmc_;125;11
+126;Войтова Оксана Леонтіївна;nssmc_Voytova;nssmc_;126;9
+127;Репетій Тетяна Георгіївна;nssmc_Repetiy;nssmc_;127;6
+128;Губська Валентина Сергіївна;nssmc_Hubska;nssmc_;128;6
+129;Глущенко Тетяна Вікторівна ;nssmc_Hlushchenko;nssmc_;129;6
+130;Тринус Олена Валеріївна;nssmc_TrynusE;nssmc_;130;11
+131;Кучеренко Володимир Анатолійович;nssmc_Kucherenko;nssmc_;131;6
+132;Криницька Тетяна Сергіївна;nssmc_Krynytska;nssmc_;132;6
+133;Рудик Зоя Євгенівна;nssmc_Rudyk;nssmc_;133;6
+134;Ягнич Олена Андріївна;nssmc_Yahnych;nssmc_;134;7
+135;Гуріна Ірина Олександрівна;nssmc_Hurina;nssmc_;135;10
+136;Свентух Софія Андріївна;nssmc_Sventukh;nssmc_;136;6
+137;Нікітіна Вікторія Олександрівна;nssmc_Nikitina;nssmc_;137;6
+138;Сафін Дмитро Вікторович;nssmc_Safin;nssmc_;138;6
+139;Горбенко Олег Васильович;nssmc_Horbenko;nssmc_;139;11
+140;Лагута Петро Володимирович;nssmc_Lahuta;nssmc_;140;6
+141;Арістархов Андрій Володимирович;nssmc_Aristarkhov;nssmc_;141;6
+142;Гальмиз Олена Василівна;nssmc_Halmyz;nssmc_;142;11
+143;Суярко Антоніна Сергіївна;nssmc_Suyarko;nssmc_;143;6
+144;Мартиненко Інна Іванівна;nssmc_MartynenkoI;nssmc_;144;7
+145;Шумелда Ірина Миколаївна;nssmc_Shumelda;nssmc_;145;9
+146;Марченко Вікторія Миколаївна;nssmc_Marchenko;nssmc_;146;11
+147;Андрущак Ольга Любомирівна;nssmc_Andrushchak;nssmc_;147;12
+148;Пересунько Лариса Дмитрівна;nssmc_Peresunko;nssmc_;148;6
+149;Дубаневич Олег Зенонович;nssmc_Dubanevych;nssmc_;149;6
+150;Грамма Юрій Валерійович;nssmc_Hramma;nssmc_;150;6
+151;Шилов Сергій Володимирович;nssmc_Shylov;nssmc_;151;6
+152;Павлюк Галина Олексіївна;nssmc_Pavlyuk;nssmc_;152;11
+153;Козловська Ольга Сергіївна;nssmc_Kozlovska;nssmc_;153;6
+154;Лопатюк Віталіна Юріївна;nssmc_Lopatyuk;nssmc_;154;6
+155;Довгейко Ольга Сергіївна;nssmc_Dovheyko;nssmc_;155;6
+156;Латишева Олена Вікторівна;nssmc_Latysheva;nssmc_;156;10
+157;Тростенюк Максим Юрійович;nssmc_Trostenyuk;nssmc_;157;6
+158;Семенова Олена Олександрівна;nssmc_Semenova;nssmc_;158;11
+159;Бойко Дар’я Володимирівна;nssmc_Boyko;nssmc_;159;6
+160;Остапенко Юлія Олександрівна;nssmc_OstapenkoUA;nssmc_;160;6
+161;Фоменко Євген Сергійович;nssmc_Fomenko;nssmc_;161;7
+162;Камінський Олег Володимирович;nssmc_Kaminskyy;nssmc_;162;9
+163;Вальорко Алла Миколаївна;nssmc_Valorko;nssmc_;163;6
+164;Попович В’ячеслав Віталійович;nssmc_Popovych;nssmc_;164;6
+165;Земляний Володимир Андрійович;nssmc_Zemlyanyy;nssmc_;165;6
+166;Макогон Олександр Юрійович;nssmc_Makohon;nssmc_;166;11
+167;Тищенко Сергій Миколайович;nssmc_Tyshchenko;nssmc_;167;6
+168;Городний Єгор Юрійович;nssmc_Horodnyy;nssmc_;168;6
+169;Раєвський Андрій Миколайович;nssmc_Rayevskyy;nssmc_;169;6
+170;Кіріченко Каріна Сергіївна;nssmc_Kirichenko;nssmc_;170;11
+171;Ригель Оксана Миронівна;nssmc_Ryhel;nssmc_;171;6
+172;Мельникова Тетяна Сергіївна;nssmc_Melnykova;nssmc_;172;6
+173;Зінькевич Анатолій Миколайович;nssmc_Zinkevych;nssmc_;173;10
+174;Денисенко Людмила Олександрівна;nssmc_Denysenko;nssmc_;174;9
+175;Бірченко Мирослава Володимирівна;nssmc_Birchenko;nssmc_;175;6
+176;Кучерява Оксана Іванівна;nssmc_Kucheryava;nssmc_;176;6
+177;Федоляк Ольга Василівна;nssmc_Fedolyak;nssmc_;177;6
+178;Олексієнко Вікторія Михайлівна;nssmc_Oleksiyenko;nssmc_;178;6
+179;Жилінська Ірина Анатоліївна;nssmc_Zhylinska;nssmc_;179;6
+180;Головко Наталія Борисівна;nssmc_Holovko;nssmc_;180;6
+181;Вдовиченко Галина Ігорівна;nssmc_Vdovychenko;nssmc_;181;8
+182;Будакова Катерина Миколаївна;nssmc_Budakova;nssmc_;182;11
+183;Челомбітько Наталія Василівна;nssmc_Chelombitko;nssmc_;183;6
+184;Кіхно Вікторія Євгенівна;nssmc_Kikhno;nssmc_;184;6
+185;Друзева Алла Володимирівна;nssmc_Druzeva;nssmc_;185;6
+186;Білоус Ірина Володимирівна;nssmc_Bilous;nssmc_;186;6
+187;Янчу Сергій Родіонович;nssmc_Yanchu;nssmc_;187;6
+188;Пилипович Тетяна Анатоліївна;nssmc_Pylypovych;nssmc_;188;6
+189;Городна Лариса Євгенівна;nssmc_Horodna;nssmc_;189;6
+190;Бахов Василь Никодимович;nssmc_Bakhov;nssmc_;190;6
+191;Похитун Жанна Миколаївна;nssmc_Pokhytun;nssmc_;191;11
+192;Оськін Олександр Юрійович;nssmc_Oskin;nssmc_;192;6
+193;Федоренко Володимир Миколайович;nssmc_Fedorenko;nssmc_;193;6
+194;Тимощук Юлія Вікторівна;nssmc_TymoshchukU;nssmc_;194;7
+195;Стеценко Інна Вікторівна;nssmc_Stetsenko;nssmc_;195;6
+196;Сандугей Олена Володимирівна;nssmc_Sanduhey;nssmc_;196;6
+197;Бровко Юлія Василівна;nssmc_Brovko;nssmc_;197;10
+198;Голуб Людмила Григорівна;nssmc_Holub;nssmc_;198;6
+199;Мясоєдова Оксана Володимирівна;nssmc_Myasoyedova;nssmc_;199;6
+200;Приставська Олена Миколаївна;nssmc_Prystavska;nssmc_;200;11
+201;Попова Алла Миколаївна;nssmc_Popova;nssmc_;201;9
+202;Терещенко Наталія Валеріївна;nssmc_Tereshchenko;nssmc_;202;6
+203;Магдик Ганна Вікторівна;nssmc_Mahdyk;nssmc_;203;6
+204;Юшкевич Ольга Іванівна;nssmc_Yushkevych;nssmc_;204;13
+205;Ільченнко Анастасія Володимирівна ;nssmc_Ilchennko;nssmc_;205;6
+206;Пахольчук Андрій Миколайович;nssmc_Pakholchuk;nssmc_;206;6
+207;Назаренко Катерина Віталіївна;nssmc_Nazarenko;nssmc_;207;6
+208;Мединська Тетяна Олександрівна;nssmc_Medynska;nssmc_;208;11
+209;Стрижеус Євгенія Юріївна;nssmc_Stryzheus;nssmc_;209;6
+210;Хворостина Лора Леонідівна;nssmc_Khvorostyna;nssmc_;210;6
+211;Піскун Наталія Станіславівна ;nssmc_Piskun;nssmc_;211;13
+212;Герасименко Ірина Сергіївна;nssmc_Herasymenko;nssmc_;212;11
+213;Ольшевська Тетяна Анатоліївна;nssmc_Olshevska;nssmc_;213;6
+214;Галімулліна Ельвіра Насіхівна;nssmc_Halimullina;nssmc_;214;6
+215;Накалюжна Оксана Анатоліївна;nssmc_Nakalyuzhna;nssmc_;215;6
+216;Солошенко Марія Євгенівна;nssmc_Soloshenko;nssmc_;216;11
+217;Литвин Віра Русланівна;nssmc_LytvynV;nssmc_;217;6
+218;Щербаченко Вікторія Володимирівна;nssmc_Shcherbachenko;nssmc_;218;6
+219;;nssmc_;nssmc_;219;14
+220;;nssmc_heads;nssmc_;220;14
+221;;nssmc_advisers;nssmc_;221;14
+222;;nssmc_strategy;nssmc_;222;14
+223;;nssmc_strategy_EULegislation;nssmc_;223;14
+224;;nssmc_strategy_internationalStandards;nssmc_;224;14
+225;;nssmc_strategy_elaborationLegislation;nssmc_;225;14
+226;;nssmc_strategy_CapitalMarketsTraining;nssmc_;226;14
+227;;nssmc_strategy_InvestorEducation;nssmc_;227;14
+228;;nssmc_strategy_elaborationDocs;nssmc_;228;14
+229;;nssmc_corporate;nssmc_;229;14
+230;;nssmc_corporate_RegistrationIssuesFI;nssmc_;230;14
+231;;nssmc_corporate_RegistrationIssuesEnterprises;nssmc_;231;14
+232;;nssmc_corporate_monitoring;nssmc_;232;14
+233;;nssmc_corporate_MethodologicalSupport ;nssmc_;233;14
+234;;nssmc_licensing;nssmc_;234;14
+235;;nssmc_licensing_depositary Clearing;nssmc_;235;14
+236;;nssmc_licensing_traders;nssmc_;236;14
+237;;nssmc_licensing_AMC;nssmc_;237;14
+238;;nssmc_licensing_ISI;nssmc_;238;14
+239;;nssmc_supervision;nssmc_;239;14
+240;;nssmc_supervision;nssmc_;240;14
+241;;nssmc_supervision_analysisTraders;nssmc_;241;14
+242;;nssmc_supervision_monitoring;nssmc_;242;14
+243;;nssmc_supervision_analysisStatistics ;nssmc_;243;14
+244;;nssmc_financial;nssmc_;244;14
+245;;nssmc_financial_accounting;nssmc_;245;14
+246;;nssmc_financial_financial;nssmc_;246;14
+247;;nssmc_financial_prudentialMethodology;nssmc_;247;14
+248;;nssmc_financial_prudentialSupervision;nssmc_;248;14
+249;;nssmc_financial_Audit;nssmc_;249;14
+250;;nssmc_prof;nssmc_;250;14
+251;;nssmc_prof_depositoryClearing ;nssmc_;251;14
+252;;nssmc_prof_Traders;nssmc_;252;14
+253;;nssmc_prof_investors;nssmc_;253;14
+254;;nssmc_prof_fundExchanges;nssmc_;254;14
+255;;nssmc_control;nssmc_;255;14
+256;;nssmc_control_inspections;nssmc_;256;14
+257;;nssmc_control_audit;nssmc_;257;14
+258;;nssmc_control_ISI;nssmc_;258;14
+259;;nssmc_control_emitente;nssmc_;259;14
+260;;nssmc_control_finMonitoring;nssmc_;260;14
+261;;nssmc_enforcement;nssmc_;261;14
+262;;nssmc_enforcement_support;nssmc_;262;14
+263;;nssmc_enforcement_analysis;nssmc_;263;14
+264;;nssmc_enforcement_counteraction;nssmc_;264;14
+265;;nssmc_enforcement_execution;nssmc_;265;14
+266;;nssmc_ Legal;nssmc_;266;14
+267;;nssmc_enforcement_courts;nssmc_;267;14
+268;;nssmc_enforcement_legalActs;nssmc_;268;14
+269;;nssmc_enforcement_legalExpertise;nssmc_;269;14
+270;;nssmc_enforcement_LegalWork;nssmc_;270;14
+271;;nssmc_it;nssmc_;271;14
+272;;nssmc_it_development;nssmc_;272;14
+273;;nssmc_it_administration;nssmc_;273;14
+274;;nssmc_it_protection;nssmc_;274;14
+275;;nssmc_it_document;nssmc_;275;14
+276;;nssmc_it_document_archive;nssmc_;276;14
+277;;nssmc_support ;nssmc_;277;14
+278;;nssmc_support_accounting;nssmc_;278;14
+279;;nssmc_support_financial;nssmc_;279;14
+280;;nssmc_support_operations;nssmc_;280;14
+281;;nssmc_support_tender;nssmc_;281;14
+282;;nssmc_HR;nssmc_;282;14
+283;;nssmc_HR_recruitment;nssmc_;283;14
+284;;nssmc_HR_publicService;nssmc_;284;14
+285;;nssmc_HR_administration;nssmc_;285;14
+286;;nssmc_HR_preventionCorruption;nssmc_;286;14
+287;;nssmc_international;nssmc_;287;14
+288;;nssmc_international_donor;nssmc_;288;14
+289;;nssmc_international_otherСountries;nssmc_;289;14
+290;;nssmc_international_сommunications;nssmc_;290;14
+291;;nssmc_international_meetings;nssmc_;291;14
+292;;nssmc_international_support;nssmc_;292;14
+293;;nssmc_international_support_security;nssmc_;293;14
+294;;nssmc_staff;nssmc_;294;14

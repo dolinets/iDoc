@@ -1,0 +1,84 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_CP_01": {
+      "aField_ID": [
+        "sNumberFolder_CertifiedProfessionals",
+        "sDateFolder_CertifiedProfessionals",
+        "sDateTillFolder_CertifiedProfessionals",
+        "sNumber_CertifiedProfessionals",
+        "sDateTill_CertifiedProfessionals",
+        "bDuplicate_CertifiedProfessionals",
+        "bCancellation_CertifiedProfessionals",
+        "sPlacePayment_CertifiedProfessionals",
+        "sDatePayment_CertifiedProfessionals",
+        "sINN_CertifiedProfessionals",
+        "sSurname_CertifiedProfessionals",
+        "sName_CertifiedProfessionals",
+        "sAddress_CertifiedProfessionals",
+        "sPassportSeria_CertifiedProfessionals",
+        "sPassportNumber_CertifiedProfessionals",
+        "sDateBirth_CertifiedProfessionals",
+        "sPosition_CertifiedProfessionals",
+        "sDateTransfer",
+        "sDateAcceptance",
+        "sID_SubjectOrgan_OKPO_CertifiedProfessionals",
+        "sFullName_SubjectOrgan_CertifiedProfessionals",
+        "asTypeActivity_CertifiedProfessionals",
+        "asState_CertifiedProfessionals",
+        "sLocation_SubjectOrgan_CertifiedProfessionals",
+        "sNumberCustom_CertifiedProfessionals",
+        "sDateCustom_CertifiedProfessionals",
+        "sTypeActivities_OperatorStudy",
+        "sNumberContract_OperatorStudy",
+        "sTermContraсt_OperatorStudy",
+        "sFullName_SubjectOrgan_OperatorStudy",
+        "sID_SubjectOrgan_OKPO_OperatorStudy"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='CertifiedProfessionals' && [sReason2]=='Add'"
+    },
+    "ShowFieldsOnCondition_CP_02": {
+      "aField_ID": [
+        "sNumberFolder_CertifiedProfessionals",
+        "sDateFolder_CertifiedProfessionals",
+        "sDateTillFolder_CertifiedProfessionals",
+        "sNumber_CertifiedProfessionals",
+        "sDateTill_CertifiedProfessionals",
+        "bDuplicate_CertifiedProfessionals",
+        "bCancellation_CertifiedProfessionals",
+        "sPlacePayment_CertifiedProfessionals",
+        "sDatePayment_CertifiedProfessionals",
+        "sINN_CertifiedProfessionals",
+        "sSurname_CertifiedProfessionals",
+        "sName_CertifiedProfessionals",
+        "sAddress_CertifiedProfessionals",
+        "sPassportSeria_CertifiedProfessionals",
+        "sPassportNumber_CertifiedProfessionals",
+        "sDateBirth_CertifiedProfessionals",
+        "sPosition_CertifiedProfessionals",
+        "sDateTransfer",
+        "sDateDismissal",
+        "sID_SubjectOrgan_OKPO_CertifiedProfessionals",
+        "sFullName_SubjectOrgan_CertifiedProfessionals",
+        "asTypeActivity_CertifiedProfessionals",
+        "asState_CertifiedProfessionals",
+        "sLocation_SubjectOrgan_CertifiedProfessionals",
+        "sNumberCustom_CertifiedProfessionals",
+        "sDateCustom_CertifiedProfessionals",
+        "sTypeActivities_OperatorStudy",
+        "sNumberContract_OperatorStudy",
+        "sTermContraсt_OperatorStudy",
+        "sFullName_SubjectOrgan_OperatorStudy",
+        "sID_SubjectOrgan_OKPO_OperatorStudy"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='CertifiedProfessionals' && [sReason2]=='Remove'"
+    }
+  }
+}

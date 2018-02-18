@@ -1,0 +1,19 @@
+<form ng-submit="getPassword()">
+  <div class="modal-header">
+    <button type="button" ng-click="$dismiss()" class="close">&times;</button>
+    <h4 class="modal-title">Забули пароль?</h4>
+  </div>
+  <div class="modal-body">
+    <p>Для відновлення пароля введіть логін від свого облікового запису, електронну пошту, закріплену за ним та
+      натисніть "Отримати пароль".</p>
+    <div class="form-group"><label>Логін</label>
+      <input type="text" name="getPasslogin" class="form-control" ng-model="userInfo.login" required>
+    </div>
+    <div class="form-group"><label>Пошта (email)</label>
+      <input type="email" ng-model="userInfo.email" class="form-control" required></div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-info">Отримати пароль</button>
+    <button type="button" class="btn btn-link" ng-click="$dismiss()">Закрити</button>
+  </div>
+</form>

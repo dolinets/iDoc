@@ -1,0 +1,27 @@
+<div ng-if="item.type == 'file' && item.id.indexOf('PrintForm') === -1"
+     class="col-sm-12 form-field"
+     ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
+
+  <div class="col-sm-6 task-form-title">
+    <label>
+      {{sFieldLabel(item.name)}}
+      <span ng-if="isRequired(item) && !inUnassigned() && item.writable" style="color: red">*</span>
+    </label>
+  </div>
+
+  <div class="col-sm-6" style="margin-bottom: 15px">
+    <file-field name="{{item.id}}"
+                ng-disabled="isFormPropertyDisabled(item) || !isDocumentNotSigned"
+                ng-model="item.value"
+                ng-required="isRequired(item)">Add File
+    </file-field>
+
+
+    <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+    <span ng-message="required">Необхідно заповнити.</span>
+    <span ng-message="CustomFormat">{{ form[item.id].lastErrorMessage }}</span>
+    <span ng-message="FileSign">Підпис не валідний або відсутній</span>
+    <span ng-message="FileExtensions">{{ form[item.id][item.id].lastErrorMessage }}</span>
+  </span>
+  </div>
+</div>

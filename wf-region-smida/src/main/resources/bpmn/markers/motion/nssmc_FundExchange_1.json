@@ -1,0 +1,24 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_FE_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_FundExchange",
+        "sFullName_SubjectOrgan_FundExchange",
+        "nZipCode_FundExchange",
+        "sLocation_SubjectOrgan_FundExchange",
+        "sNumberLicence_FundExchange",
+        "sDateFromLicence_FundExchange",
+        "sDateTillLicence_FundExchange",
+        "asName_FundExchange",
+        "sDateReissue_FundExchange",
+        "sNumberDecisionReissue_FundExchange",
+        "sSubjectHuman_FundExchangeHead",
+        "sDocumetntActionLast"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='FundExchange'"
+    }
+  }
+}

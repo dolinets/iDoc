@@ -1,0 +1,44 @@
+<div ng-if="item.type == 'textArea' && showField(item)" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.name)}} <span ng-if="isRequired(item) && !inUnassigned() && item.writable" style="color: red">*</span></label>
+    <span class="idoc-hint" ng-bind-html="viewTrustedHTMLContent(sFieldHint(item.name))"></span>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <textarea id="{{item.id}}"
+              ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned"
+              ng-readonly="isFormPropertyDisabled(item)"
+              name="{{item.id}}"
+              ng-required="isRequired(item)"
+              ng-model="item.value"
+              style="width:100%;"
+              class="form-control"
+              ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
+    </textarea>
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-if="(item.readable && !item.writable) || !isDocumentNotSigned"
+          name="{{item.id}}"
+          ng-model="item.value">{{item.value}}
+    </span>
+
+    <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+      <span ng-message="required">Необхідно заповнити.</span>
+      <span ng-message="textua">Текст може містити тількі українські літери або мінус чи пробіл.</span>
+      <span ng-message="textru">Текст може містити тількі російські літери або мінус чи пробіл.</span>
+      <span ng-message="CustomFormat">{{ form[item.id].lastErrorMessage }}</span>
+      <span ng-message="OrderValue">Такого номеру не існує</span>
+    </span>
+  </div>
+</div>
+
+<div ng-if="item.sType && item.sType == 'textArea'" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.sName)}}</label>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-model="item.oValue">{{item.oValue}}
+    </span>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"ls"
+			],
+			"name": "List"
+		}
+	],
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"bower_components"
+			],
+			"name": "Client",
+			"path": "client"
+		},
+		{
+			"name": "Server",
+			"path": "server"
+		},
+		
+		{
+			"file_exclude_patterns":
+			[
+				".*",
+				"*.sh",
+				"*.log",
+				"*.sublime*"
+			],
+			"folder_exclude_patterns":
+			[
+				"node_modules",
+				"client",
+				"dist",
+				"client",
+				"server",
+				".settings"
+			],
+			"name": "Settings/Dependecies",
+			"path": "/home/domash/workspace/i/site"
+		},
+		{
+			"name": "Dist",
+			"path": "dist"
+		},
+		{
+			"name": "Root",
+			"path": "/home/domash/workspace/i"
+		}
+	],
+	"settings":
+	{
+	}
+}

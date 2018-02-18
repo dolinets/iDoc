@@ -1,0 +1,47 @@
+<!--create by Irish-->
+<!DOCTYPE >
+
+<html lang="en" ng-app="siteiDoc">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1" >
+
+  <title>iDoc - Система електронного документообігу</title>
+
+ <!-- build:css({.tmp,client,..}) app/app.css -->
+ <!-- injector:css -->
+ <link rel="stylesheet" href="/css/bootstrap/bootstrap.min.css">
+
+ <link rel="stylesheet" href="/css/style.css">
+ <link rel="stylesheet" href="/css/media.css">
+ <!-- endinjector -->
+  <!-- endbuild -->
+
+</head>
+<body ng-controller="mainController">
+
+
+<main-page></main-page>
+
+
+<script type="text/javascript" src="bower_components/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery.onepage-scroll.min.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+<!-- build:js({.tmp,client,..}) app/app.js -->
+<!-- injector:js -->
+<script src="/components/controller.js"></script>
+<script src="/components/mainPage.directive.js"></script>
+<script src="/components/modal.directive.js"></script>
+<script src="/components/modalSendTask.directive.js"></script>
+<script src="/components/scroll.directive.js"></script>
+<!-- endinjector -->
+<!-- endbuild -->
+
+</body>
+</html>
+
+

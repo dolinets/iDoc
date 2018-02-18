@@ -1,0 +1,153 @@
+<div ng-if="isDocument()">
+  <div role="group" aria-label="...">
+    <a ng-click="showConversation = !showConversation">
+      <i ng-if="user.sLogin === item.sKeyGroup_Author" class="glyphicon glyphicon-comment"
+         style="padding-left: 15px; font-size: 20px"></i>
+    </a>
+  </div>
+
+  <script type="text/ng-template" id="categoryTree">
+
+    <div ng-if="child.sKeyGroup_Author === taskData.mProcessVariable.sLoginAuthor"
+         style="width: 100%; background-color: #fcf9e3; border-left: 5px solid #ff9800; margin-bottom: 20px">
+      <div>
+        <button type="button" class="close" ng-click="deleteProcessChatMessage(child.nID, child.sKeyGroup_Author)"
+                ng-if="!child.aProcessChatMessageChild && child.sKeyGroup_Author === getCurrentUserLogin()">
+          <i ng-hide="sSelectedTask === 'docHistory'"
+             class="glyphicon glyphicon-trash"
+             style="font-size: 15px; color: red; float: right"></i>
+        </button>
+        <button type="button" class="close" ng-click="openModalByButton('bEditMessage', child.nID, child.sBody, item.oProcessChat.sKeyGroup)">
+          <i ng-hide="sSelectedTask === 'docHistory'"
+             class="glyphicon glyphicon-pencil" style="font-size: 15px; float: right; margin-right: 5px"
+             ng-if="!child.aProcessChatMessageChild && child.sKeyGroup_Author === getCurrentUserLogin()"></i>
+        </button>
+      </div>
+      <small style="margin-left: 20px" ng-if="child.sKeyGroup_Author !== getCurrentUserLogin()">
+         {{child.sFIO_Author | getShortName}} ({{child.sFIO_Referent | getShortName}})
+      </small>
+      <br>
+      <div style="margin-left: 20px; padding-bottom: 10px; white-space: pre-line;">{{child.sBody}}</div>
+      <small style="margin: 0 20px;" class="float-right">{{child.sDate | fixDate}}</small>
+      <div>
+        <button type="button" class="btn btn-link"
+                ng-click="openModalByButton('bAskMessageAnswer', child.nID, child.sBody, child.oProcessChat.sKeyGroup)"
+                ng-if="!child.aProcessChatMessageChild 
+                && taskData.aDocumentStepRight.aDocumentSubjectRightPermition[0].permitionType === 'AnswerMessage'"
+                ng-hide="sSelectedTask === 'docHistory'">Відповісти
+        </button>
+      </div>
+    </div>
+
+    <div ng-if="child.sKeyGroup_Author !== taskData.mProcessVariable.sLoginAuthor"
+         style="width: 100%; background-color: #d9edf7; border-left: 5px solid #2e6f8d; margin-left: 20px; margin-bottom: 20px">
+      <div>
+        <button type="button"
+                class="close"
+                ng-click="deleteProcessChatMessage(child.nID, child.sKeyGroup_Author)"
+                ng-if="!child.aProcessChatMessageChild && child.sKeyGroup_Author === getCurrentUserLogin()">
+          <i ng-hide="sSelectedTask === 'docHistory'"
+             class="glyphicon glyphicon-trash"
+             style="font-size: 15px; color: red; float: right"></i>
+        </button>
+        <button type="button"
+                class="close"
+                ng-click="openModalByButton('bEditMessage', child.nID, child.sBody, item.oProcessChat.sKeyGroup)">
+          <i ng-hide="sSelectedTask === 'docHistory'"
+             class="glyphicon glyphicon-pencil"
+             style="font-size: 15px; float: right; margin-right: 5px"
+             ng-if="!child.aProcessChatMessageChild && child.sKeyGroup_Author === getCurrentUserLogin()">
+          </i>
+        </button>
+      </div>
+      <small style="margin-left: 20px" ng-if="child.sKeyGroup_Author !== getCurrentUserLogin()">
+         {{child.sFIO_Author | getShortName}} ({{child.sFIO_Referent | getShortName}})
+      </small>
+      <br>
+      <div style="margin-left: 20px; padding-bottom: 10px; white-space: pre-line;">{{child.sBody}}</div>
+      <small style="margin: 0 20px;" class="float-right">{{child.sDate | fixDate}}</small>
+      <div>
+        <button type="button" class="btn btn-link"
+                ng-click="openModalByButton('bAskMessageAnswer', child.nID, child.sBody, child.oProcessChat.sKeyGroup)"
+                ng-if="!child.aProcessChatMessageChild && getCurrentUserLogin() === taskData.mProcessVariable.sLoginAuthor"
+                ng-hide="sSelectedTask === 'docHistory'">
+          Відповісти
+        </button>
+      </div>
+    </div>
+    <div ng-if="child.aProcessChatMessageChild">
+      <div ng-repeat="child in child.aProcessChatMessageChild" ng-include="'categoryTree'"></div>
+    </div>
+  </script>
+
+  <div ng-show="showConversation">
+    <div ng-repeat="item in items.aProcessChatMessage" ng-if="user.sLogin === item.sKeyGroup_Author">
+      <div>
+        <div ng-if="item.sKeyGroup_Author === taskData.mProcessVariable.sLoginAuthor"
+             style="width: 100%; background-color: #fcf9e3; border-left: 5px solid #ff9800; margin-bottom: 20px">
+          <div>
+            <button type="button" class="close" ng-click="deleteProcessChatMessage(item.nID, item.sKeyGroup_Author)"
+                    ng-if="!item.aProcessChatMessageChild && item.sKeyGroup_Author === getCurrentUserLogin()">
+              <i class="glyphicon glyphicon-trash" style="font-size: 15px; color: red; float: right"></i>
+            </button>
+            <button type="button" class="close" ng-click="openModalByButton('bEditMessage', item.nID, item.sBody, item.oProcessChat.sKeyGroup)">
+              <i ng-hide="sSelectedTask === 'docHistory'"
+                 class="glyphicon glyphicon-pencil"
+                 style="font-size: 15px; float: right; margin-right: 5px"
+                 ng-if="!item.aProcessChatMessageChild && item.sKeyGroup_Author === getCurrentUserLogin()"></i>
+            </button>
+          </div>
+          <small style="margin-left: 20px" ng-if="child.sKeyGroup_Author !== getCurrentUserLogin()">
+             {{item.sFIO_Author | getShortName}} ({{item.sFIO_Referent | getShortName}})
+          </small> 
+          <br>
+          <div style="margin-left: 20px; white-space: pre-line;">{{item.sBody}}</div>
+          <small style="margin: 0 20px;" class="float-right">{{item.sDate | fixDate}}</small>
+            <button type="button"
+              class="btn btn-link"
+              ng-click="openModalByButton('bAskMessageAnswer', item.nID, item.sBody, item.oProcessChat.sKeyGroup)"
+              ng-if="taskData.aDocumentStepRight.aDocumentSubjectRightPermition[0].permitionType === 'AnswerMessage' 
+              && !item.aProcessChatMessageChild"
+              ng-hide="sSelectedTask === 'docHistory'">
+              Відповісти
+            </button>
+          <br>
+        </div>
+
+        <div ng-if="item.sKeyGroup_Author !== taskData.mProcessVariable.sLoginAuthor"
+             style="width: 100%; background-color: #d9edf7; border-left: 5px solid #2e6f8d; margin-left: 20px; margin-bottom: 20px">
+          <div>
+            <button type="button" class="close" ng-click="deleteProcessChatMessage(item.nID, item.sKeyGroup_Author)"
+                    ng-if="!item.aProcessChatMessageChild && item.sKeyGroup_Author === getCurrentUserLogin()">
+              <i class="glyphicon glyphicon-trash" style="font-size: 15px; color: red; float: right"></i>
+            </button>
+            <button type="button" class="close" ng-click="openModalByButton('bEditMessage', item.nID, item.sBody, item.oProcessChat.sKeyGroup)">
+              <i ng-hide="sSelectedTask === 'docHistory'"
+                 class="glyphicon glyphicon-pencil" style="font-size: 15px; float: right; margin-right: 5px"
+                 ng-if="!item.aProcessChatMessageChild && item.sKeyGroup_Author === getCurrentUserLogin()"></i>
+            </button>
+          </div>
+          <small style="margin-left: 20px" ng-if="child.sKeyGroup_Author !== getCurrentUserLogin()">
+             {{item.sFIO_Author | getShortName}} ({{item.sFIO_Referent | getShortName}})
+          </small>
+          <br>
+          <div style="margin-left: 20px; white-space: pre-line;">
+            {{item.sBody}}
+          </div>
+          <small style="margin: 0 20px;" class="float-right">{{item.sDate | fixDate}}</small>
+          <button type="button"
+                  class="btn btn-link"
+                  ng-click="openModalByButton('bAskMessageAnswer', item.nID, item.sBody, item.oProcessChat.sKeyGroup)"
+                  ng-if="!item.aProcessChatMessageChild
+                  && getCurrentUserLogin() !== item.sKeyGroup_Author
+                  && getCurrentUserLogin() === taskData.mProcessVariable.sLoginAuthor"
+                  ng-hide="sSelectedTask === 'docHistory'">
+            Відповісти
+          </button>
+          <br>
+        </div>
+        <div ng-repeat="child in item.aProcessChatMessageChild" ng-include="'categoryTree'"></div>
+      </div>
+    </div>
+  </div>
+</div>

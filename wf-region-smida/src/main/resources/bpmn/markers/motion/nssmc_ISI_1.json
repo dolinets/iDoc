@@ -1,0 +1,100 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_ISI_01": {
+      "aField_ID": [
+        "asSignISI",
+        "sNameISI",
+        "sNameFullISI",
+        "asSignTermISI",
+        "asISIForm",
+        "asISIType",
+        "asSpecializedFundsTypeISI",
+        "asQualifyingFundsTypeISI",
+        "sDateReglamentISI",
+        "asTermUnitISI",
+        "nTermCountISI",
+        "nEDRISI",
+        "nEDRISI",
+        "sDateEDRISI",
+        "sNumberDocEDRISI",
+        "sDateTemporaryDocEDRISI",
+        "sNumberTemporaryDocEDRISI",
+        "asStagesExemptionEDRISI",
+        "sDateExemptionEDRISI",
+        "sNumberExemptionEDRISI",
+        "sReasonExemptionEDRISI",
+        "bChangeDocEDRISI",
+        "sDateCloseISI",
+        "sDateGetMessageISI"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='ISI' && [sReason2]=='Remove'"
+    },
+    "ShowFieldsOnCondition_ISI_02": {
+      "aField_ID": [
+        "asSignISI",
+        "sNameISI",
+        "sNameFullISI",
+        "asSignTermISI",
+        "asISIForm",
+        "asISIType",
+        "asSpecializedFundsTypeISI",
+        "asQualifyingFundsTypeISI",
+        "sDateReglamentISI",
+        "asTermUnitISI",
+        "nTermCountISI",
+        "nEDRISI",
+        "nEDRISI",
+        "sDateEDRISI",
+        "sNumberDocEDRISI",
+        "sDateTemporaryDocEDRISI",
+        "sNumberTemporaryDocEDRISI",
+        "bChangeDocEDRISI",
+        "asAchievementStandards",
+        "sDateAchievementStandards"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember",
+        "sReason2": "asActionEventTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='ISI' && [sReason2]=='Add'"
+    },
+    "ShowFieldsOnCondition_ISI_03": {
+      "aField_ID": [
+        "sDateNewDocEDRISI",
+        "sNumberNewDocEDRISI",
+        "sDateCertificateReportBond",
+        "sOrganReportBond",
+        "sReasonReportBond"
+      ],
+      "asID_Field": {
+        "sReason1": "bChangeDocEDRISI"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    },
+    "ShowFieldsOnCondition_ISI_04": {
+      "aField_ID": [
+        "sSeriesInvestmentCertificate",
+        "sDateRegistrationCertificates",
+        "sDateRegistrationChangeCertificates",
+        "sOrganRegistrationCertificates",
+        "sNumberIssueInvestCertificates",
+        "sDateIssueInvestCertificates",
+        "sDateIssueDuplicateInvestCertificates",
+        "asTypeIssuanceInvestmentCertificate",
+        "asFormExistenceInvestmentCertificate",
+        "nQuantityInvestmentCertificate",
+        "sDateEndIPOInvestmentCertificate",
+        "nPaidStateFeeInvestmentCertificate",
+        "bFictitiousInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asSignISI"
+      },
+      "sCondition": "[sReason1]=='pif'"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_MB_01": {
+      "aField_ID": [
+        "sTableMortgageBond",
+        "nCommonDenominationMortgageBond",
+        "asTypeMortgageBond",
+        "asTypePlacementMortgageBond",
+        "nPaidStateFeeMortgageBond",
+        "sDateBeginIPO_MortgageBond",
+        "sDateEndIPO_MortgageBond",
+        "sDateEndTurnoverMortgageBond",
+        "sDateBeginRepaymentMortgageBond",
+        "sDateEndRepaymentMortgageBond",
+        "sDateIssueMortgageBond",
+        "sOrganAuthorMortgageBond",
+        "sReasonIssueMortgageBond",
+        "sDateIssueMortgageBond",
+        "sNumberCertificateMortgageBond",
+        "sDateCertificateMortgageBond",
+        "asNameCertificateMortgageBond",
+        "sID_SubjectOrgan_OKPO_DepositaryBond",
+        "sFullName_SubjectOrgan_DepositaryBond",
+        "sLocation_SubjectOrgan_DepositaryBond",
+        "sNumberLicenceDepositaryBond",
+        "sDateLicenceDepositaryBond",
+        "sID_SubjectOrgan_OKPO_ManagerBond",
+        "sFullName_SubjectOrgan_ManagerBond",
+        "sLocation_SubjectOrgan_ManagerBond",
+        "sNumberLicenceManagerBond",
+        "sDateLicenceManagerBond",
+        "sID_SubjectOrgan_OKPO_ServingInstitutionBond",
+        "sFullName_SubjectOrgan_ServingInstitutionBond",
+        "sLocation_SubjectOrgan_ServingInstitutionBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Issue'"
+    },
+    "ShowFieldsOnCondition_MB_02": {
+      "aField_ID": [
+        "sOrganChangeMortgageBond",
+        "sDateChangeMortgageBond",
+        "sReasonChangeMortgageBond",
+        "sCharacterChangesMortgageBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Change'"
+    },
+    "ShowFieldsOnCondition_MB_03": {
+      "aField_ID": [
+        "sDateReportSubmissionIPO_MortgageBond",
+        "nCommonDenominationIPO_MortgageBond",
+        "nQuantityIPO_MortgageBond",
+        "sDateCertificateReportMortgageBond",
+        "sOrganReportMortgageBond",
+        "sReasonReportMortgageBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Report'"
+    },
+    "ShowFieldsOnCondition_MB_04": {
+      "aField_ID": [
+        "sDateOrderMortgageBond_Pause",
+        "nDocumentOrderMortgageBond_Pause",
+        "sOrganOrderMortgageBond_Pause",
+        "sReasonOrderMortgageBond_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Pause'"
+    },
+    "ShowFieldsOnCondition_MB_05": {
+      "aField_ID": [
+        "nDocumentFictitiousMortgageBond",
+        "sDateFictitiousMortgageBond"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_MB_06": {
+      "aField_ID": [
+        "sDateOrderMortgageBond_Continue",
+        "nDocumentOrderMortgageBond_Continue",
+        "sOrganOrderMortgageBond_Continue",
+        "sReasonOrderMortgageBond_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_MB_07": {
+      "aField_ID": [
+        "sDateOrderMortgageBond_Cancellation",
+        "nDocumentOrderMortgageBond_Cancellation",
+        "sOrganOrderMortgageBond_Cancellation",
+        "sReasonOrderMortgageBond_Cancellation"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageBonds' && [sReason2]=='Cancellation'"
+    }
+  }
+}

@@ -1,0 +1,159 @@
+<div class="row" ng-controller="NavbarCtrl">
+  <div class="navbar navbar-static-top i-gov-navbar">
+    <div class="container-fluid nav-header-fluid">
+
+      <div ng-if="iGovNavbarHelper.auth.isLoggedIn() || state.is('share')" class="navbar-header">
+        <div class="igov-hamburger">
+          <a snap-toggle ng-click="toggleMenu()" style="cursor: pointer;">
+            <div class="idoc-hamburger-part"></div>
+            <div class="idoc-hamburger-part"></div>
+            <div class="idoc-hamburger-part"></div>
+          </a>
+        </div>
+
+        <div ng-if="personalLogo.showIdoc || !personalLogo" class="idoc-logo-content" style="display: inline-block; float: left;">
+          <a class="navbar-text idoc-emblem" style="cursor:pointer;" href="/" ng-show="ProjectRegion_MainPage_bTasksOnly=='FALSE'">
+            <span>iDoc</span><span>powered by iGov</span>
+          </a>
+
+          <a class="navbar-text idoc-emblem" style="cursor:pointer;" href="/" ng-show="ProjectRegion_MainPage_bTasksOnly=='TRUE'">
+            <span>iGov</span><span>powered by volunteers</span>
+          </a>
+
+          <div class="navbar-text divider-separator"></div>
+
+          <p class="navbar-text navbar-idoc-text idoc-about" ng-show="ProjectRegion_MainPage_bTasksOnly=='FALSE'">
+          <span class="idoc-about-span">
+              <span>система</span><span>електронного</span><span>документообiгу</span>
+            </span>
+          </p>
+
+          <p class="navbar-text navbar-idoc-text idoc-about" ng-show="ProjectRegion_MainPage_bTasksOnly=='TRUE'">
+            <span class="idoc-about-span">
+              <span>адміністративний</span><span>інтерфейс</span><span>системи</span>
+            </span>
+          </p>
+
+          <button type="button" class="navbar-toggle collapsed idoc-user-mobile-hamburger" data-toggle="collapse" data-target="#dropdown-user-menu" aria-expanded="false" ng-click="openCloseMenu()">
+            <i class="glyphicon glyphicon-menu-hamburger" style="color: white;"></i>
+          </button>
+        </div>
+
+        <p ng-if="showLogoForUrl() && personalLogo.type !== 2" class="navbar-text">
+          <img src="assets/images/branding/cib.png" height="64px" style="padding: 4px 10px;">
+        </p>
+
+        <p ng-if="showLogoForUrl() && personalLogo.type === 2" class="navbar-text navbar-custom-logo-2">
+          <img src="assets/images/branding/ntu.png" height="64px" style="padding: 4px 10px;">
+        </p>
+      </div>
+
+      <div class="collapse navbar-collapse" collapse="navBarIsCollapsed" id="dropdown-user-menu" ng-if="iGovNavbarHelper.auth.isLoggedIn()">
+
+        <ul class="nav navbar-nav navbar-right" style="margin-top: 5px;">
+
+          <li class="dropdown">
+            <a ng-if="logoutSpinner" class="dropdown-toggle idoc-user-config-menu">
+              <span>Вихід з системи</span><span class="logout-spinner"></span>
+            </a>
+          </li>
+          <li class="dropdown" ng-hide="logoutSpinner">
+            <a id="accountId" class="dropdown-toggle idoc-user-config-menu" role="button" aria-haspopup="true" aria-expanded="false" ng-click="resizeToolMenu()">
+              <span ng-if="!realUserData || getCurrentUserName() === realUserData.firstName + ' ' + realUserData.lastName">
+                {{getCurrentUserName()}}
+              </span>
+              <span ng-if="realUserData && getCurrentUserName() !== realUserData.firstName + ' ' + realUserData.lastName">
+                в.о. {{realUserData.firstName + ' ' + realUserData.lastName}}&nbsp;({{getShortName(getCurrentUserName())}})
+              </span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dashboard-settings-menu" style="overflow-y: auto; max-height: none;border-radius: 4px;">
+
+              <li style="text-align: center; cursor: default;"><span>{{getCurrentUserName()}}</span></li>
+
+              <li role="separator" class="idoc-divider"></li>
+
+              <li class="i-gov-navbar-referent"
+                  ng-if="referentList"
+                  ng-hide="referentList.length <= 1">Референт для
+              </li>
+
+              <li style="padding: 1px 20px;" ng-repeat="referent in referentList">
+                <label style="font-weight: normal; cursor: pointer"
+                   ng-hide="getCurrentUserName() === referent.sFio || referentList.length <= 1"
+                   ng-bind="::getShortName(referent.sFio)"
+                   ng-click="setsLoginPrincipal(referent.sLogin)">
+                </label>
+                <i class="glyphicon glyphicon-remove"
+                   ng-if="realUserData.lastName + ' ' + realUserData.firstName !== getCurrentUserName()
+                   && referent.sLogin === realUserData.id"
+                   style="color: red; cursor: pointer"
+                   title="Зняти референтність"
+                   ng-hide="getCurrentUserName() === referent.sFio || referentList.length <= 1"
+                   ng-click="setsLoginPrincipal()"></i>
+              </li>
+
+              <li role="separator" class="idoc-divider"
+                  ng-if="referentList"
+                  ng-hide="referentList.length <= 1">
+              </li>
+
+              <li><a href="#"
+                     ng-if="ProjectRegion_StartView_bDocuments === 'FALSE'"
+                     ng-class="{'isActiveTab': isActive('tasks.typeof')}"
+                     ui-sref="tasks.typeof({tab: 'tasks', type:'unassigned'})">Документи / задачi</a>
+                <a href="#"
+                   ng-if="ProjectRegion_StartView_bDocuments === 'TRUE'"
+                   ng-class="{'isActiveTab': isActive('tasks.typeof')}"
+                   ui-sref="tasks.typeof({tab: 'documents', type:'myDocuments'})">Документи / задачi</a>
+              </li>
+
+              <li><a href="#" ng-class="{'isActiveTab': isActive('profile')}"
+                ui-sref="tools.profile">Мiй профіль</a></li>
+
+              <li ng-repeat="menuItem in iGovNavbarHelper.instrumentsMenus"
+                  ng-class="{'isActiveTab': isActive(menuItem.state)}"
+                  ng-show="isVisibleInstrument(menuItem.state) && !menuItem.hideItem">
+                <a ui-sref="{{::menuItem.state}}" ng-bind="::menuItem.title"></a>
+              </li>
+
+              <!--li ng-if="iGovNavbarHelper.isTest"><a href="#" ng-class="{'isActiveTab': isActive('staff')}" ui-sref="staff">Персонал</a></li-->
+              <li><a href="#" ng-class="{'isActiveTab': isActive('staff')}" ui-sref="staff">Персонал</a></li>
+              <li ng-if="isSuperAdmin"><a href="#" ng-class="{'isActiveTab': isActive('superadmin')}" ui-sref="superadmin">Адміністрування</a></li>
+
+              <li role="separator" class="idoc-divider"></li>
+
+              <li ng-if="showDeletedCheckbox" style="padding: 1px 20px" ng-click="$event.stopPropagation()">
+                <div class="checkbox">
+                  <label class="ecp-description-for-checkbox" style="font-size: 1em">
+                    <input type="checkbox" ng-model="showDeletedTasks.status">
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                    Відображати видаленні документи
+                  </label>
+                </div>
+              </li>
+
+              <li style="padding: 1px 20px" ng-click="$event.stopPropagation()">
+                <div class="checkbox">
+                  <label class="ecp-description-for-checkbox" style="font-size: 1em">
+                    <input type="checkbox" ng-model="checkboxForAutoECP.status">
+                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                    Відкласти підписання ЕЦП
+                  </label>
+                </div>
+              </li>
+
+              <li>
+                <a href="#" ng-click="showSignDialog()">Підписати файл</a>
+              </li>
+
+              <li role="separator" class="idoc-divider"></li>
+              <li><a href="#" ng-click="logout()">Вийти</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

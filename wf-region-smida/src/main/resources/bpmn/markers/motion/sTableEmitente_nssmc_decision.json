@@ -1,0 +1,58 @@
+{
+  "aField": [
+    {
+      "id": "sID_SubjectOrgan_OKPO_Emitente",
+      "name": "ЄДРПОУ емітента",
+      "type": "string",
+      "default": " "
+    },
+    {
+      "id": "sFullName_SubjectOrgan_Emitente",
+      "name": "Повне найменування емітента",
+      "type": "textArea",
+      "default": " "
+    },
+    {
+      "id": "asFlagEmitente",
+      "name": "Оберіть ознаку",
+      "type": "enum",
+      "a": [
+        {
+          "id": "MakingChangesDS",
+          "name": "внесення змін в систему депозитарного обліку"
+        },
+        {
+          "id": "AbsentFromLocation",
+          "name": "відсутніcть за місцезнаходженням"
+        },
+        {
+          "id": "Fictitious",
+          "name": "ознака фіктивності"
+        },
+        {
+          "id": "StoppedTrading",
+          "name": "зупенення торгів на будь-якій біржі"
+        },
+        {
+          "id": "ManipulatingPrices",
+          "name": "ознака маніпулювання цінами"
+        }
+      ]
+    },
+    {
+      "id": "asActionEventTypeEmitente",
+      "name": "Дія з ознакою",
+      "type": "enum",
+      "a": [
+        {
+          "id": "Add",
+          "name": "встановлення ознаки"
+        },
+        {
+          "id": "Remove",
+          "name": "відновлення статусу без ознаки"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_Order": {
+      "aField_ID": [
+        "sNumberOrder", 
+        "sIdOrgan",
+        "sStatutoryActs",
+        "sDateImplementation",
+        "sDateNotification"
+      ],
+      "asID_Field": {
+        "sClient": "asOrder"
+      },
+      "sCondition": "[sClient]=='yes'"
+    }
+  }
+}

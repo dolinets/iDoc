@@ -1,0 +1,47 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_RA_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_RateAgency",
+        "sShortName_SubjectOrgan_RateAgency",
+        "sFullName_SubjectOrgan_RateAgency",
+        "sSeriesRegistrationEDR_RateAgency",
+        "sNumberRegistrationEDR_RateAgency",
+        "sOrganCertificateRegistration_RateAgency",
+        "sLocation_SubjectOrgan_RateAgency",
+        "phone_RateAgency",
+        "email_RateAgency",
+        "sSite_RateAgency",
+        "kved",
+        "sID_SubjectOrgan_OKPO_BankFON",
+        "sShortName_SubjectOrgan_BankFON",
+        "sLocation_SubjectOrgan_BankFON",
+        "nMFO_BankFON",
+        "nAccountFON",
+        "sInfoParticipation_RateAgency",
+        "sOfficials_RateAgency",
+        "sOwners_RateAgency",
+        "sRateAgencyHead",
+        "sRateAgencyAccountant",
+        "nCountEmployee_RateAgency",
+        "bLawEnforcement_RateAgency",
+        "sBusinessEntities_RateAgency"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='RateAgency'"
+    },
+    "ShowFieldsOnCondition_RA_02": {
+      "aField_ID": [
+        "sDateEnforcement_RateAgency",
+        "sNumberDocumentEnforcement_RateAgency",
+        "sEnforcementType"
+      ],
+      "asID_Field": {
+        "sReason1": "bLawEnforcement_RateAgency"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    }
+  }
+}

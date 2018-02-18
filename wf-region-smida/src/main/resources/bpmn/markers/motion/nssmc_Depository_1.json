@@ -1,0 +1,60 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_DU_01": {
+      "aField_ID": [
+        "sNameRegion_Depository",
+        "sSubjectOperatorBank_Depository",
+        "bAURKD",
+        "bAUFT",
+        "sSubjectHuman_DepositoryHead",
+        "sNumberFolder_Depository",
+        "sSubjectHuman_ResponsiblePerson_Depository",
+        "bClear_Depository",
+        "sID_SubjectOrgan_OKPO_Depository",
+        "sShortName_SubjectOrgan_Depository",
+        "nSizeCharterCapital_Depository",
+        "sLocation_SubjectOrgan_Depository",
+        "phone_Depository",
+        "email_Depository",
+        "sLocation_SubjectOrgan_Subdivision",
+        "sSeriesLicense_Depository",
+        "sNumberLicense_Depository",
+        "sDateLicenseIssue_Depository",
+        "asTermTypeLicense_Depository",
+        "nTermCountLicense_Depository",
+        "sDateReissue_Depository",
+        "sNumberDecisionReissue_Depository",
+        "sDateDecisionReissue_Depository",
+        "sSeries_LicenceDepositoryISI",
+        "sNumber_LicenceDepositoryISI",
+        "sDateIssue_LicenceDepositoryISI",
+        "asTermType_LicenceDepositoryISI",
+        "nTermCount_LicenceDepositoryISI",
+        "sDateReissue_LicenceDepositoryISI",
+        "sNumberDecisionReissue_LicenceDepositoryISI",
+        "sDateDecisionReissue_LicenceDepositoryISI",
+        "sSeries_LicenceDepositoryPF",
+        "sNumber_LicenceDepositoryPF",
+        "sDateIssue_LicenceDepositoryPF",
+        "asTermType_LicenceDepositoryPF",
+        "nTermCount_LicenceDepositoryPF",
+        "sDateReissue_LicenceDepositoryPF",
+        "sNumberDecisionReissue_LicenceDepositoryPF",
+        "sDateDecisionReissue_LicenceDepositoryPF",
+        "nTermCount_Сontract",
+        "nTermCount_TemporaryСontract",
+        "nCountSubdivision_Depository",
+        "nBranches_Depository",
+        "sBranches_Depository",
+        "sKindStatut_Depository",
+        "bLicence_Depository",
+        "sID_SubjectOrgan_OKPO_Auditor_Depository",
+        "sFullName_SubjectOrgan_Auditor_Depository"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='Depositary'"
+    }
+  }
+}

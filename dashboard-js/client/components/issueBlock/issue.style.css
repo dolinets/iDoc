@@ -1,0 +1,46 @@
+.issue-block .left-side {text-align: right;}
+.issue-block .right-side {text-align: left;}
+.issue-block .red-star {color: red}
+.issue-block .row {margin-bottom: 10px;}
+.issue-block .issue-workers {background: #f3f3f3;padding-bottom: 20px;padding-top: 20px;}
+.issue-block .issue-add-file-button {border: 1px solid #337ab7;outline: none;border-radius: 3px;text-decoration: none;}
+.issue-block .issue-header {position: absolute;}
+@media (max-width: 767px) {
+  .issue-block .issue-header {position: relative;}
+}
+.gly-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.issue-table {width:100%;}
+.issue-user-block-controller, .issue-user-block-executor {display: inline-block; font-size: 13px;}
+.issue-user-block-controller, .issue-report {padding: 0 10px 0 10px;}
+.issue-user-block-executor {padding: 5px 13px;}
+.issue-user-is-main {float: right;color: grey;font-size: 13px;padding: 5px 13px;}
+.issue-table thead tr th {background: #F2F2F2;padding: 10px; font-weight: normal;}
+.issue-no-padding {padding-left: 0;padding-right: 0;}
+.issue-padding-10 {padding-left: 10px;}
+.issue-pb-20 {padding-bottom: 20px;}
+.no-padding-left-right {padding-left: 0; padding-right: 0;}
+.issue-block .duplicate-error, .issue-block .issue-select-error {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #a94442;}
+.mtop-26 {margin-top: 26px !important;}
+.mtop-30 {margin-top: 30px !important;}
+
+.issue-controller-status {
+  margin: 10px 0 10px 0;
+  width: 100%;
+  padding: 3px 15px;
+  font-size: 13px;
+  color: black;
+  background-color: #FCF8E3;
+  border-left: 4px solid #FF6601;
+}

@@ -1,0 +1,48 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_Trader_04": {
+      "aField_ID": [
+        "sSeries_LicenceUnderwriting",
+        "sNumber_LicenceUnderwriting",
+        "sNumberDecisionIssue_LicenceUnderwriting",
+        "sDateDecisionIssue_LicenceUnderwriting",
+        "sDateIssue_LicenceUnderwriting",
+        "sDateFrom_LicenceUnderwriting",
+        "sDateTill_LicenceUnderwriting",
+        "sNumberDecisionReissue_LicenceUnderwriting",
+        "sDateDecisionReissue_LicenceUnderwriting",
+        "sReasonReissue_LicenceUnderwriting",
+        "sNumberDecisionCancellation_LicenceUnderwriting",
+        "sDateDecisionCancellation_LicenceUnderwriting",
+        "sReasonCancellation_LicenceUnderwriting",
+        "sDateCancellation_LicenceUnderwriting"
+      ],
+      "asID_Field": {
+        "sReason1": "bUnderwritingLicense"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    },
+    "ShowFieldsOnCondition_Trader_05": {
+      "aField_ID": [
+        "sSeries_LicenceManagment",
+        "sNumber_LicenceManagment",
+        "sNumberDecisionIssue_LicenceManagment",
+        "sDateDecisionIssue_LicenceManagment",
+        "sDateIssue_LicenceManagment",
+        "sDateFrom_LicenceManagment",
+        "sDateTill_LicenceManagment",
+        "sNumberDecisionReissue_LicenceManagment",
+        "sDateDecisionReissue_LicenceManagment",
+        "sReasonReissue_LicenceManagment",
+        "sNumberDecisionCancellation_LicenceManagment",
+        "sDateDecisionCancellation_LicenceManagment",
+        "sReasonCancellation_LicenceManagment",
+        "sDateCancellation_LicenceManagment"
+      ],
+      "asID_Field": {
+        "sReason1": "bManagmentLicense"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    }
+  }
+}

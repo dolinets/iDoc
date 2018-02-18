@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    
+    <changeSet id="issue-idoc2-create-Server" author="Ivan Denysenko" runOnChange="true" failOnError="false">
+        
+        <createTable tableName="Server">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sType" type="varchar(20)">
+            </column>
+            <column name="sURL_Alpha" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL_Beta" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL_Omega" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sURL" type="varchar(300)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="add-FK_ProcessLink_Server" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseTableName="ProcessLink" 
+                                 baseColumnNames="nID_Server"
+                                 constraintName="FK_ProcessLink_Server" 
+                                 referencedTableName="Server" 
+                                 referencedColumnNames="nID"/>
+    </changeSet>
+    
+    <changeSet id="add-FK_SubjectHuman_Server" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseTableName="SubjectHuman" 
+                                 baseColumnNames="nID_Server"
+                                 constraintName="add-FK_SubjectHuman_Server" 
+                                 referencedTableName="Server" 
+                                 referencedColumnNames="nID"/>
+    </changeSet>
+    
+    <changeSet id="issue-2000-add-FK_Launch_Server" author="Ivan Denysenko"> 
+        <addForeignKeyConstraint baseTableName="Launch" 
+                                 baseColumnNames="nID_Server"
+                                 constraintName="FK_Launch_Server" 
+                                 referencedTableName="Server" 
+                                 referencedColumnNames="nID"/>
+        
+        <addForeignKeyConstraint baseTableName="Launch" 
+                                 baseColumnNames="nID_Server_Client"
+                                 constraintName="FK_Launch_Server_Client" 
+                                 referencedTableName="Server" 
+                                 referencedColumnNames="nID"/>
+    </changeSet>
+    
+</databaseChangeLog>

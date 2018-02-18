@@ -1,0 +1,1621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+   
+    <changeSet id="issue-1385-subjectAddColums_1" author="olga" failOnError="false">
+        <addColumn tableName="Subject">
+            <column name="nID_SubjectHuman" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_Subject_SubjectHuman"
+                             referencedTableName="SubjectHuman" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1385-subjectAddColums_2" author="olga" failOnError="false">
+        <addColumn tableName="Subject">
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_Subject_SubjectOrgan"
+                             referencedTableName="SubjectOrgan" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <!-- 
+   <changeSet id="issue-1385-subjectAddColums_3" author="olga">
+       <sql splitStatements="true" dbms="postgresql">
+           update "Subject" s set "nID_SubjectOrgan" = (select so."nID" from "SubjectOrgan" so where so."nID_Subject" = s."nID") ;
+           update "Subject" s set "nID_SubjectHuman" = (select sh."nID" from "SubjectHuman" sh where sh."nID_Subject" = s."nID") ;
+       </sql>
+   </changeSet>
+    -->
+    
+    <changeSet id="issue-1488-rename-Flow_ServiceData" author="Kovylin Yegor">
+        
+        <dropForeignKeyConstraint baseTableName="FlowProperty" constraintName="FK_FlowProperty_Flow_ServiceData"/>
+        
+        <dropForeignKeyConstraint baseTableName="FlowSlot" constraintName="FK_FlowSlot_Flow_ServiceData"/>
+        
+        <dropForeignKeyConstraint baseTableName="FlowLink" constraintName="FK_FlowLink_Flow_ServiceData"/>
+        
+        <renameTable newTableName="Flow" oldTableName="Flow_ServiceData"/>
+        
+        <renameColumn newColumnName="nID_Flow" oldColumnName="nID_Flow_ServiceData" tableName="FlowProperty"/>
+        
+        <renameColumn newColumnName="nID_Flow" oldColumnName="nID_Flow_ServiceData" tableName="FlowSlot"/>
+        
+        <renameColumn newColumnName="nID_Flow" oldColumnName="nID_Flow_ServiceData" tableName="FlowLink"/>
+        
+        <addForeignKeyConstraint constraintName="FK_FlowProperty_Flow" referencedTableName="Flow" 
+                                 baseColumnNames="nID_Flow" baseTableName="FlowProperty" referencedColumnNames="nID"/>
+        
+        <addForeignKeyConstraint constraintName="FK_FlowSlot_Flow" referencedTableName="Flow" 
+                                 baseColumnNames="nID_Flow" baseTableName="FlowSlot" referencedColumnNames="nID"/>
+        
+        <addForeignKeyConstraint constraintName="FK_FlowLink_Flow" referencedTableName="Flow" 
+                                 baseColumnNames="nID_Flow" baseTableName="FlowLink" referencedColumnNames="nID"/>
+        
+    </changeSet>
+    
+    <!--     <changeSet id="issue-1385-dropForeignKey" author="inna">
+        <dropForeignKeyConstraint baseTableName="SubjectHuman" constraintName="FK_Subject_SubjectHuman"/>
+        <dropForeignKeyConstraint baseTableName="SubjectOrgan" constraintName="FK_Subject_SubjectOrgan"/>
+    </changeSet> -->
+    
+    <changeSet id="issue-1522-Add-fields" author="Elena Shebaldenkova">
+        <addColumn tableName="DocumentStepSubjectRight">
+            <column name="sDateECP" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_File_ForSign" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="bNeedECP" type="boolean" defaultValue="false">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1503-move-History" author="Kovylin Yegor" failOnError="false">
+        
+        <createTable tableName="DocumentContentType">
+            <column name="nID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+	
+        <addAutoIncrement tableName="DocumentContentType" columnName="nID" startWith="1000" columnDataType="bigint"/>
+	
+        <createTable tableName="DocumentType">
+            <column name="nID" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bHidden" type="boolean" defaultValue="false">
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="DocumentType" columnName="nID" startWith="1000" columnDataType="bigint"/>	
+
+        <createTable tableName="DocumentOperator_SubjectOrgan">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_SubjectOrgan" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sHandlerClass" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="DocumentOperator_SubjectOrgan" startWith="1000" columnName="nID" columnDataType="bigint"/>
+        	
+        <createTable tableName="Document">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_DocumentType" type="int">
+                <constraints nullable="false"
+                             foreignKeyName="FK_Document_DocumentType"
+                             referencedTableName="DocumentType" referencedColumnNames="nID" deleteCascade="true"/>
+            </column>
+            <column name="sID_Content" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_ContentType" type="int">
+                <constraints foreignKeyName="FK_Document_DocumentContentType"
+                             referencedTableName="DocumentContentType" referencedColumnNames="nID" deleteCascade="true"/>
+            </column>
+            <column name="sFile" type="varchar(150)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDate_Upload" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sID_Subject_Upload" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sSubjectName_Upload" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sContentType" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_Subject" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Subject_Upload" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Document_Subject_Upload"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="true"/>
+            </column>
+            <column name="oSignData" type="varchar" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addAutoIncrement tableName="Document" columnName="nID" startWith="1000" columnDataType="bigint"/>
+
+        <addForeignKeyConstraint constraintName="FK_Document_Subject" referencedTableName="Subject" referencedColumnNames="nID"
+                                 baseTableName="Document" baseColumnNames="nID_Subject"
+                                 deleteCascade="false"/>
+
+        <createTable tableName="HistoryEvent">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_Subject" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_HistoryEventType" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sEventName_Custom" type="varchar(1500)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sMessage" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDate" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_HistoryEvent_Service" type="bigint" defaultValue="null">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Document" type="bigint" defaultValue="null">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSubjectInfo" type="varchar(255)">
+            </column>
+        </createTable>
+        
+        <addAutoIncrement tableName="HistoryEvent" columnName="nID" startWith="1000" columnDataType="bigint"/>
+        
+        <addForeignKeyConstraint constraintName="FK_HistoryEventService_HistoryEvent" referencedTableName="HistoryEvent_Service" referencedColumnNames="nID"
+                                 baseColumnNames="nID_HistoryEvent_Service" baseTableName="HistoryEvent" onDelete="CASCADE"/>
+   
+        <addForeignKeyConstraint constraintName="FK_Subject_HistoryEvent" baseTableName="HistoryEvent" baseColumnNames="nID_Subject"
+                                 referencedTableName="Subject" referencedColumnNames="nID"
+                                 deleteCascade="false"/>
+
+        <addForeignKeyConstraint constraintName="FK_Document_HistoryEvent" baseTableName="HistoryEvent" baseColumnNames="nID_Document"
+                                 referencedTableName="Document" referencedColumnNames="nID"
+                                 deleteCascade="false" />
+    </changeSet>
+    
+    <changeSet id="modify-type-of-sData-for-SubjectMessage" author="Kovylin Yegor">
+        <modifyDataType tableName="SubjectMessage" columnName="sData" newDataType="varchar(6000)" />
+    </changeSet>
+    
+    <changeSet id="modify-type-of-soData-for-HistoryEvent_Service" author="Kovylin Yegor" failOnError="false">
+        <modifyDataType tableName="HistoryEvent_Service" columnName="soData" newDataType="varchar(6000)" />
+    </changeSet>
+    
+    <changeSet id="modify-type-of-soData-for-HistoryEvent_Service_new" author="Kovylin Yegor" failOnError="false">
+        <modifyDataType tableName="HistoryEvent_Service" columnName="soData" newDataType="clob" />
+    </changeSet>
+    
+    <changeSet id="modify-type-of-soData-for-SubjectMessage_new_" author="olga">
+        <modifyDataType tableName="SubjectMessage" columnName="sData" newDataType="clob" />
+   
+    </changeSet>
+    
+    <changeSet id="issue-1563-create_table_SubjectRightBP" author="Elena">
+        
+        <createTable tableName="SubjectRightBP">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sID_BP" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sID_Place_UA" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_Group" type="varchar(150)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+         
+        <addAutoIncrement tableName="SubjectRightBP" columnName="nID" startWith="1000" columnDataType="bigint"/>
+  
+    </changeSet>
+
+    <changeSet id="FlowProperty-autoIncrement" author="brunneng">
+        <addAutoIncrement tableName="FlowProperty" columnName="nID" startWith="1" columnDataType="bigint"/>
+    </changeSet>
+
+    <changeSet id="issue-1579-Add-fields" author="BW">
+        <addColumn tableName="DocumentStepSubjectRight">
+            <column name="sID_Field" type="varchar(100)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    
+    
+    
+    <changeSet id="issue-1573-create_table_DocumentStepType" author="olha">
+        
+        <createTable tableName="DocumentStepType">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+  
+    </changeSet>
+    
+    
+    <changeSet id="issue-1573-addForeignKey_DocumentStep" author="olga" failOnError="false">
+        <addColumn tableName="DocumentStep">
+            <column name="nID_DocumentStepType" type="bigint" defaultValue="1">
+                <constraints nullable="false" foreignKeyName="FK_Subject_DocumentStepType"
+                             referencedTableName="DocumentStepType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1573-create_table_SubjectHumanPositionCustom" author="olha">
+        
+        <createTable tableName="SubjectHumanPositionCustom">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+  
+    </changeSet>
+    
+    <changeSet id="issue-1573-addForeignKey_SubjectGroup" author="olga" failOnError="false">
+        <addColumn tableName="SubjectGroup">
+            <column name="nID_SubjectHumanPositionCustom" type="bigint" defaultValue="1">
+                <constraints nullable="false" foreignKeyName="FK_SubjectHumanPositionCustom"
+                             referencedTableName="SubjectHumanPositionCustom" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="add index to Document" author="olga">
+        
+        <createIndex tableName="DocumentStep" indexName="snID_Process_Activiti">
+            <column name="snID_Process_Activiti"/>
+        </createIndex>
+        
+        <createIndex tableName="DocumentStep" indexName="sKey_Step">
+            <column name="sKey_Step"/>
+        </createIndex>
+        
+        <createIndex tableName="DocumentStepSubjectRight" indexName="nID_DocumentStep">
+            <column name="nID_DocumentStep"/>
+        </createIndex>
+        
+        <createIndex tableName="DocumentStepSubjectRight" indexName="sKey_GroupPostfix">
+            <column name="sKey_GroupPostfix"/>
+        </createIndex>
+        
+        <createIndex tableName="DocumentStepSubjectRight" indexName="sLogin">
+            <column name="sLogin"/>
+        </createIndex>
+            
+    </changeSet>
+    
+    <changeSet id="issue-1594-add-fileds" author="Kovylin Yegor">
+        
+        <renameColumn newColumnName="sID_Group_Referent" oldColumnName="sID_Group" tableName="SubjectRightBP"/>
+        
+        <addColumn tableName="SubjectRightBP">
+            <column name="asID_Group_Export" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sFormulaFilter_Export" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>            
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+    <changeSet id="modify-for-DocumentStep" author="olga">
+        <modifyDataType tableName="DocumentStep" columnName="sKey_Step" newDataType="varchar(255)" />
+        <modifyDataType tableName="DocumentStepSubjectRight" columnName="sKey_GroupPostfix" newDataType="varchar(255)" />
+        <modifyDataType tableName="DocumentStepSubjectRight" columnName="sName" newDataType="varchar(255)" />
+        <modifyDataType tableName="DocumentStepSubjectRight" columnName="sLogin" newDataType="varchar(255)" />
+    </changeSet>
+
+    <changeSet id="issue-1553-create_table_SubjectMessageQuestionField" author="Elena">
+        
+        <createTable tableName="SubjectMessageQuestionField">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_SubjectMessage" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectMessageQuestionField_SubjectMessage"
+                             referencedTableName="SubjectMessage"
+                             referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sID" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sType" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sValue" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sValueNew" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNotify" type="varchar(200)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+    
+    <changeSet id="issue-1615-create-tables" author="Kovylin Yegor">
+        
+        <createTable tableName="RelationClass">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sClass" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="Relation">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_RelationClass" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_RelationClass_Relation"
+                             referencedTableName="RelationClass" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectGroup">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_Subject_Source" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectGroup_Subject"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sID_Private_Source" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="Relation_ObjectGroup">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_Relation" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Relation_ObjectGroup_Relation"
+                             referencedTableName="Relation" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectGroup_Parent" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ObjectGroup_Child" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Relation_ObjectGroup_ObjectGroup"
+                             referencedTableName="ObjectGroup" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ObjectItem">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_Subject_Source" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_ObjectItem_Subject"
+                             referencedTableName="Subject" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sID_Private_Source" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="Relation_ObjectItem">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_Relation" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Relation_ObjectItem_Relation"
+                             referencedTableName="Relation" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ObjectItem_Parent" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ObjectItem_Child" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_Relation_ObjectItem_ObjectItem"
+                             referencedTableName="ObjectItem" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint constraintName="Relation_ObjectGroup_key"
+                             tableName="Relation_ObjectGroup"
+                             columnNames="nID_ObjectGroup_Parent, nID_ObjectGroup_Child"/>
+
+        <addUniqueConstraint constraintName="Relation_ObjectItem_key"
+                             tableName="Relation_ObjectItem"
+                             columnNames="nID_ObjectItem_Parent, nID_ObjectItem_Child"/>
+                
+    </changeSet>
+
+    <changeSet id="issue-1632-add-saKeyword" author="brunneng">
+        <addColumn tableName="Service">
+            <column name="saKeyword" type="varchar(500)"/>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1615-change-relation-tables" author="Kovylin Yegor">
+        
+        <addColumn tableName="ObjectItem">
+            <column name="sName" type="varchar(5000)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        
+        <modifyDataType tableName="ObjectGroup" columnName="sName" newDataType="varchar(5000)" />
+        <modifyDataType tableName="ObjectGroup" columnName="sID_Private_Source" newDataType="varchar(255)" />
+        <modifyDataType tableName="ObjectItem" columnName="sID_Private_Source" newDataType="varchar(255)" />
+        
+    </changeSet>
+    
+    <changeSet id="issue-1615-add-default-values" author="Kovylin Yegor">
+        <addDefaultValue columnName="sName" defaultValue=" " tableName="ObjectItem"/>
+        <addDefaultValue columnName="sName" defaultValue=" " tableName="ObjectGroup"/>
+    </changeSet>
+    
+    
+    <changeSet id="issue-1553-modify DataType" author="Elena">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sID" newDataType="varchar(255)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sName" newDataType="varchar(255)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sType" newDataType="varchar(255)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValue" newDataType="varchar(255)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValueNew" newDataType="varchar(255)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sNotify" newDataType="varchar(255)" />
+    </changeSet>
+    
+    <changeSet id="issue-1650-add-new-entity-and-colums" author="Kovylin Yegor">
+        
+        <createTable tableName="ProcessSubjectTask">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sHead" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sBody" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+            <column name="snID_Process_Activiti_Root" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addColumn tableName="ProcessSubject">
+            <column name="sReportType" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ProcessSubjectTask" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+        <addForeignKeyConstraint constraintName="FK_ProcessSubject_ProcessSubjectTask" referencedTableName="ProcessSubjectTask"
+                                 baseColumnNames="nID_ProcessSubjectTask" baseTableName="ProcessSubject" 
+                                 referencedColumnNames="nID"/>
+    
+    </changeSet>
+    
+    <changeSet id="test" author="olga">
+        
+    </changeSet>
+    
+    <changeSet id="issue-1650-add-new-colums-and-rename-existed" author="Ivan Denysenko">
+        
+        <addColumn tableName="ProcessSubject">
+            <column name="sLoginRole" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDatePlanNew" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+        <renameColumn newColumnName="sText" oldColumnName="sReport" tableName="ProcessSubject"/>
+        <renameColumn newColumnName="sTextType" oldColumnName="sReportType" tableName="ProcessSubject"/>
+        
+    </changeSet>
+    
+    <changeSet id="issue-1553-modify DataType sValueNew" author="Elena">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValueNew" newDataType="varchar(6000)" />
+    </changeSet>
+        
+    <changeSet id="issue-1553-modify DataType Values" author="Elena">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValue" newDataType="varchar(6000)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sNotify" newDataType="varchar(6000)" />
+    </changeSet>
+       
+       
+    <changeSet id="issue-1553-modify DataType Values to clob" author="Elena"  failOnError="false">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValue" newDataType="clob" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValueNew" newDataType="clob" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sNotify" newDataType="clob" />
+    </changeSet>
+       
+    <changeSet id="issue-1553-reverse modify DataType Values to clob" author="Elena">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValue" newDataType="varchar(500)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValueNew" newDataType="varchar(500)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sNotify" newDataType="varchar(500)" />
+    </changeSet>
+       
+    <changeSet id="issue-1553-add number DataType Values" author="Elena">
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValue" newDataType="varchar(6000)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sValueNew" newDataType="varchar(6000)" />
+        <modifyDataType tableName="SubjectMessageQuestionField" columnName="sNotify" newDataType="varchar(6000)" />
+    </changeSet>
+       
+    <changeSet id="issue-1668-add-new-column" author="Ivan Denysenko">
+        <addColumn tableName="ProcessSubject">
+            <column name="snID_Task_Activiti" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+       
+    <changeSet id="issue-1612-add-new-column" author="Elena"  failOnError="false">
+        <addColumn tableName="HistoryEvent_Service">
+            <column name="sID_Public_SubjectOrganJoin" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1661-add-new-entity-and-colums" author="Kovylin Yegor">
+        
+        <createTable tableName="DocumentSubjectRightPermition">
+            <column name="nID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_DocumentStepSubjectRight" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PermitionType" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sKeyGroupeSource" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint constraintName="FK_DocumentSubjectRightPermition_DocumentStepSubjectRight" 
+                                 baseColumnNames="nID_DocumentStepSubjectRight" 
+                                 baseTableName="DocumentSubjectRightPermition"
+                                 referencedTableName="DocumentStepSubjectRight" 
+                                 referencedColumnNames="nID"/>
+    </changeSet>   
+        
+    <changeSet id="issue-1661-drop-not-nullable-for-bWrite" author="Kovylin Yegor">
+        <dropNotNullConstraint  columnDataType="boolean"
+                                columnName="bWrite"
+                                tableName="DocumentStepSubjectRight"/>
+    </changeSet>    
+        
+    <changeSet id="issue-1718-add-new-column" author="Kovylin Yegor">
+        <addColumn tableName="ProcessSubjectTask">
+            <column name="sKey" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>        
+       
+    <changeSet id="issue-2-iProject-add-new-entity" author="Kovylin Yegor">
+        
+        <createTable tableName="DocumentImageFile">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sHash" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSecret" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sKey_File" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_FileStorage" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sFileType" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sFileExtension" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nBytes" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateSave" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+            
+        <createTable tableName="DocumentImageFileSign">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_DocumentImageFile" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSign" type="varchar(400)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_SignType" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSignData_JSON" type="varchar(5000)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+            
+        <createTable tableName="SignType">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sID" type="varchar(200)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sName" type="varchar(200)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNote" type="varchar(1000)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sClass" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+            
+        <addForeignKeyConstraint constraintName="FK_DocumentImageFile_DocumentImageFileSign" referencedTableName="DocumentImageFile"
+                                 baseColumnNames="nID_DocumentImageFile" baseTableName="DocumentImageFileSign" 
+                                 referencedColumnNames="nID"/>
+            
+        <addForeignKeyConstraint constraintName="FK_SignType_DocumentImageFileSign" referencedTableName="SignType"
+                                 baseColumnNames="nID_SignType" baseTableName="DocumentImageFileSign" 
+                                 referencedColumnNames="nID"/>
+    
+    </changeSet>
+                          
+    <changeSet id="issue-1809-add-column" author="Kovylin Yegor">
+        <addColumn tableName="DocumentSubjectRightPermition">
+            <column name="sID_Group_Activiti" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>   
+    
+    <changeSet id="issue-1840-add-column" author="Belichenko Oleksandr">
+        <addColumn tableName="DocumentStepType">
+            <column name="sSing" type="varchar(255)" defaultValue="Завізовано">
+                <constraints nullable="false"/>
+            </column>            
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1848-refactoring-table" author="Kovylin Yegor">
+        
+        <dropUniqueConstraint   constraintName="ProcessSubject_Unique" 
+                                tableName="ProcessSubject"
+                                uniqueColumns="nOrder, snID_Process_Activiti"/>
+        
+        <dropNotNullConstraint  columnDataType="varchar(255)"
+                                columnName="snID_Process_Activiti"
+                                tableName="ProcessSubject"/>
+        
+    </changeSet>
+    
+    <changeSet id="editing-constraint-FK_ProcessSubject_ProcessSubjectStatus" author="Ivan Denysenko">
+        <dropForeignKeyConstraint   baseTableName="ProcessSubject"
+                                    constraintName="FK_ProcessSubject_ProcessSubjectStatus"/>
+        
+        <addForeignKeyConstraint    baseColumnNames="nID_ProcessSubjectStatus"
+                                    baseTableName="ProcessSubject"
+                                    constraintName="FK_ProcessSubject_ProcessSubjectStatus_Edited"
+                                    referencedColumnNames="nID"
+                                    referencedTableName="ProcessSubjectStatus"/>
+    </changeSet>
+    
+    <changeSet id="add-nDeep-column-to-ProcessSubject" author="Ivan Denysenko">
+        <addColumn tableName="ProcessSubject">
+            <column name="nDeep" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1856-add-tables-for-chat" author="Alex Komarenko">
+        
+        <createTable tableName="ProcessChat">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Process_Activiti" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sKeyGroup" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ProcessChatMessage">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_ProcessChat" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sKeyGroup_Author" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDate" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sBody" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint constraintName="FK_ProcessChatMessage_ProcessChat" referencedTableName="ProcessChat" 
+                                 baseColumnNames="nID_ProcessChat" baseTableName="ProcessChatMessage" referencedColumnNames="nID"/>
+        
+        <createTable tableName="ProcessChatMessageTree">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_ProcessChatMessage_Parent" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_ProcessChatMessage_Child" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint constraintName="FK_ProcessChatMessageTree_P" referencedTableName="ProcessChatMessage" 
+                                 baseColumnNames="nID_ProcessChatMessage_Parent" baseTableName="ProcessChatMessageTree" referencedColumnNames="nID"/>
+        
+        <addForeignKeyConstraint constraintName="FK_ProcessChatMessageTree_C" referencedTableName="ProcessChatMessage" 
+                                 baseColumnNames="nID_ProcessChatMessage_Child" baseTableName="ProcessChatMessageTree" referencedColumnNames="nID"/>
+         
+    </changeSet>
+    
+    <changeSet id="issue-1876-add-table-DocumentStepSubjectSignType" author="Belichenko Oleksandr">
+        
+        <createTable tableName="DocumentStepSubjectSignType">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>        
+        
+        <addColumn tableName="DocumentStepSubjectRight">
+            <column name="nID_DocumentStepSubjectSignType" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+    <changeSet id="issue-1892-add-edit-tables" author="Alex Komarenko">
+        
+        <createTable tableName="SubjectStatus">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="EntityItem">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+        </createTable>
+        
+        <addColumn tableName="Subject">
+            <column name="nID_EntityItem" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_Subject_EntityItem"
+                             referencedTableName="EntityItem" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_SubjectStatus" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_Subject_SubjectStatus"
+                             referencedTableName="SubjectStatus" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+        
+        <addColumn tableName="Document">
+            <column name="sNumberCustom" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+        <addColumn tableName="SubjectHuman">
+            <column name="sDateBirth" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+        <addColumn tableName="SubjectOrgan">
+            <column name="nSizeCharterCapital" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sSeriesRegistrationEDR" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sNumberRegistrationEDR" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateRegistrationEDR" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sLegalForm" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+                
+    </changeSet>
+
+    <changeSet id="issue-1834-creating-entities" author="Sergei Mordasov">
+        <createTable tableName="AttributeObject">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ObjectGroupAttribute">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sValue" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_ObjectGroup" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_ObjectGroup"
+                             referencedTableName="ObjectGroup" referencedColumnNames="nID"/>
+            </column>
+            <column name="nID_AttributeObject" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_AttributeObject"
+                             referencedTableName="AttributeObject" referencedColumnNames="nID"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="issue-idoc18-add-column" author="Ivan Denysenko">       
+        <addColumn tableName="SubjectHuman">
+            <column name="sRemoteHostAndContext" type="varchar(200)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>      
+    </changeSet>
+    
+    <changeSet id="issue-idoc12-create-entity" author="Ivan Denysenko">
+        <createTable tableName="ServerLink">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sHostAndContext" type="varchar(200)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="issue-idoc2-create-tables" author="Ivan Denysenko">
+        
+        <createTable tableName="ProcessLink_Type">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>  
+        </createTable>
+        
+        <createTable tableName="ProcessLink_SubType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>  
+        </createTable>
+        
+        <createTable tableName="ProcessLink">
+            <column name="nID" type="bigint"  autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_ServerLink" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="FK_ProcessLink_ServerLink"
+                             referencedTableName="ServerLink" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ProcessLink_Type" type="bigint">
+                <constraints nullable="false" 
+                             foreignKeyName="FK_ProcessLink_Type"
+                             referencedTableName="ProcessLink_Type" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_ProcessLink_SubType" type="bigint">
+                <constraints nullable="false" 
+                             foreignKeyName="FK_ProcessLink_SubType"
+                             referencedTableName="ProcessLink_SubType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="sGroup" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sLogin" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTaskName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sProcessName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sProcessDateCreate" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sProcessDateModify" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sTaskDateCreate" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sTaskDateModify" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+    </changeSet>
+
+    <changeSet id="issue-1815-add-column" author="Sergei Mordasov">
+        <addColumn tableName="SubjectRightBP">
+            <column name="nID_SubjectHumanPositionCustom_Referent" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="remove-fk-ProcessLink-ServerLink" author="Ivan Denysenko">
+        <dropForeignKeyConstraint baseTableName="ProcessLink" constraintName="FK_ProcessLink_ServerLink"/>
+    </changeSet>
+    
+    <changeSet id="rename-column-nID_ServerLink-into-nID_Server" author="Ivan Denysenko">
+        <renameColumn newColumnName="nID_Server" oldColumnName="nID_ServerLink" tableName="ProcessLink"/>       
+    </changeSet>
+    
+    <changeSet id="add-new-columns-snID_Process_Activiti-snID_Task-nID_DocumentStepType-to-ProcessLink" author="Ivan Denysenko">
+        <addColumn tableName="ProcessLink">
+            <column name="snID_Process_Activiti" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="snID_Task" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>            
+            <column name="nID_DocumentStepType" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="edit-ProcessLink-rename-column-Group-add-constraint-FK_ProcessLink_DocumentStepType" author="Ivan Denysenko">
+        
+        <renameColumn newColumnName="sID_Group_Activiti" oldColumnName="sGroup" tableName="ProcessLink"/>
+        
+        <addForeignKeyConstraint baseTableName="ProcessLink"
+                                 baseColumnNames="nID_DocumentStepType"
+                                 constraintName="FK_ProcessLink_DocumentStepType" 
+                                 referencedTableName="DocumentStepType" 
+                                 referencedColumnNames="nID"/>
+        
+        <addNotNullConstraint tableName="ProcessLink" columnName="snID_Process_Activiti" columnDataType="varchar(64)"/>
+        
+        <addNotNullConstraint tableName="ProcessLink" columnName="snID_Task" columnDataType="varchar(64)"/>
+
+        <addNotNullConstraint tableName="ProcessLink" columnName="nID_DocumentStepType" columnDataType="bigint"/> 
+        
+        <addUniqueConstraint constraintName="Relation_ProcessLink_key"
+                             tableName="ProcessLink"
+                             columnNames="sID_Group_Activiti, nID_Server, snID_Task"/>       
+    </changeSet>
+    
+    <changeSet id="edit-ProcessLink-change-unique-constraint" author="Ivan Denysenko">
+        
+        <dropUniqueConstraint constraintName="Relation_ProcessLink_key" 
+                              tableName="ProcessLink"
+                              uniqueColumns="sID_Group_Activiti, nID_Server, snID_Task"/>
+        
+        <addUniqueConstraint constraintName="ProcessLink_Unique"
+                             tableName="ProcessLink"
+                             columnNames="sID_Group_Activiti, nID_Server, snID_Process_Activiti"/> 
+        
+    </changeSet>
+    
+    <changeSet id="drop-notnullconstraint-ProcessLink-nID_DocumentStepType" author="Ivan Denysenko">
+        <dropNotNullConstraint  columnDataType="bigint"
+                                columnName="nID_DocumentStepType"
+                                tableName="ProcessLink"/>
+    </changeSet>
+    
+    <changeSet id="SubjectHuman-drop-column-and-add-new-nID-Server" author="Ivan Denysenko">      
+        
+        <dropColumn tableName="SubjectHuman" columnName="sRemoteHostAndContext"/> 
+        
+        <addColumn tableName="SubjectHuman">
+            <column name="nID_Server" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>           
+        
+    </changeSet>
+    
+    <changeSet id="add-index-to-ProcessSubject" author="Ivan Denysenko">
+        
+        <createIndex tableName="ProcessSubject" indexName="snID_Process">
+            <column name="snID_Process_Activiti"/>
+        </createIndex>
+        
+        <createIndex tableName="ProcessSubject" indexName="nID_ProcessSubjectTask">
+            <column name="nID_ProcessSubjectTask"/>
+        </createIndex>
+        
+        <createIndex tableName="ProcessSubject" indexName="snID_Task_Activiti">
+            <column name="snID_Task_Activiti"/>
+        </createIndex>
+        
+    </changeSet>
+
+    <changeSet id="issue-1892-edit-tables" author="Alex Komarenko">
+        
+        <dropColumn tableName="Subject" columnName="nID_EntityItem"/>
+        
+        <dropTable tableName="EntityItem"/>
+	
+        <addColumn tableName="DocumentType">
+            <column name="sNote" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+        <renameColumn columnDataType="varchar(255)" newColumnName="sCustomNumber" oldColumnName="sNumberCustom" tableName="Document"/>
+        
+        <addColumn tableName="Document">
+            <column name="nID_Subject_Author" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sCustomSeries" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+    <changeSet id="issue-smida_32-add-columns-Document" author="Alex Komarenko">
+        
+        <addColumn tableName="Document">
+            <column name="sID_File" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateDocument" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEdit" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_Process_Activiti" type="varchar(255)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+    <changeSet id="issue-2000-fault-tolerance-add-new-tables" author="Ivan Denysenko">
+        
+        <createTable tableName="LaunchStatus">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDescription" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column> 
+        </createTable>
+        
+        <createTable tableName="Launch">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_launchStatus" type="bigint" defaultValueNumeric="1">
+                <constraints nullable="false" 
+                             foreignKeyName="FK_Launch_Status"
+                             referencedTableName="LaunchStatus" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_launchGroup" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEdit" type="timestamp">
+                <constraints nullable="false"/>
+            </column>       
+            <column name="sDateLock" type="timestamp">
+                <constraints nullable="true"/>
+            </column>   
+            <column name="nTry" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sData" type="clob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDataReturn" type="clob">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sMethod" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sReturn" type="varchar(1024)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Server" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Server_Client" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sLoginPrincipal" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+        
+        <createIndex tableName="Launch" indexName="index_launch_sMethod">
+            <column name="sMethod"/>
+        </createIndex>
+        
+        <createIndex tableName="Launch" indexName="index_launch_sLoginPrincipal">
+            <column name="sLoginPrincipal"/>
+        </createIndex>
+        
+        <createIndex tableName="Launch" indexName="index_launch_nID_launchStatus">
+            <column name="nID_launchStatus"/>
+        </createIndex>
+        
+        <createIndex tableName="Launch" indexName="index_launch_nID_launchGroup">
+            <column name="nID_launchGroup"/>
+        </createIndex>
+        
+        <createTable tableName="LaunchOld">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1000" incrementBy="1">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nID_launchStatus" type="bigint" defaultValueNumeric="1">
+                <constraints nullable="false" 
+                             foreignKeyName="FK_LaunchOld_Status"
+                             referencedTableName="LaunchStatus" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            <column name="nID_launchGroup" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDateEdit" type="timestamp">
+                <constraints nullable="false"/>
+            </column>       
+            <column name="sDateLock" type="timestamp">
+                <constraints nullable="true"/>
+            </column>   
+            <column name="nTry" type="bigint" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sData" type="clob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDataReturn" type="clob">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sMethod" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sReturn" type="varchar(1024)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Server" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_Server_Client" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sLoginPrincipal" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_sMethod">
+            <column name="sMethod"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_sLoginPrincipal">
+            <column name="sLoginPrincipal"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_launchStatus">
+            <column name="nID_launchStatus"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_launchGroup">
+            <column name="nID_launchGroup"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_sDateEdit">
+            <column name="sDateEdit"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_nTry">
+            <column name="nTry"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_nID_Server">
+            <column name="nID_Server"/>
+        </createIndex>
+        
+        <createIndex tableName="LaunchOld" indexName="index_launchOld_nID_Server_Client">
+            <column name="nID_Server_Client"/>
+        </createIndex>
+        
+    </changeSet>
+    
+    <changeSet id="issue-1949-add-column-to-ProcessSubject" author="Ivan Denysenko">
+        <addColumn tableName="ProcessSubject">
+            <column name="nDayPlan" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1948-Add-field" author="Yegor Kovylin">
+        <addColumn tableName="DocumentStepSubjectRight">
+            <column name="bUrgent" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1948-Add-permition-field" author="Yegor Kovylin">
+        <addColumn tableName="DocumentSubjectRightPermition">
+            <column name="soValue" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-1956-add-column-to-ProcessLink" author="Ivan Denysenko">
+        <addColumn tableName="ProcessLink">
+            <column name="sStatus" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-2050-Add-Folder-field" author="Yegor Kovylin">
+        <addColumn tableName="DocumentStepType">
+            <column name="bFolder" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-#1816-add-tables-SubjectType-SubjectState" author="Alex Komarenko">
+        
+        <createTable tableName="SubjectType">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDescription" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectType" ("nID", "sName", "sDescription") values (1, 'Human', 'Людина');
+        </sql>
+        
+        <createTable tableName="SubjectState">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sDescription" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_SubjectType" type="bigint">
+                <constraints nullable="false" foreignKeyName="FK_SubjectState_SubjectType"
+                             referencedTableName="SubjectType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </createTable>
+        
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectState" ("nID", "sName", "sDescription", "nID_SubjectType") values (1, 'work', 'Працює', 1);
+        </sql>
+        
+        <addColumn tableName="Subject">
+            <column name="nID_SubjectState" type="bigint" defaultValue="1">
+                <constraints nullable="false" foreignKeyName="FK_Subject_SubjectState"
+                             referencedTableName="SubjectState" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+        
+    </changeSet>
+    
+     <changeSet id="add-block-row-issue-2057" author="Yegor Kovylin" failOnError="false">
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "Subject" ("nID") values (99000);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectHuman" ("nID", "nID_Subject") values (99000, 99000);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectOrgan" ("nID", "nID_Subject", "sOKPO") values (99000, 99000, 'sOKPO');
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectGroup" ("nID", "sName", "sID_Group_Activiti", "sChain", "nID_Subject") values (99000, 'sName', 'sID_Group_Activiti', 'sChain', 99000);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectGroupTree" ("nID", "nID_SubjectGroup_Parent", "nID_SubjectGroup_Child") values (99000, 99000, 99000);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectAccount" ("nID", "sLogin", "nID_SubjectAccountType", "nID_Server", "nID_Subject") values (99000, 'sLogin', 1, 0, 99000);
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectContact" ("nID", "nID_Subject", "nID_SubjectContactType", "sValue") values (99000, 99000, 1, 'sValue');
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectHumanPositionCustom" ("nID", "sName", "sNote") values (99000, 'sName', 'sNote');
+        </sql>
+        <sql splitStatements="true" dbms="postgresql">
+            insert into "SubjectRightBP" ("nID", "sID_BP", "sID_Group_Referent") values (99000, 'sID_BP', 'sID_Group_Referent');
+        </sql>
+    </changeSet>
+    
+    <changeSet id="issue-smida_42-edit-SubjectOrgan-Document-dropNotNull" author="Alex Komarenko">
+        
+        <renameColumn columnDataType="varchar(255)" newColumnName="sOKPOForeign" oldColumnName="sLegalForm" tableName="SubjectOrgan"/>
+        
+        <addColumn tableName="SubjectOrgan">
+
+            <column name="nID_SubjectOrganType" type="bigint">
+                <constraints nullable="true" foreignKeyName="FK_SubjectOrgan_SubjectOrganType"
+                             referencedTableName="SubjectOrganType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+            
+
+        </addColumn>
+        
+        <dropNotNullConstraint  columnDataType="varchar(150)"
+                                columnName="sID_Subject_Upload"
+                                tableName="Document"/>
+        
+        <dropNotNullConstraint  columnDataType="varchar(150)"
+                                columnName="sName"
+                                tableName="Document"/>
+        
+        <dropNotNullConstraint  columnDataType="varchar(50)"
+                                columnName="sContentType"
+                                tableName="Document"/>
+        
+        <dropNotNullConstraint  columnDataType="varchar(150)"
+                                columnName="sID_Content"
+                                tableName="Document"/>
+        
+    </changeSet>
+        
+    <changeSet id="issue-smida_26-modify-SubjectOrgan-column-type" author="Alex Komarenko">
+        
+        <modifyDataType columnName="nSizeCharterCapital" newDataType="numeric" tableName="SubjectOrgan"/>
+        
+    </changeSet>
+    
+    <changeSet id="issue-1948-Add-link-field" author="Yegor Kovylin">
+        <addColumn tableName="ProcessLink">
+            <column name="bUrgent" type="boolean">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="issue-2096-Add-tables" author="Yegor Kovylin">
+        
+        <createTable tableName="ServerEntitySyncStatus">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sName" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName="ServerEntitySync">
+            <column name="nID" type="bigint" autoIncrement="true" startWith="1" incrementBy="1">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="nID_Server" type="bigint">
+                <constraints  nullable="true"/>
+            </column>
+            <column name="sID_EntityRow" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_Entity" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sID_EntityAction" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sDate" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="sAnswer" type="varchar">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nID_ServerEntitySyncStatus" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nTry" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        
+        <addForeignKeyConstraint constraintName="FK_ServerEntitySyncStatus_ServerEntitySync" 
+                                 referencedTableName="ServerEntitySyncStatus" 
+                                 baseColumnNames="nID_ServerEntitySyncStatus"
+                                 baseTableName="ServerEntitySync" 
+                                 referencedColumnNames="nID"/>
+    </changeSet>
+
+    <changeSet id="issue-2000-rename-column-with-wrong-naming-convention" author="Ivan Denysenko">
+        <renameColumn tableName="Launch" oldColumnName="nID_launchStatus" newColumnName="nID_LaunchStatus"/>
+        <renameColumn tableName="Launch" oldColumnName="nID_launchGroup" newColumnName="nID_LaunchGroup"/>
+        <renameColumn tableName="LaunchOld" oldColumnName="nID_launchStatus" newColumnName="nID_LaunchStatus"/>
+        <renameColumn tableName="LaunchOld" oldColumnName="nID_launchGroup" newColumnName="nID_LaunchGroup"/>
+    </changeSet>
+
+    <changeSet id="PLATFORM-190-add-column-nID_SubjectType" author="Ivan Denysenko">
+        <addColumn tableName="SubjectStatus">
+            <column name="nID_SubjectType" type="bigint">
+                <constraints  nullable="true" foreignKeyName="FK_SubjectStatus_SubjectType"
+                              referencedTableName="SubjectType" referencedColumnNames="nID" deleteCascade="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="add-sLoginReferent-column-to-ProcessChatMessage" author="Belichenko Oleksandr">
+        <addColumn tableName="ProcessChatMessage">
+            <column name="sLoginReferent" type="varchar(255)">
+                <constraints nullable="true"/>             
+            </column>
+        </addColumn>
+        <sql splitStatements="true" dbms="postgresql">
+            update "ProcessChatMessage" set "sLoginReferent" = "sKeyGroup_Author" where "sLoginReferent" is null;            
+        </sql> 
+        <addNotNullConstraint tableName="ProcessChatMessage" columnName="sLoginReferent" columnDataType="varchar(255)"/>
+    </changeSet>
+    
+    <changeSet id="add-sTabel-column-to-SubjectHuman" author="Belichenko Oleksandr">
+        <addColumn tableName="SubjectHuman">
+            <column name="sTabel" type="varchar(255)">
+                <constraints nullable="true"/>             
+            </column>
+        </addColumn>        
+    </changeSet>
+
+    <changeSet id="PLATFORM-215-drop-notnull-constraint" author="Ivan Denysenko">
+        <dropNotNullConstraint columnDataType="varchar(150)"
+                               columnName="sID_Group_Referent"
+                               tableName="SubjectRightBP"/>
+    </changeSet>
+
+    <changeSet id="limit-static-first-rows" author="Sergei Mordasov" dbms="postgresql">
+        <alterSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="2000000" />
+    </changeSet>
+
+    <changeSet id="proper-limit-static-first-rows" author="Sergei Mordasov" dbms="postgresql">
+        <dropSequence sequenceName="hibernate_sequence"/>
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="2000000"/>
+    </changeSet>
+
+</databaseChangeLog>

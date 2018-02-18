@@ -1,0 +1,42 @@
+<div ng-if="item.type == 'fileHTML' && showField(item)" class="form-field" style="width: 95%;float: right;">
+    <div class="row">
+        <div class="col-sm-12">
+            <label style="font-weight: normal;">{{sFieldLabel(item.name)}}
+        <span ng-if="isRequired(item) && !inUnassigned() && item.writable" style="color: red">*</span>
+      </label>
+            <span class="idoc-hint" ng-bind-html="viewTrustedHTMLContent(sFieldHint(item.name))"></span>
+        </div>
+    </div>
+
+    <div class="row fileHTML">
+        <div ng-controller="TinyMceController" class="col-sm-12" style="padding-right: 0; overflow-x: auto;">
+            <textarea ui-tinymce="tinymceOptions" ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned" ng-model="item.valueVisible" ng-readonly="isFormPropertyDisabled(item)" name="{{item.id}}" style="width:100%;" ng-required="isRequired(item)" ng-change="checkLinks()"
+                ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
+            </textarea>
+             <!-- <text-angular ta-toolbar="[['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'fontColor'],
+                                 ['bold', 'italics', 'underline', 'ul', 'ol', 'insertLink'],
+                                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent', 'clear']]" ng-if="(!isFormPropertyDisabled(item) && isDocumentWritable(item)) && isDocumentNotSigned()" ng-model="item.valueVisible" ng-readonly="isFormPropertyDisabled(item)"
+                name="{{item.id}}" style="width:100%;" ng-required="isRequired(item)" ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
+            </text-angular>  -->
+            <span id="{{item.id}}"
+                  style="white-space: pre-line"
+                  ng-if="(item.readable && !item.writable) || !isDocumentNotSigned"
+                  name="{{item.id}}"
+                  ng-bind-html="viewTrustedHTMLContent(item.valueVisible)"
+                  ng-model="item.valueVisible">
+                  {{item.valueVisible}}
+            </span>
+
+            <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+              <span ng-message="required">Необхідно заповнити.</span>
+            </span>
+        </div>
+    </div>
+
+</div>
+
+<div ng-if="item.sType == 'fileHTML'" class="form-field" style="width: 95%;float: right;">
+  <span ng-bind="item.sName"></span>
+    <span style="white-space: pre-line" ng-bind-html="viewTrustedHTMLContent(item.valueVisible)" ng-model="item.valueVisible">{{item.valueVisible}}
+      </span>
+</div>

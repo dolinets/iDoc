@@ -1,0 +1,46 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_ISI_05": {
+      "aField_ID": [
+        "nDocumentFictitiousInvestmentCertificate",
+        "sDateFictitiousInvestmentCertificate"
+      ],
+      "asID_Field": {
+        "sReason": "bFictitiousInvestmentCertificate"
+      },
+      "sCondition": "[sReason]=='true'"
+    },
+    "ShowFieldsOnCondition_ISI_06": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_KIF",
+        "sNumberRegistrationEDR_KIF",
+        "sDateRegistrationEDR_KIF",
+        "sLocation_SubjectOrgan_KIF",
+        "phone_KIF",
+        "email_KIF",
+        "sSeriesStockPaperShare",
+        "nQuantityShare",
+        "nDenominationShare",
+        "asTypeIssuanceShare",
+        "asFormExistenceShare",
+        "sDateRegistrationProspect",
+        "sDateRegistrationChangeProspect",
+        "sDateEndIPO_Share",
+        "sNumberCertificateShare",
+        "sDateCertificateShare",
+        "nPaidStateFeeShare",
+        "sDateDuplicateDocumentsStatutoryShare",
+        "asTypeDecision",
+        "sDateDecision",
+        "nDocumentDecision",
+        "sOrganDecision",
+        "sReasonDecision",
+        "asInvestmentInstitutionsFlag"
+      ],
+      "asID_Field": {
+        "sReason1": "asSignISI"
+      },
+      "sCondition": "[sReason1]=='kif'"
+    }
+  }
+}

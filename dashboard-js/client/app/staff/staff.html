@@ -1,0 +1,124 @@
+<div ng-include="'components/navbar/navbar.html'" class="navbar-fixed-top"></div>
+
+
+<!-- first row with main button -->
+
+<snap-drawers style="top: 61px; background-color: #E4E4E4;" class="staff-snap-drawers">
+
+  <snap-drawer class="staff-snap-drawers staff-list">
+
+
+    <div class="col-sm-12">
+
+      <div class="btn-group menu-tabs" >
+        <a ng-class="{'menu-tab-is-selected' : tabMenu === 'position'}"
+           class="btn btn-link"
+           ng-click="tabMenuChange('position')"
+           ng-disabled="modalSpinner"
+           ui-sref="staff">Підрозділи</a>
+        <a ng-class="{'menu-tab-is-selected' : tabMenu === 'employee'}"
+           class="btn btn-link "
+           ng-click="tabMenuChange('employee')"
+           ng-disabled="modalSpinner"
+           ui-sref="staff">Спiвробiтник</a>
+      </div>
+    </div>
+
+    <div class="create-buttons col-sm-6 staff-but-marg">
+      <a  data-toggle="dropdown" data-target="#"  href="#" class="dropdown-toggle">
+        <button class="btn btn-default"
+                ng-if="tabMenu === 'position'" disabled
+                ui-sref="staff.profile"
+                ng-click="addNewComp()">
+
+          Додати організацію
+        </button>
+        <button class="btn btn-default"
+                ng-if="tabMenu === 'employee'"
+                ui-sref="staff.employee"
+                ng-click="addNewHuman()"
+                ng-disabled="staffRole===false">
+
+          Додати співробітника
+        </button>
+      </a>
+
+    </div>
+
+    <staff-search-select></staff-search-select>
+
+
+  </snap-drawer>
+
+</snap-drawers>
+
+
+<div class="row ">
+  <div class="filter-staff staff-filter">
+    <!--<div class="col-md-6_ col-md-offset-4_"  ng-if="tabMenu === 'employee'">-->
+    <div class="col-md-12 staff-row-filter"  ng-if="tabMenu === 'employee'">
+      <ui-select ng-model="dataUsers.selected"
+                 theme="bootstrap"
+                 on-select="onSelectUser($item)"
+                 ng-disabled="modalSpinner"
+                 ng-change="getSelectedUser(dataUsers.selected)"
+                 ng-click="getHumanFromFilter(dataUsers.selected)">
+
+        <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+          {{$select.selected.sName}}
+        </ui-select-match>
+
+        <ui-select-choices repeat="user in usersList"
+                           refresh="foundUsers($select.search)"
+                           refresh-delay="300"
+                           minimum-input-length="3"
+                           ui-sref="staff.employee">
+                  <span title="{{user.sName}}, <{{user.sLogin}}>" >
+                    {{user.sName}}
+                  </span>
+          <span  title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                      <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                  </span>
+        </ui-select-choices>
+      </ui-select>
+
+    </div>
+
+    <!--<div class="col-md-6_ col-md-offset-4_"  ng-if="tabMenu === 'position'">-->
+    <div class="col-md-12 staff-row-filter"  ng-if="tabMenu === 'position'">
+      <ui-select ng-model="dataUsersPosit.selected"
+                 theme="bootstrap"
+                 on-select="onSelectUser($item)"
+                 ng-disabled="modalSpinner"
+                 ng-change="getSelectedUser(dataUsersPosit.selected)"
+                 ng-click="getCompanyFromFilter(dataUsersPosit.selected)">
+
+        <ui-select-match title="{{$select.selected.sName}}" placeholder="Введіть від 3-х символів">
+          {{$select.selected.sName}}
+        </ui-select-match>
+
+        <ui-select-choices repeat="user in usersListPosit"
+                           refresh="foundUsers($select.search)"
+                           refresh-delay="300"
+                           minimum-input-length="3"
+                           ui-sref="staff.profile">
+                  <span title="{{user.sName}}, <{{user.sLogin}}>">
+                    {{user.sName}}
+                  </span>
+          <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+                      <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+                  </span>
+        </ui-select-choices>
+      </ui-select>
+
+    </div>
+
+  </div>
+</div>
+  <div ui-view class="staff-content-place">
+
+  </div>
+
+
+
+

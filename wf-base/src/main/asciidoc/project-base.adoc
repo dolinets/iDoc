@@ -1,0 +1,3 @@
+include::project/overview.adoc[]
+include::project/paths.adoc[]
+include::project/definitions.adoc[]

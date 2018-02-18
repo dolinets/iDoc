@@ -1,0 +1,119 @@
+<div class="row">
+  <div  class="table-responsive table-responsive-ref col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <span class="col-sm-3 staff-lab" style="margin-top: 0;">
+        <label id="referent-scroll">Призначити референтом для</label>
+    </span>
+    <table  class="table table-ref " ng-if="currHuman.referents && currHuman.referents.length" style="margin-left: 28%">
+          <thead>
+          <tr id="text-th">
+              <th rowspan="1" class="table-ref-th staff-table-ref" style="border-right: 1px solid #93a1a1;">П.І.Б</th>
+              <th rowspan="1" class="table-ref-th staff-table-ref">Посада</th>
+              <th rowspan="1" class="last-td-refer"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-center active" ng-repeat="refer in currHuman.referents" >
+              <td style="border-right: 1px solid #93a1a1;" class="staff-table-ref" >
+                  <div class="row ">
+
+                  <div class="col-md-12"  >
+                  <ui-select ng-model="currHuman.referents[$index]"
+                             theme="bootstrap"
+                             disabled>
+
+                      <ui-select-match class="staff-row-select_" title="{{$select.selected.sName}}" placeholder="П.І.Б. референта">
+                          {{$select.selected.sName || 'П.І.Б. референта'}}
+                      </ui-select-match>
+
+                      <ui-select-choices repeat="user in referents"
+                                         refresh="foundReferent($select.search)"
+                                         refresh-delay="300"
+                                         minimum-input-length="3"
+                                         ng-disabled="staffRole===false">
+      <span title="{{user.sName}}, <{{user.sLogin}}>">
+        {{user.sName}}
+      </span>
+                          <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+          <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+      </span>
+                      </ui-select-choices>
+                  </ui-select>
+                  </div>
+
+                  </div>
+              </td>
+              <td >
+
+                <input
+                  name="dataReferent"
+                  type='text'
+                  class="form-control"
+                  value="refer.sPosition"
+                  ng-model="refer.sPosition"
+                  disabled
+                />
+
+              </td>
+              <td class="last-td-refer" ng-if="staffRole===true"><button class="btn btn-xs btn-default remove-btn btn-staff-remove" ng-click="removeStaffReferent($index)"><span style="color: #FF1F1F" class="glyphicon glyphicon-remove button-remove-referent"></span></button></td>
+          </tr>
+          </tbody>
+
+      </table>
+      <span ng-if="staffRole===true" 
+      ng-class="{'col-sm-2 col-sm-offset-3 staff-lab staff-pass': referentList && referentList.length}"
+      ng-style="{'margin-left' : !referentList || !referentList.length ? '26px' : ''}">
+   <!--a href="#" class="btn btn-xs" ng-click="toggleModalStaffReferents()">
+     <label class="staff-label">+ Додати</label>
+   </a-->
+  <a href="#" class="staff-lab" ng-click="showStafReferentModal()">
+    <label class="staff-label">Додати</label>
+  </a>
+
+     </span>
+
+  </div>
+</div>
+
+<div class='ng-modal' ng-show='showStafReferent'>
+  <div class='ng-modal-dialog-staff staff-position' style="position: absolute; 
+    transform: translate(-50%, -75%); margin-top: 0px !important;">
+    <div class='ng-modal-dialog-content-staff' >
+
+      <h3 class="staff-referents-modal">Референт для</h3>
+
+      <div class="col-sm-12 staff-add-referents">
+
+        <ui-select ng-model="selectedReferent.s"
+                   theme="bootstrap">
+
+            <ui-select-match class="staff-row-select_" title="{{$select.selected.sName}}" placeholder="П.І.Б. референта">
+                {{$select.selected.sName || 'П.І.Б. референта'}}
+            </ui-select-match>
+
+            <ui-select-choices repeat="user in referents"
+                               refresh="foundReferent($select.search)"
+                               refresh-delay="300"
+                               minimum-input-length="3"
+                               ng-disabled="staffRole===false">
+      <span title="{{user.sName}}, <{{user.sLogin}}>">
+      {{user.sName}}
+      </span>
+                <span title="{{user.sCompany + ' - ' +user.sPosition}}" style="display: block">
+      <small><strong>{{user.sCompany}}</strong> <i>{{user.sPosition}}</i> </small>
+      </span>
+            </ui-select-choices>
+        </ui-select>
+
+      </div>
+
+      <div class="btn btn-success staff-referents-modal" ng-disabled="!selectedReferent.s" ng-click="saveStaffReferent()">Зберегти</div>
+      <div class="btn btn-default" ng-click="cancelReferent()">Скасувати</div>
+
+      <span ng-if="referentLoading" style="float: right;">
+        <img src="../../assets/images/idoc-spinner.gif" width="30px"> 
+        {{referentLoading}}
+      </span>
+    </div>
+  </div>
+  <div class='ng-modal-overlay-staff modal-staff-pass modal-staff-password' ng-click="cancelReferent()"></div>
+</div>

@@ -1,0 +1,74 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_MC_04": {
+      "aField_ID": [
+        "sDateOrderMortgageCertificate_Pause",
+        "nDocumentOrderMortgageCertificate_Pause",
+        "sOrganOrderMortgageCertificate_Pause",
+        "sReasonOrderMortgageCertificate_Pause"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageCertificates' && [sReason2]=='Pause'"
+    },
+    "ShowFieldsOnCondition_MC_05": {
+      "aField_ID": [
+        "nDocumentFictitiousMortgageCertificate",
+        "sDateFictitiousMortgageCertificate"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageCertificates' && [sReason2]=='Fictitious'"
+    },
+    "ShowFieldsOnCondition_MC_06": {
+      "aField_ID": [
+        "sDatePermissionEmissionNonBanking",
+        "sNumberPermissionEmissionNonBanking"
+      ],
+      "asID_Field": {
+        "sReason1": "bNonBankingFlag"
+      },
+      "sCondition": "[sReason1]=='true'"
+    },
+    "ShowFieldsOnCondition_MC_07": {
+      "aField_ID": [
+        "sDateSuspensionEmission",
+        "sNumberSuspensionEmission"
+      ],
+      "asID_Field": {
+        "sReason1": "bSuspensionFlag"
+      },
+      "sCondition": "[sReason1]=='true'"
+    },
+    "ShowFieldsOnCondition_MC_08": {
+      "aField_ID": [
+        "sDateOrderMortgageCertificate_Continue",
+        "nDocumentOrderMortgageCertificate_Continue",
+        "sOrganOrderMortgageCertificate_Continue",
+        "sReasonOrderMortgageCertificate_Continue"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageCertificates' && [sReason2]=='Continue'"
+    },
+    "ShowFieldsOnCondition_MC_09": {
+      "aField_ID": [
+        "sDateOrderMortgageCertificate_Cancellation",
+        "nDocumentOrderMortgageCertificate_Cancellation",
+        "sOrganOrderMortgageCertificate_Cancellation",
+        "sReasonOrderMortgageCertificate_Cancellatione"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeStockPaper",
+        "sReason2": "asActionEventTypeStockPaper"
+      },
+      "sCondition": "[sReason1]=='MortgageCertificates' && [sReason2]=='Cancellation'"
+    }
+  }
+}

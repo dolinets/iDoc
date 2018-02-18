@@ -1,0 +1,140 @@
+
+
+<snap-content snap-opt-tap-to-close="false" style="top: 20px; background: #E4E4E4;" igov-when-scrolled="whenScrolled()" class="content-staff">
+  <div class="main staff-form tasks-form" >
+
+
+
+    <!--<div class="back-forward-btns" ng-class="{'col-xs-9':isMenuOpened, 'col-xs-12 idoc-view-fullsize':!isMenuOpened}">-->
+      <!--&lt;!&ndash;<button class="btn btn-default" ng-click="historyBack()" title="До списку посад">&#60;&#60;</button>&ndash;&gt;-->
+
+      <!--<div style="float: right;" >-->
+        <!--<button class="btn btn-default"-->
+                <!--ng-disabled="!navigateInfo.staff.previous"-->
+                <!--ng-click="nextOrPrevTask('previous')"-->
+                <!--title="Попередня посада">&#60;-->
+        <!--</button>-->
+        <!--<button class="btn btn-default"-->
+                <!--ng-disabled="!navigateInfo.staff.next"-->
+                <!--ng-click="nextOrPrevTask('next')"-->
+                <!--title="Наступна посада">&#62;-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!-- start spinner -->
+    <!--<div ng-if="Employeespinner" ng-class="{'margin-left-35': isMenuOpened, 'margin-left-48': !isMenuOpened}">-->
+      <!--<img class="staff-spinner" src="../../assets/images/idoc-spinner.gif" alt="Завантаження...">-->
+    <!--</div>-->
+    <!-- end spinner -->
+
+
+
+
+    <div class="tasks-form-view tasks-form-staff-view staff-form-staff-view col-xs-9"  >
+
+      <div class="row form-field">
+        <div class="row">
+          <div class="col-xs-12 posit-name">
+            <h1 ng-bind="currPosition.parent"></h1>
+          </div>
+        </div>
+
+        <div class="col-sm-10 staff-posit-name">
+          <span>
+            <label>Назва підрозділу або організації
+            <span style="color: red" class="ng-scope">*</span>
+            </label>
+          </span>
+
+          <input
+                  name="name"
+                  type='text'
+                  class="form-control"
+                  value="position"
+                  ng-model="currPosition.position"
+                  placeholder="Назва підрозділу або організації"
+                  ng-disabled="staffRole===false"
+          />
+
+        </div>
+        <div class="col-sm-10 staff-posit-name" ng-if="newComp === true">
+          <span>
+            <label>Логін підрозділу або організації
+            <span style="color: red" class="ng-scope">*</span>
+            </label>
+          </span>
+
+          <input
+                  name="login"
+                  type='text'
+                  class="form-control"
+                  value="login"
+                  ng-model="currPosition.login"
+                  placeholder="Логін підрозділу або організації"
+                  ng-disabled="staffRole===false"/>
+
+        </div>
+
+        <div class="col-sm-10 staff-posit-name">
+          <span>
+            <label>Статус підрозділу або організації
+            <span style="color: red" class="ng-scope">*</span>
+            </label>
+          </span>
+
+          <ui-select 
+            ng-model="currPosition.status"
+            theme="bootstrap"
+            ng-disabled="modalSpinner || !staffRole"
+            required>
+
+            <ui-select-match placeholder="Статус" class="staff-position-add" style="width: 100%;">
+                {{$select.selected.sNote}}
+            </ui-select-match>
+
+              <ui-select-choices repeat="s in userStatuses">
+                  <span title="{{s.sNote}}">
+                    {{s.sNote}}
+                  </span>
+              </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="col-sm-12" ng-if="newComp === false">
+  <span class="col-sm-3 staff-check staff-check-position" style="margin-left: -30px; font-weight: normal !important;">
+      <label for="communication" style="font-weight: normal;"><input ng-disabled="staffRole===false" type="checkbox" id="communication" ng-model="bCreate.value" ng-click="getCheckStatus()">Створити новий підрозділ </label>
+    </span>
+        </div>
+
+        <!--<div class="col-sm-10 ">-->
+          <!--<input-->
+            <!--name="root_login"-->
+            <!--type='text'-->
+            <!--class="form-control"-->
+            <!--value="login"-->
+            <!--ng-model="currPosition.root_login"-->
+            <!--placeholder="Логін батьківского підрозділу або організації"-->
+          <!--/>-->
+
+        <!--</div>-->
+        <div class="row">
+          <div class="col-sm-6 main-form-controls staff-but staff-but-form-control staff-button">
+            <button ng-disabled="staffRole===false" type="button" class="btn btn-info" ng-click="saveStaffDepart()">Зберегти</button>
+            <button type="button" class="btn btn-link" data-dismiss="modal" aria-label="Close"
+                    ng-class="{'isActiveTab': isActive('staff')}"
+                    ui-sref="staff"
+                    ng-click="clearDepart()">Скасувати зміни</button>
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+</snap-content>

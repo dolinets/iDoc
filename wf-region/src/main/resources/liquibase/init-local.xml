@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+   
+    <changeSet id="issue-migrate_data_" author="brunneng">
+        
+        <createTable tableName="Currency">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID_UA" type="varchar(10)">
+                <constraints unique="true"/>
+            </column>
+            <column name="sName_UA" type="varchar(200)">
+                <constraints unique="true"/>
+            </column>
+            <column name="sName_EN" type="varchar(200)">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+        
+        <addColumn tableName="Currency">
+            <column name="sID_Currency" type="varchar(10)">
+                <constraints unique="true"/>
+            </column>
+        </addColumn>
+        
+        <createTable tableName="ObjectEarthTarget">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID_UA" type="varchar(10)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sName_UA" type="varchar(500)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+        
+        <createTable tableName = "ObjectCustoms">
+            <column name="nID" type="bigint" >
+                <constraints  primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID_UA" type="varchar(30)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="sName_UA" type="varchar(2000)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="sMeasure_UA" type="varchar(20)">
+              
+            </column>
+        </createTable>
+        
+        <modifyDataType columnName="sName_UA" newDataType="varchar(5000)" tableName="ObjectCustoms"/>
+        
+        <createTable tableName="ObjectPlace_UA">
+            <column name="nID" type="bigint">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="sID" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="sName_UA" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nID_PlaceType" type="bigint">
+            </column>
+        </createTable>
+        
+    </changeSet>
+    
+    <changeSet id="issue-migrate_data" author="brunneng" dbms="h2">
+        
+        <addAutoIncrement tableName="Currency" columnName="nID" startWith="100" columnDataType="bigint"/>
+        <addAutoIncrement tableName="ObjectCustoms" columnName="nID" columnDataType="bigint"/>
+        <addAutoIncrement tableName="ObjectPlace_UA" columnName="nID" startWith="1000" columnDataType="bigint"/>
+      
+    </changeSet>
+        
+        
+</databaseChangeLog>

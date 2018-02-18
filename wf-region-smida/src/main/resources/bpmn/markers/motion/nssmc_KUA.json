@@ -1,0 +1,45 @@
+{
+  "motion": {
+    "ShowFieldsOnCondition_KUA_01": {
+      "aField_ID": [
+        "sID_SubjectOrgan_OKPO_AMC",
+        "sFullName_SubjectOrgan_AMC",
+        "sNameRegion_AMC",
+        "sLocation_SubjectOrgan_AMC",
+        "phone_AMC",
+        "email_AMC",
+        "nSizeAuthorizedFund_AMC",
+        "sFirstStatutoryFund_AMC",
+        "sLastStatutoryFund_AMC",
+        "sNameFounderAMC",
+        "bResident_AMC",
+        "sPartAuthorizedCapital_AMC",
+        "bISIflag",
+        "bNPFflag",
+        "bIIflag_AMC",
+        "bAPFflag_AMC",
+        "bBranches_AMC",
+        "sKindActivity_AMC",
+        "sSeriesLicense_AMC",
+        "sNumberLicense_AMC",
+        "asTermTypeLicense_AMC",
+        "nTermCountLicense_AMC",
+        "sDateIssueLicense_AMC",
+        "asStateLicense_AMC"
+      ],
+      "asID_Field": {
+        "sReason1": "asTypeProfessionalMember"
+      },
+      "sCondition": "[sReason1]=='AMC'"
+    },
+    "ShowFieldsOnCondition_KUA_02": {
+      "aField_ID": [
+        "sCountry_AMC"
+      ],
+      "asID_Field": {
+        "sReason1": "bResident_AMC"
+      },
+      "sCondition": "[sReason1]=='yes'"
+    }
+  }
+}

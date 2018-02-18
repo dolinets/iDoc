@@ -1,0 +1,103 @@
+<div ng-if="(['select'].indexOf(item.type) > -1) && showField(item) && item.id.indexOf('oProcessSubject_Controller') === -1" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.name)}} <span ng-if="isRequired(item) && !inUnassigned() && item.writable" style="color: red">*</span></label>
+    <span class="idoc-hint" ng-bind-html="viewTrustedHTMLContent(sFieldHint(item.name))"></span>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <div ng-if="!isFormPropertyDisabled(item) && isDocumentNotSigned">
+      <ui-select dropdown-autocomplete ng-if="item.selectType=='autocomplete' && (item.autocompleteName && item.autocompleteName !== 'SubjectRole')"
+                 ng-model="item.value"
+                 name="item.id"
+                 ng-class="{submitted: isRequired(item) && isTaskSubmitted()}"
+                 ng-disabled="!isDocumentNotSigned"
+                 ng-required="item.required"
+                 autocomplete-data="item.autocompleteData"
+                 autocomplete-name="item.autocompleteName"
+                 reach-infinity="requestMoreItems($select.items)"
+                 on-select="onSelectDataList($item, null, null, item)">
+        <ui-select-match id="item">
+          {{$select.selected[item.autocompleteData.titleProperty] || $select.selected[item.autocompleteData.valueProperty] || item.value}}
+        </ui-select-match>
+        <ui-select-choices id="itemId" refresh="refreshList(item.autocompleteData.titleProperty, $select.search, item.name)"
+                           refresh-delay="300"
+                           repeat="field[item.autocompleteData.titleProperty] as field in items track by field[item.autocompleteData.orderBy]">
+                           <span title="{{field[item.autocompleteData.titleProperty]}}">
+                             {{field[item.autocompleteData.titleProperty]}}
+                           </span>
+                          <span title="{{field.sCompany + ' - ' +field.sPosition}}" style="display: block"> <small><strong>{{field.sCompany}}</strong> <i>{{field.sPosition}}</i> </small> </span>
+        </ui-select-choices>
+      </ui-select>
+
+      <ui-select dropdown-autocomplete ng-if="item.selectType=='autocomplete' && (item.autocompleteName && item.autocompleteName === 'SubjectRole')"
+                 ng-model="item.value"
+                 name="item.id"
+                 ng-class="{submitted: isRequired(item) && isTaskSubmitted()}"
+                 ng-disabled="!isDocumentNotSigned"
+                 ng-required="item.required"
+                 autocomplete-data="item.autocompleteData"
+                 autocomplete-name="item.autocompleteName"
+                 reach-infinity="requestMoreItems($select.items)"
+                 on-select="onSelectDataList($item, null, null, item)">
+        <ui-select-match title="{{$select.selected}}" placeholder="Введіть від 3-х символів">
+          {{$select.selected[item.autocompleteData.titleProperty] || $select.selected[item.autocompleteData.valueProperty] || item.value}}
+        </ui-select-match>
+        <ui-select-choices refresh="refreshList(item.autocompleteData.titleProperty, $select.search, item.name)"
+                           refresh-delay="300"
+                           minimum-input-length="3"
+                           repeat="field[item.autocompleteData.titleProperty] as field in items track by $index">
+                           <span title="{{field[item.autocompleteData.titleProperty]}}">
+                             {{field[item.autocompleteData.titleProperty]}}
+                           </span>
+                          <span title="{{field.sCompany + ' - ' +field.sPosition}}" style="display: block"> <small><strong>{{field.sCompany}}</strong> <i>{{field.sPosition}}</i> </small> </span>
+        </ui-select-choices>
+      </ui-select>
+
+      <ui-select
+        ng-if="!item.selectType || item.selectType != 'autocomplete'"
+        ng-model="positionObj"
+        name="item.id"
+        theme="bootstrap"
+        ng-class="{submitted: isRequired(item) && isTaskSubmitted()}"
+        ng-disabled="!isDocumentNotSigned"
+        ng-required="item.required"
+        on-select="onSelectPositionList(item, positionObj)">
+
+        <ui-select-match title="{{$select.selected.sNote}}" placeholder="Введіть від 3-х символів">
+          {{$select.selected.sNote}}
+        </ui-select-match>
+
+        <ui-select-choices repeat="position in positionList"
+          refresh="getPositionList($select.search)"
+          refresh-delay="300"
+          minimum-input-length="3">
+            <span title="{{position.sNote}}">
+              {{position.sNote}}
+            </span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+
+    <span class="task-form-written-right-sight"
+          ng-if="(item.readable && !item.writable) || !isDocumentNotSigned"
+          style="white-space: pre-line"
+          name="{{item.id}}">{{item.value}}
+    </span>
+
+  </div>
+  <span class="validation-message" ng-messages="isFormInvalid && form[item.id].$error">
+      <span ng-message="required">Необхідно заповнити.</span>
+      <span ng-message="FieldNotEmptyAndNonZero">Будь ласка, оберiть iз запропонованого перелiку</span>
+    </span>
+</div>
+
+<div ng-if="item.sType && item.sType == 'select'" class="col-sm-12 form-field">
+  <div class="col-sm-6 task-form-title">
+    <label>{{sFieldLabel(item.sName)}}</label>
+  </div>
+  <div class="col-sm-6" style="padding-right: 0">
+    <span class="task-form-written-right-sight"
+          style="white-space: pre-line"
+          ng-model="item.oValue">{{item.oValue}}
+    </span>
+  </div>
+</div>

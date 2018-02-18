@@ -1,0 +1,29 @@
+
+
+<div class='ng-modal' ng-show='show'>
+  <div class='ng-modal-dialog-staff staff-position staff-modal'>
+  <div class='ng-modal-dialog-content-staff' >
+
+    <h3 class="staff-position-modal">Додати посаду</h3>
+
+    <div class="col-sm-12 staff-add-position">
+
+      <input
+        name="newPosition"
+        type='text'
+        class="form-control"
+        value="newPosition"
+        ng-model="newPosition"
+      />
+
+    </div>
+
+
+    <button class="btn btn-success staff-position-modal" ng-disabled="!newPosition" data-ng-click="saveStaffPosition()">Зберегти</button>
+    <button class="btn btn-default"  data-ng-click="cancelStaffPosition()">Скасувати</button>
+  </div>
+</div>
+  <div class='ng-modal-overlay-staff modal-staff-pass modal-staff-password' ng-click="cancelStaffPosition()">
+
+  </div>
+    </div>

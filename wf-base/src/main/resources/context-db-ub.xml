@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
+       profile="temp"> <!-- TODO remove profile when set properties up -->
+
+    <bean id="ubDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <!--<property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>-->
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="url" value="${Staff.Sync.DB.MSSQL.sUrl}"/>
+        <property name="username" value="${Staff.Sync.DB.MSSQL.sLogin}"/>
+        <property name="password" value="${Staff.Sync.DB.MSSQL.sPassword}"/>
+    </bean>
+
+    <bean id="ubSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="ubDataSource"/>
+        <property name="packagesToScan">
+            <array>
+                <value>org.igov.model.subject</value>
+            </array>
+        </property>
+        <property name="annotatedClasses">
+            <list>
+                <value>org.igov.model.server.Server</value>
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.globally_quoted_identifiers">${hibernate.globally_quoted_identifiers}</prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
